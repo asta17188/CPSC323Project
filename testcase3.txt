@@ -1,0 +1,25 @@
+[*This function divides and multiples numbers by 2 and checks if a number is equal to zero*]
+
+function division (num integer)
+{
+num = num / 2;
+return num
+}
+
+function multiply (num integer)
+{
+num = num * 2;
+return num
+}
+
+@
+integer num1, num2;
+get(num1, num2);
+if(num1 == 0)
+{
+num1 = division(num1);
+}
+
+num2 = multiply(num2);
+
+@
