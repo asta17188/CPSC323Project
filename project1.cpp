@@ -11,7 +11,8 @@ enum Token
     REAL,       // 3
     KEYWORD,    // 4
     ID,         // 5    
-    UNKNOWN     // 6
+    UNKNOWN,    // 6
+    DEFAULT     // 7
 };
 
 // NOTE: Replace .txt with file path
@@ -20,8 +21,8 @@ const std::string test2 = "testcase2.txt";
 const std::string test3 = "testcase3.txt";
 const std::string outputFile = "output.txt";
 
-void logLexeme(Token, std::fstream&, char);            // Logging Operators, Seperators, and Unknown
-void logLexeme(Token, std::fstream&, std::string&);     // Logging Integer, Real, Keyword, ID
+void logLexeme(Token, std::fstream&, std::string&, char);            // Logging Operators, Seperators, and Unknown
+void logLexeme(Token, std::fstream&, std::string&);                 // Logging Integer, Real, Keyword, ID
 
 int main(int argc, char const *argv[])
 {
@@ -63,8 +64,8 @@ int main(int argc, char const *argv[])
         }
         
         // Log Lexeme into Output File
-        if(type ==  OPERATOR || type == SEPERATOR || (type == UNKNOWN && temp.size() == 0))
-            logLexeme(type, dstFile, c);
+        if(type ==  OPERATOR || type == SEPARATOR || (type == UNKNOWN && temp.size() == 0))
+            logLexeme(type, dstFile, temp, c);
         else    
             logLexeme(type, dstFile, temp);
                 
@@ -87,15 +88,18 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-void logLexeme(Token t, std::fstream& dst, char c)
+void logLexeme(Token t, std::fstream& dst, std::string& s, char c)
 {
     if (t == OPERATOR)
         dst << "Operator  \t" << c << std::endl;
-    else if (t == SEPERATOR)
+    else if (t == SEPARATOR)
     {
-        dst << "SEPERATOR\t" << c << std::endl;
+        dst << "Separator\t" << c << std::endl;
     } else
-        dst << "UNKNOWN  \t" << c << std::endl;
+        dst << "Unknown  \t" << c << std::endl;
+
+    if (t != DEFAULT)   // Resets temp string 
+        s = "";
     
     return;
 }
@@ -116,10 +120,8 @@ void logLexeme(Token t, std::fstream& dst, std::string& s)
     case 5:
         dst << "ID       \t" << s << std::endl;
         break;
-    case 6:
-        dst << "UNKNOWN  \t" << s << std::endl;
-        break;
     default:
+        dst << "Unknown  \t" << s << std::endl;
         break;
     }
     if (t != DEFAULT)   // Resets temp string 
