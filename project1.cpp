@@ -6,7 +6,7 @@
 enum Token
 {
     OPERATOR,   // 0
-    SEPERATOR,  // 1
+    SEPARATOR,  // 1
     INTEGER,    // 2
     REAL,       // 3
     KEYWORD,    // 4
@@ -21,7 +21,7 @@ const std::string test2 = "testcase2.txt";
 const std::string test3 = "testcase3.txt";
 const std::string outputFile = "output.txt";
 
-void logLexeme(Token, std::fstream&, std::string&, char);            // Logging Operators, Seperators, and Unknown
+void logLexeme(Token, std::fstream&, std::string&, char);            // Logging Operators, Separators, and Unknown
 void logLexeme(Token, std::fstream&, std::string&);                 // Logging Integer, Real, Keyword, ID
 
 int main(int argc, char const *argv[])
