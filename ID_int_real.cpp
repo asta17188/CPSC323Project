@@ -3,7 +3,7 @@
 #include <string>
 #include <regex>
 // regex: regular expression object, can create a pattern
-// regex_search: searchs for particular pattern in string
+// regex_search: searchs for particular pattern in string, returns a boolean value
 // smatch: holds results of regex matches when working with strings
 
 #include "project1.cpp"
@@ -25,28 +25,30 @@ std::regex real_pattern("[0-9]+\\.[0-9]+");
 //       should have transition table at the end
 
 std::ifstream srcFile; // grab input from file
-std::smatch match; // holds results of regex matches
-std::string input; // input string
+std::smatch match; // holds results of regex matches (not sure if it even functions in code :P)
 
-void IDs() { 
+void IDs(std::string input, Token& type) { 
     // sequence of letters/digits, first & last characters must be letters
     // upper/lowercase letters are different
-    if (std::regex_search(input, match, id_pattern)) {
-        std::cout << "identifier" << "         " << match.str() << "\n";
+    if (std::regex_search(input, /*match,*/ id_pattern)) {
+        type = ID;
+        // std::cout << "identifier" << "         " << match.str() << "\n";
     }
 }
 
-void integers() {
+void integers(std::string input, Token& type) {
     // integer division ignores any remainders
     // sequence of decimal digits
-    if (std::regex_search(input, match, int_pattern)) {
-        std::cout << "integer" << "         " << match.str() << "\n";
+    if (std::regex_search(input, /*match,*/ int_pattern)) {
+        type = INTEGER;
+        // std::cout << "integer" << "         " << match.str() << "\n";
     }
 }
 
-void reals() {
+void reals(std::string input, Token& type) {
     // integer followed by "."
-    if (std::regex_search(input, match, real_pattern)) {
-        std::cout << "real" << "         " << match.str() << "\n";
+    if (std::regex_search(input, /*match,*/ real_pattern)) {
+        type = REAL;
+        // std::cout << "real" << "         " << match.str() << "\n";
     }
 }
