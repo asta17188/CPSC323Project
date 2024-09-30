@@ -1,55 +1,214 @@
 TOKEN    	LEXEME
-Unknown  	[*
-ID       	this
-ID       	is
-ID       	comment
-ID       	for
-ID       	this
-ID       	sample
-ID       	code
-ID       	which
-converts
-ID       	Fahrenheit
-ID       	into
-ID       	Celcius
-ID       	*]
-function
-ID       	convert
-ID       	(fahr
-ID       	integer)
-{
-return
-Integer  	5
-Unknown  	*
-ID       	(fahr
-Integer  	-32)
-Unknown  	/
-ID       	9;
-}
-@
-integer
-ID       	low,
-ID       	high,
-ID       	step;
-Unknown  	[*
-ID       	declarations
-ID       	*]
-get
-ID       	(low,
-ID       	high,
-ID       	step);
-while
-ID       	(low
-Unknown  	<=
-ID       	high
-Unknown  	)
-{
-ID       	put
-ID       	(low);
-put
-ID       	(convert
-ID       	(low));
-low
-Unknown  	=
-ID       	low
-Unknown  	+
+Unknown  	@
+Unknown  	@
+Unknown  	
+Unknown  	
+Unknown  	
+
+Unknown  	
+
+Unknown  	
+Unknown  	
+Unknown  	
+
+Unknown  	
+
+Unknown  	[
+Separator	[
+Separator	[
+Operator  	*
+Operator  	*
+Operator  	*
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Unknown  	T
+Unknown  	T
+Unknown  	h
+Unknown  	h
+Unknown  	i
+Unknown  	i
+Unknown  	s
+Unknown  	s
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Unknown  	p
+Unknown  	p
+Unknown  	r
+Unknown  	r
+Unknown  	o
+Unknown  	o
+Unknown  	g
+Unknown  	g
+Unknown  	r
+Unknown  	r
+Unknown  	a
+Unknown  	a
+Unknown  	m
+Unknown  	m
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Unknown  	a
+Unknown  	a
+Unknown  	d
+Unknown  	d
+Unknown  	d
+Unknown  	d
+Unknown  	s
+Unknown  	s
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Unknown  	t
+Unknown  	t
+Unknown  	w
+Unknown  	w
+Unknown  	o
+Unknown  	o
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Unknown  	n
+Unknown  	n
+Unknown  	u
+Unknown  	u
+Unknown  	m
+Unknown  	m
+Unknown  	b
+Unknown  	b
+Unknown  	e
+Unknown  	e
+Unknown  	r
+Unknown  	r
+Unknown  	s
+Unknown  	s
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Operator  	*
+Operator  	*
+Operator  	*
+Unknown  	]
+Separator	]
+Separator	]
+Unknown  	
+Unknown  	
+Unknown  	
+
+Unknown  	
+
+Unknown  	i
+Unknown  	i
+Unknown  	n
+Unknown  	n
+Unknown  	t
+Unknown  	t
+Unknown  	e
+Unknown  	e
+Unknown  	g
+Unknown  	g
+Unknown  	e
+Unknown  	e
+Unknown  	r
+Unknown  	r
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Unknown  	a
+Unknown  	a
+Unknown  	,
+Separator	,
+Separator	,
+Unknown  	b
+Unknown  	b
+Unknown  	,
+Separator	,
+Separator	,
+Unknown  	s
+Unknown  	s
+Unknown  	u
+Unknown  	u
+Unknown  	m
+Unknown  	m
+Unknown  	;
+Separator	;
+Separator	;
+Unknown  	
+Unknown  	
+Unknown  	
+
+Unknown  	
+
+Unknown  	
+Unknown  	
+Unknown  	
+
+Unknown  	
+
+Unknown  	s
+Unknown  	s
+Unknown  	u
+Unknown  	u
+Unknown  	m
+Unknown  	m
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Operator  	=
+Operator  	=
+Operator  	=
+Unknown  	 
+Separator	space
+Unknown  	
+Unknown  	
+Unknown  	
+Separator	space
+Unknown  	a
+Unknown  	a
+Operator  	+
+Operator  	+
+Operator  	+
+Unknown  	b
+Unknown  	b
+Unknown  	
+Unknown  	
+Unknown  	
+
+Unknown  	
+
+Unknown  	
+Unknown  	
+Unknown  	
+
+Unknown  	
+
+Unknown  	@
+Unknown  	@
+Unknown  	ÿ
+Unknown  	ÿ

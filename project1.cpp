@@ -1,10 +1,33 @@
 // Project 1: Lexical Analyzer
-
+#include <set>
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <stdexcept>
 #include <regex>
+
+
+
+std::set<std::string> keywords{"if", "switch", "else","double","fi","new","return","asm"
+                            "get","auto","while","extern","put","typedef","break","integer"
+                            "break","boolean","operator","real","template","goto","enum",
+                            "class", "this","function","case","string","throw","const","float",
+                            "try","char","void","for","signed","register","unsigned","friend",
+                            "catch","union","public","continue","protected","virtual","private",
+                            "default","inline","sizeof","delete","int","static","volatile","do",
+                            "long","struct","char16_t","char32_t","explicit","nullptr","static_cast",
+                            "overload","short"};
+
+std::set<std::string> operators{"=", "==", ">", "<", "<=",">=","!=","+","-","*","/"};
+
+
+std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",".",";","::",R"(\n)","//","[","]","|",","};
+
+
+
+
+
 enum Token
 {
     OPERATOR,   // 0
@@ -18,6 +41,94 @@ enum Token
 
 };
 Token type{DEFAULT};
+
+void logLexeme(Token t, std::fstream& dst, std::string& s, char c)
+{
+    if (t == OPERATOR)
+        dst << "Operator  \t" << c << std::endl;
+    else if (t == SEPARATOR)
+    {
+        if (c == '\n')
+            dst << "Separator\t" << "newline" << std::endl;
+        else if(c == ' ') 
+            dst << "Separator\t" << "space" << std::endl;
+        else
+            dst << "Separator\t" << c << std::endl;
+
+    } else
+        dst << "Unknown  \t" << c << std::endl;
+
+        s = "";     // Resets temp string
+    
+    return;
+}
+
+void logLexeme(Token t, std::fstream& dst, std::string& s)
+{
+    switch (t)
+    {
+    case 2:
+        dst << "Integer  \t" << s << std::endl;
+        break;
+    case 3: 
+        dst << "Real     \t" << s << std::endl;
+        break;
+    case 4:
+        dst << "Keyword  \t" << s << std::endl;
+        break;
+    case 5:
+        dst << "ID       \t" << s << std::endl;
+        break;
+    default:
+        dst << "Unknown  \t" << s << std::endl;
+        break;
+    }
+        s = "";     // Resets temp string
+    
+    return;
+}
+
+void findKeyword(Token& t, std::fstream& file, std::string& word)
+{
+    if(keywords.find(word) != keywords.end())
+        t = KEYWORD;
+        logLexeme(t, file, word);
+    return; 
+}
+
+void findOperator(Token& t, std::fstream& file, std::string& word)
+{
+    if(operators.find(word) != operators.end())
+        t = OPERATOR;
+        logLexeme(t, file, word);
+    return; 
+}
+void findOperator(Token& t, std::fstream& file, std::string& word, char& ch)
+{
+    std::string chword(1, ch);
+    if(operators.find(chword) != operators.end())
+        t = OPERATOR;
+        logLexeme(t, file, word, ch);
+    return; 
+}
+
+void findSeparator(Token& t, std::fstream& file, std::string& word)
+{
+    if(separators.find(word) != separators.end())
+        t = SEPARATOR;
+        logLexeme(t, file, word);
+    return; 
+}
+void findSeparator(Token& t, std::fstream& file, std::string& word, char& ch)
+{
+    std::string chword(1, ch);
+    if(separators.find(chword) != separators.end())
+        t = SEPARATOR;
+    logLexeme(t, file, word, ch);
+    return; 
+}
+
+
 std::regex id_pattern("[a-zA-Z][a-zA-Z0-9]*[a-zA-Z]");
 // starts with any letter, any letter or digit that can occur zero times or more, ends with any letter
 
@@ -83,8 +194,8 @@ int main(int argc, char const *argv[])
 
         // Operator Function
         // Separator Function
-        findOperator(c);
-        findSeparator(c);
+        findOperator(type, dstFile, temp, c);
+        findSeparator(type, dstFile, temp, c);
         if(c == ' ')
         {
             // Integer Function
@@ -95,11 +206,11 @@ int main(int argc, char const *argv[])
 
 
             // Keyword Function
-            findKeyword(temp);
+            findKeyword(type, dstFile, temp);
             // ID Function
             IDs(temp, type);
-            findOperator(temp);
-            findSeparator(temp);
+            findOperator(type, dstFile, temp);
+            findSeparator(type, dstFile, temp);
             // Unknown Function
             if(type == DEFAULT)
                 type = UNKNOWN;
@@ -136,51 +247,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-void logLexeme(Token t, std::fstream& dst, std::string& s, char c)
-{
-    if (t == OPERATOR)
-        dst << "Operator  \t" << c << std::endl;
-    else if (t == SEPARATOR)
-    {
-        if (c == '\n')
-            dst << "Separator\t" << "newline" << std::endl;
-        else if(c == ' ') 
-            dst << "Separator\t" << "space" << std::endl;
-        else
-            dst << "Separator\t" << c << std::endl;
 
-    } else
-        dst << "Unknown  \t" << c << std::endl;
-
-        s = "";     // Resets temp string
-    
-    return;
-}
-
-void logLexeme(Token t, std::fstream& dst, std::string& s)
-{
-    switch (t)
-    {
-    case 2:
-        dst << "Integer  \t" << s << std::endl;
-        break;
-    case 3: 
-        dst << "Real     \t" << s << std::endl;
-        break;
-    case 4:
-        dst << "Keyword  \t" << s << std::endl;
-        break;
-    case 5:
-        dst << "ID       \t" << s << std::endl;
-        break;
-    default:
-        dst << "Unknown  \t" << s << std::endl;
-        break;
-    }
-        s = "";     // Resets temp string
-    
-    return;
-}
 
 void IDs(std::string input, Token& type) { 
     // sequence of letters/digits, first & last characters must be letters
@@ -207,3 +274,4 @@ void reals(std::string input, Token& type) {
         // std::cout << "real" << "         " << match.str() << "\n";
     }
 }
+

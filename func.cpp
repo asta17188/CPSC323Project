@@ -18,37 +18,42 @@ std::set<std::string> operators{"=", "==", ">", "<", "<=",">=","!=","+","-","*",
 
 std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",".",";","::",R"(\n)","//","[","]","|",","};
 
-void findKeyword(std::string word)
+void findKeyword(Token& t, std::fstream& file, std::string& word)
 {
     if(keywords.find(word) != keywords.end())
-        type = KEYWORD;
+        t = KEYWORD;
+        logLexeme(t, file, word);
     return; 
 }
 
-void findOperator(std::string word)
+void findOperator(Token& t, std::fstream& file, std::string& word)
 {
     if(operators.find(word) != operators.end())
-        type = OPERATOR;
+        t = OPERATOR;
+        logLexeme(t, file, word);
     return; 
 }
-void findOperator(char ch)
+void findOperator(Token& t, std::fstream& file, std::string& word, char& ch)
 {
-    std::string word(1, ch);
-    if(operators.find(word) != operators.end())
-        type = OPERATOR;
+    std::string chword(1, ch);
+    if(operators.find(chword) != operators.end())
+        t = OPERATOR;
+        logLexeme(t, file, word, ch);
     return; 
 }
 
-void findSeparator(std::string word)
+void findSeparator(Token& t, std::fstream& file, std::string& word)
 {
     if(separators.find(word) != separators.end())
-        type = SEPARATOR;
+        t = SEPARATOR;
+        logLexeme(t, file, word);
     return; 
 }
-void findSeparator(char ch)
+void findSeparator(Token& t, std::fstream& file, std::string& word, char& ch)
 {
-    std::string word(1, ch);
-    if(separators.find(word) != separators.end())
-        type = SEPARATOR;
+    std::string chword(1, ch);
+    if(separators.find(chword) != separators.end())
+        t = SEPARATOR;
+    logLexeme(t, file, word, ch);
     return; 
 }
