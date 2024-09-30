@@ -5,7 +5,6 @@
 #include <string>
 #include <stdexcept>
 #include <regex>
-
 enum Token
 {
     OPERATOR,   // 0
@@ -18,7 +17,7 @@ enum Token
     DEFAULT     // 7
 
 };
-
+Token type{DEFAULT};
 std::regex id_pattern("[a-zA-Z][a-zA-Z0-9]*[a-zA-Z]");
 // starts with any letter, any letter or digit that can occur zero times or more, ends with any letter
 
@@ -40,7 +39,7 @@ int main(int argc, char const *argv[])
     // Declare Local Variables
     std::ifstream srcFile;      // "Source" File
     char c;     
-    Token type{DEFAULT};
+    
     std::string temp{""};
     std::string fileName;
     std::smatch match;          // holds results of regex matches (not sure if it even functions in code :P)
@@ -84,7 +83,8 @@ int main(int argc, char const *argv[])
 
         // Operator Function
         // Separator Function
-        
+        findOperator(c);
+        findSeparator(c);
         if(c == ' ')
         {
             // Integer Function
@@ -95,9 +95,11 @@ int main(int argc, char const *argv[])
 
 
             // Keyword Function
+            findKeyword(temp);
             // ID Function
             IDs(temp, type);
-
+            findOperator(temp);
+            findSeparator(temp);
             // Unknown Function
             if(type == DEFAULT)
                 type = UNKNOWN;

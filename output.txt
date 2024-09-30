@@ -1,0 +1,55 @@
+TOKEN    	LEXEME
+Unknown  	[*
+ID       	this
+ID       	is
+ID       	comment
+ID       	for
+ID       	this
+ID       	sample
+ID       	code
+ID       	which
+converts
+ID       	Fahrenheit
+ID       	into
+ID       	Celcius
+ID       	*]
+function
+ID       	convert
+ID       	(fahr
+ID       	integer)
+{
+return
+Integer  	5
+Unknown  	*
+ID       	(fahr
+Integer  	-32)
+Unknown  	/
+ID       	9;
+}
+@
+integer
+ID       	low,
+ID       	high,
+ID       	step;
+Unknown  	[*
+ID       	declarations
+ID       	*]
+get
+ID       	(low,
+ID       	high,
+ID       	step);
+while
+ID       	(low
+Unknown  	<=
+ID       	high
+Unknown  	)
+{
+ID       	put
+ID       	(low);
+put
+ID       	(convert
+ID       	(low));
+low
+Unknown  	=
+ID       	low
+Unknown  	+
