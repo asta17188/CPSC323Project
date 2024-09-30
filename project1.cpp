@@ -1,7 +1,9 @@
 // Project 1: Lexical Analyzer
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdexcept>
 
 enum Token
 {
@@ -13,13 +15,15 @@ enum Token
     ID,         // 5    
     UNKNOWN,    // 6
     DEFAULT     // 7
+
 };
 
-// NOTE: Replace .txt with file path
-const std::string test1 = "testcase1.txt";
-const std::string test2 = "testcase2.txt";
-const std::string test3 = "testcase3.txt";
-const std::string outputFile = "output.txt";
+/*
+    NOTE: When testing program, make sure to delete the output.txt file
+          and create a new one. Otherwise, old (and possibly failed) attempts
+          will still be on the output.txt when running the program again
+          and create erroneous results.
+*/
 
 void logLexeme(Token, std::fstream&, std::string&, char);            // Logging Operators, Separators, and Unknown
 void logLexeme(Token, std::fstream&, std::string&);                 // Logging Integer, Real, Keyword, ID
@@ -27,14 +31,37 @@ void logLexeme(Token, std::fstream&, std::string&);                 // Logging I
 int main(int argc, char const *argv[])
 {
     // Declare Local Variables
-    std::ifstream srcFile;                                          // "Source" File
-    std::fstream dstFile(outputFile, std::ios::in | std::ios::out); // "Destination" File
+    std::ifstream srcFile;      // "Source" File
     char c;     
     Token type{DEFAULT};
     std::string temp{""};
+    std::string fileName;
+
+    // i.e. "testcase1.txt", "testcase2.txt", "testcase3.txt"
+    std::cout << "Enter Test File Name: ";
+    std::cin >> fileName;
         
     // Open Test File (src)
-    srcFile.open(test1);        // test1 can be changed with any other test file
+    srcFile.open(fileName);        
+    if (!srcFile)
+        throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE YOU INPUT THE CORRECT FILE NAME");
+
+    // i.e. "output.txt"
+    std::cout << "Enter Output File Name: ";
+    std:: cin >> fileName;
+
+    // Declare "Destination" File
+    std::fstream dstFile(fileName, std::ios::in | std::ios::out);     
+    if (!dstFile)
+        throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE YOU INPUT THE CORRECT FILE NAME");
+
+
+    // TEMP: Check file size for testing purposes
+    srcFile.seekg(0, std::ios::end);
+    int fileSize{srcFile.tellg()};
+    srcFile.seekg(0);
+    std::cout << "File Size: " << fileSize << std::endl;
+    // END OF TEMP
 
     // Formatting Output File
     dstFile << "TOKEN    \t" << "LEXEME\n";
@@ -46,8 +73,8 @@ int main(int argc, char const *argv[])
     while (!srcFile.eof())
     {
         // TEMP: Testing reading character by character 
-        srcFile >> c;
-        std::cout << c << ' ';      // This line is just for testing purposes, can be removed later
+        c = srcFile.get();
+        std::cout << c << ' ';      // TEMP: This line is just for testing purposes, can be removed later
 
         // Operator Function
         // Separator Function
@@ -64,10 +91,13 @@ int main(int argc, char const *argv[])
         }
         
         // Log Lexeme into Output File
-        if(type ==  OPERATOR || type == SEPARATOR || (type == UNKNOWN && temp.size() == 0))
-            logLexeme(type, dstFile, temp, c);
-        else    
-            logLexeme(type, dstFile, temp);
+        if(type != DEFAULT)
+        {
+            if(type ==  OPERATOR || type == SEPARATOR || (type == UNKNOWN && temp.size() == 0))
+                logLexeme(type, dstFile, temp, c);
+            else    
+                logLexeme(type, dstFile, temp);
+        }
                 
         if (type == DEFAULT)
             temp += c;          // appends current character to string
@@ -76,10 +106,13 @@ int main(int argc, char const *argv[])
     }
     // End of While Loop
     
+    std::cout << "\n\n";  // TEMP
+
     // Print Output File Contents
+    dstFile.seekg(0);
     while(getline(dstFile, temp))
         std::cout << temp << std::endl;
-
+        
     // Close Test File (src)
     srcFile.close();
     // Close Output File
@@ -94,11 +127,17 @@ void logLexeme(Token t, std::fstream& dst, std::string& s, char c)
         dst << "Operator  \t" << c << std::endl;
     else if (t == SEPARATOR)
     {
-        dst << "Separator\t" << c << std::endl;
+        if (c == '\n')
+            dst << "Separator\t" << "newline" << std::endl;
+        else if(c == ' ') 
+            dst << "Separator\t" << "space" << std::endl;
+        else
+            dst << "Separator\t" << c << std::endl;
+
     } else
         dst << "Unknown  \t" << c << std::endl;
 
-    if (t != DEFAULT)   // Resets temp string 
+       // Resets temp string 
         s = "";
     
     return;
@@ -124,7 +163,7 @@ void logLexeme(Token t, std::fstream& dst, std::string& s)
         dst << "Unknown  \t" << s << std::endl;
         break;
     }
-    if (t != DEFAULT)   // Resets temp string 
+       // Resets temp string 
         s = "";
     
     return;
