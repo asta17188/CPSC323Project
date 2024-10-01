@@ -43,9 +43,11 @@ void IDs(std::string& input, Token& type, std::fstream&) {
         }
     }
 
-    if (isalpha(input.size()-1)) {
-        type = ID;
+    if (isalpha(input[input.size()-1])) {
+            type = ID;
     }
+
+    
 
     // sequence of letters/digits, first & last characters must be letters
     // upper/lowercase letters are different
@@ -63,7 +65,7 @@ void integers(std::string& input, Token& type, std::fstream&) {
         return; // not valid string size of 0
     }
 
-    for (i = 0; i < input.size() - 1; i++) {
+    for (i = 0; i < input.size(); i++) {
         if(!isdigit(input[i])) {
             return; // if there is not an integer, invalid integer
         }
