@@ -29,7 +29,9 @@ std::regex int_pattern("[0-9]+");
 std::regex real_pattern("[0-9]+\\.[0-9]+");
 // any int 0-9 that can occur once or more, \\. refers to a dot (need two slashes cuz one backslash represents smthg else), any int 0-9 that can occur once or more
 
-const std::set<char> unknownChar{'!', '#', '$', '%', '&', '`', '?', '@', '^', '_', '~'};
+const int ARRAY_SIZE = 11;
+char unknownCharArray[ARRAY_SIZE] = {'!', '#', '$', '%', '&', '`', '?', '@', '^', '_', '~'};
+
 
 std::set<std::string> keywords{"if", "switch", "else","double","fi","new","return","asm"
                             "get","auto","while","extern","put","typedef","break","integer"
@@ -174,8 +176,6 @@ void logLexeme(Token t, std::fstream& dst, std::string& s, char c)
 
     } else
         dst << "Unknown  \t" << c << std::endl;
-
-        s = "";     // Resets temp string
     
     return;
 }
@@ -239,10 +239,13 @@ void reals(std::string& input, Token& type, std::fstream& dst) {
 
 void findUnknownChar(char& c, std::string& s, Token& t, std::fstream& dst)
 {
-    if(unknownChar.find(c) != unknownChar.end())
+    for (size_t i = 0; i < ARRAY_SIZE; i++)
     {
-        t = UNKNOWN;
-        logLexeme(t, dst, s, c);
+        if (unknownCharArray[i] == c)
+        {
+            t = UNKNOWN;
+            logLexeme(t, dst, s, c);
+        }
     }
     return;
 }
@@ -287,5 +290,7 @@ void findSeparator(Token& t, std::fstream& file, std::string& word, char& ch)
     logLexeme(t, file, word, ch);
     return; 
 }
+
+
 
 
