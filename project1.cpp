@@ -208,7 +208,7 @@ void logLexeme(Token t, std::fstream& dst, std::string& s)
     return;
 }
 
-void IDs(std::string input, Token& type, std::fstream&) {
+void IDs(std::string& input, Token& type, std::fstream&) {
 
     int i=0;
 
@@ -229,7 +229,7 @@ void IDs(std::string input, Token& type, std::fstream&) {
     }
 }
 
-void integers(std::string input, Token& type, std::fstream&) {
+void integers(std::string& input, Token& type, std::fstream&) {
 
     int i = 0;
 
@@ -246,7 +246,7 @@ void integers(std::string input, Token& type, std::fstream&) {
     type = INTEGER;
 }
 
-void reals(std::string input, Token& type, std::fstream&) {
+void reals(std::string& input, Token& type, std::fstream&) {
 
     int i = 0;
 

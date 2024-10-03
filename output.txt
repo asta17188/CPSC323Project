@@ -1,953 +1,219 @@
 TOKEN    	LEXEME
-Unknown  	[
-Separator	[
-Separator	[
-Operator  	*
-Operator  	*
-Operator  	*
-Unknown  	T
-Unknown  	T
-Unknown  	h
-Unknown  	h
-Unknown  	i
-Unknown  	i
-Unknown  	s
-Unknown  	s
-Unknown  	 
-Separator	space
+Unknown  	[*This
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	f
-Unknown  	f
-Unknown  	u
-Unknown  	u
-Unknown  	n
-Unknown  	n
-Unknown  	c
-Unknown  	c
-Unknown  	t
-Unknown  	t
-Unknown  	i
-Unknown  	i
-Unknown  	o
-Unknown  	o
-Unknown  	n
-Unknown  	n
-Unknown  	 
-Separator	space
+Keyword  	function
+Keyword  	
+Keyword  	
+Unknown  	divides
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	d
-Unknown  	d
-Unknown  	i
-Unknown  	i
-Unknown  	v
-Unknown  	v
-Unknown  	i
-Unknown  	i
-Unknown  	d
-Unknown  	d
-Unknown  	e
-Unknown  	e
-Unknown  	s
-Unknown  	s
-Unknown  	 
-Separator	space
+Unknown  	and
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	a
-Unknown  	a
-Unknown  	n
-Unknown  	n
-Unknown  	d
-Unknown  	d
-Unknown  	 
-Separator	space
+Unknown  	multiples
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	m
-Unknown  	m
-Unknown  	u
-Unknown  	u
-Unknown  	l
-Unknown  	l
-Unknown  	t
-Unknown  	t
-Unknown  	i
-Unknown  	i
-Unknown  	p
-Unknown  	p
-Unknown  	l
-Unknown  	l
-Unknown  	e
-Unknown  	e
-Unknown  	s
-Unknown  	s
-Unknown  	 
-Separator	space
+Unknown  	numbers
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	b
-Unknown  	b
-Unknown  	e
-Unknown  	e
-Unknown  	r
-Unknown  	r
-Unknown  	s
-Unknown  	s
-Unknown  	 
-Separator	space
+Unknown  	by
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	b
-Unknown  	b
-Unknown  	y
-Unknown  	y
-Unknown  	 
-Separator	space
+Integer  	2
+Integer  	
+Integer  	
+Unknown  	and
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	2
-Unknown  	2
-Unknown  	 
-Separator	space
+Unknown  	checks
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	a
-Unknown  	a
-Unknown  	n
-Unknown  	n
-Unknown  	d
-Unknown  	d
-Unknown  	 
-Separator	space
+Keyword  	if
+Keyword  	
+Keyword  	
+Integer  	a
+Integer  	
+Integer  	
+Unknown  	number
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	c
-Unknown  	c
-Unknown  	h
-Unknown  	h
-Unknown  	e
-Unknown  	e
-Unknown  	c
-Unknown  	c
-Unknown  	k
-Unknown  	k
-Unknown  	s
-Unknown  	s
-Unknown  	 
-Separator	space
+Unknown  	is
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	i
-Unknown  	i
-Unknown  	f
-Unknown  	f
-Unknown  	 
-Separator	space
+Unknown  	equal
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	a
-Unknown  	a
-Unknown  	 
-Separator	space
+Unknown  	to
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	b
-Unknown  	b
-Unknown  	e
-Unknown  	e
-Unknown  	r
-Unknown  	r
-Unknown  	 
-Separator	space
+Unknown  	zero*
 Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	i
-Unknown  	i
-Unknown  	s
-Unknown  	s
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	e
-Unknown  	e
-Unknown  	q
-Unknown  	q
-Unknown  	u
-Unknown  	u
-Unknown  	a
-Unknown  	a
-Unknown  	l
-Unknown  	l
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	t
-Unknown  	t
-Unknown  	o
-Unknown  	o
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	z
-Unknown  	z
-Unknown  	e
-Unknown  	e
-Unknown  	r
-Unknown  	r
-Unknown  	o
-Unknown  	o
-Operator  	*
-Operator  	*
-Operator  	*
-Unknown  	]
-Separator	]
-Separator	]
 Unknown  	
 Unknown  	
 Unknown  	
 
+function
 Unknown  	
+Unknown  	
+Unknown  	
+Unknown  	division
+Unknown  	
+Unknown  	
+Unknown  	
+Unknown  	(num
+Unknown  	
+Unknown  	
+Unknown  	
+Unknown  	integer
+Unknown  	
+Unknown  	
+Unknown  	
+Unknown  	
+{
+num
+Unknown  	
+Unknown  	
+Unknown  	
+Integer  	=
+Integer  	
+Integer  	
+Unknown  	num
+Unknown  	
+Unknown  	
+Unknown  	
+Integer  	/
+Integer  	
+Integer  	
+Unknown  	2;
+return
+Unknown  	
+Unknown  	
+Unknown  	
+Unknown  	num
 
 Unknown  	
 Unknown  	
 Unknown  	
-
 Unknown  	
 
-Unknown  	f
-Unknown  	f
-Unknown  	u
-Unknown  	u
-Unknown  	n
-Unknown  	n
-Unknown  	c
-Unknown  	c
-Unknown  	t
-Unknown  	t
-Unknown  	i
-Unknown  	i
-Unknown  	o
-Unknown  	o
-Unknown  	n
-Unknown  	n
-Unknown  	 
-Separator	space
+function
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	d
-Unknown  	d
-Unknown  	i
-Unknown  	i
-Unknown  	v
-Unknown  	v
-Unknown  	i
-Unknown  	i
-Unknown  	s
-Unknown  	s
-Unknown  	i
-Unknown  	i
-Unknown  	o
-Unknown  	o
-Unknown  	n
-Unknown  	n
-Unknown  	 
-Separator	space
+Unknown  	multiply
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	(
-Separator	(
-Separator	(
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	 
-Separator	space
+Unknown  	(num
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	i
-Unknown  	i
-Unknown  	n
-Unknown  	n
-Unknown  	t
-Unknown  	t
-Unknown  	e
-Unknown  	e
-Unknown  	g
-Unknown  	g
-Unknown  	e
-Unknown  	e
-Unknown  	r
-Unknown  	r
-Unknown  	)
-Separator	)
-Separator	)
+Unknown  	integer
 Unknown  	
 Unknown  	
 Unknown  	
-
 Unknown  	
-
-Unknown  	{
-Separator	{
-Separator	{
+{
+num
 Unknown  	
 Unknown  	
 Unknown  	
-
-Unknown  	
-
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	 
-Separator	space
+Integer  	=
+Integer  	
+Integer  	
+Unknown  	num
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Operator  	=
-Operator  	=
-Operator  	=
-Unknown  	 
-Separator	space
+Integer  	*
+Integer  	
+Integer  	
+Unknown  	2;
+return
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Operator  	/
-Operator  	/
-Operator  	/
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	2
-Unknown  	2
-Unknown  	;
-Separator	;
-Separator	;
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	r
-Unknown  	r
-Unknown  	e
-Unknown  	e
-Unknown  	t
-Unknown  	t
-Unknown  	u
-Unknown  	u
-Unknown  	r
-Unknown  	r
-Unknown  	n
-Unknown  	n
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	}
-Separator	}
-Separator	}
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
+Unknown  	num
 
 Unknown  	
 Unknown  	
 Unknown  	
-
-Unknown  	
-
-Unknown  	f
-Unknown  	f
-Unknown  	u
-Unknown  	u
-Unknown  	n
-Unknown  	n
-Unknown  	c
-Unknown  	c
-Unknown  	t
-Unknown  	t
-Unknown  	i
-Unknown  	i
-Unknown  	o
-Unknown  	o
-Unknown  	n
-Unknown  	n
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	m
-Unknown  	m
-Unknown  	u
-Unknown  	u
-Unknown  	l
-Unknown  	l
-Unknown  	t
-Unknown  	t
-Unknown  	i
-Unknown  	i
-Unknown  	p
-Unknown  	p
-Unknown  	l
-Unknown  	l
-Unknown  	y
-Unknown  	y
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	(
-Separator	(
-Separator	(
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	i
-Unknown  	i
-Unknown  	n
-Unknown  	n
-Unknown  	t
-Unknown  	t
-Unknown  	e
-Unknown  	e
-Unknown  	g
-Unknown  	g
-Unknown  	e
-Unknown  	e
-Unknown  	r
-Unknown  	r
-Unknown  	)
-Separator	)
-Separator	)
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	{
-Separator	{
-Separator	{
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Operator  	=
-Operator  	=
-Operator  	=
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Operator  	*
-Operator  	*
-Operator  	*
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	2
-Unknown  	2
-Unknown  	;
-Separator	;
-Separator	;
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	r
-Unknown  	r
-Unknown  	e
-Unknown  	e
-Unknown  	t
-Unknown  	t
-Unknown  	u
-Unknown  	u
-Unknown  	r
-Unknown  	r
-Unknown  	n
-Unknown  	n
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	}
-Separator	}
-Separator	}
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	@
 Unknown  	@
 Unknown  	
-Unknown  	
-Unknown  	
 
-Unknown  	
 
-Unknown  	i
-Unknown  	i
-Unknown  	n
-Unknown  	n
-Unknown  	t
-Unknown  	t
-Unknown  	e
-Unknown  	e
-Unknown  	g
-Unknown  	g
-Unknown  	e
-Unknown  	e
-Unknown  	r
-Unknown  	r
-Unknown  	 
-Separator	space
+integer
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	1
-Unknown  	1
-Unknown  	,
-Separator	,
-Separator	,
-Unknown  	 
-Separator	space
+Unknown  	num1,
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	2
-Unknown  	2
+Unknown  	num2;
+get(num1,
+Unknown  	
+Unknown  	
+Unknown  	
+Unknown  	num2
+Unknown  	
+Unknown  	
+Unknown  	
 Unknown  	;
-Separator	;
-Separator	;
+if(num1
 Unknown  	
 Unknown  	
 Unknown  	
-
-Unknown  	
-
-Unknown  	g
-Unknown  	g
-Unknown  	e
-Unknown  	e
-Unknown  	t
-Unknown  	t
-Unknown  	(
-Separator	(
-Separator	(
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	1
-Unknown  	1
-Unknown  	,
-Separator	,
-Separator	,
-Unknown  	 
-Separator	space
+Unknown  	==
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	2
-Unknown  	2
-Unknown  	)
-Separator	)
-Separator	)
+Integer  	0
+Integer  	
+Integer  	
+Unknown  	
+{
+num1
+Unknown  	
+Unknown  	
+Unknown  	
+Integer  	=
+Integer  	
+Integer  	
+Unknown  	division(num1
+Unknown  	
+Unknown  	
+Unknown  	
 Unknown  	;
-Separator	;
-Separator	;
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	i
-Unknown  	i
-Unknown  	f
-Unknown  	f
-Unknown  	(
-Separator	(
-Separator	(
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	1
-Unknown  	1
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Operator  	=
-Operator  	=
-Operator  	=
-Operator  	=
-Operator  	=
-Operator  	=
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	0
-Unknown  	0
-Unknown  	)
-Separator	)
-Separator	)
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	{
-Separator	{
-Separator	{
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	1
-Unknown  	1
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Operator  	=
-Operator  	=
-Operator  	=
-Unknown  	 
-Separator	space
-Unknown  	
-Unknown  	
-Unknown  	
-Separator	space
-Unknown  	d
-Unknown  	d
-Unknown  	i
-Unknown  	i
-Unknown  	v
-Unknown  	v
-Unknown  	i
-Unknown  	i
-Unknown  	s
-Unknown  	s
-Unknown  	i
-Unknown  	i
-Unknown  	o
-Unknown  	o
-Unknown  	n
-Unknown  	n
-Unknown  	(
-Separator	(
-Separator	(
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	1
-Unknown  	1
-Unknown  	)
-Separator	)
-Separator	)
-Unknown  	;
-Separator	;
-Separator	;
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	}
-Separator	}
-Separator	}
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
 
 Unknown  	
 Unknown  	
 Unknown  	
-
 Unknown  	
 
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	2
-Unknown  	2
-Unknown  	 
-Separator	space
+num2
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Operator  	=
-Operator  	=
-Operator  	=
-Unknown  	 
-Separator	space
+Integer  	=
+Integer  	
+Integer  	
+Unknown  	multiply(num2
 Unknown  	
 Unknown  	
 Unknown  	
-Separator	space
-Unknown  	m
-Unknown  	m
-Unknown  	u
-Unknown  	u
-Unknown  	l
-Unknown  	l
-Unknown  	t
-Unknown  	t
-Unknown  	i
-Unknown  	i
-Unknown  	p
-Unknown  	p
-Unknown  	l
-Unknown  	l
-Unknown  	y
-Unknown  	y
-Unknown  	(
-Separator	(
-Separator	(
-Unknown  	n
-Unknown  	n
-Unknown  	u
-Unknown  	u
-Unknown  	m
-Unknown  	m
-Unknown  	2
-Unknown  	2
-Unknown  	)
-Separator	)
-Separator	)
-Unknown  	;
-Separator	;
-Separator	;
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
-Unknown  	
-Unknown  	
-Unknown  	
-
-Unknown  	
-
 Unknown  	@
 Unknown  	@
-Unknown  	ÿ
-Unknown  	ÿ
