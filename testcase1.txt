@@ -3,6 +3,6 @@
 [* This program adds two numbers *]
 integer a,b,sum;
 
-sum = a+b
+sum = a + b
 
 @
