@@ -1,137 +1,167 @@
 TOKEN    	LEXEME
+Separator	[
 Operator  	*
 Operator  	*
-Unknown  	[This
-Unknown  	
+Separator	SPACE
+Unknown  	This
+Separator	SPACE
 Keyword  	function
+Separator	SPACE
 Unknown  	divides
-Unknown  	
+Separator	SPACE
 Unknown  	and
-Unknown  	
+Separator	SPACE
 Unknown  	multiples
-Unknown  	
+Separator	SPACE
 Unknown  	numbers
-Unknown  	
+Separator	SPACE
 Unknown  	by
-Unknown  	
+Separator	SPACE
 Integer  	2
 Integer  	
+Separator	SPACE
 Unknown  	and
-Unknown  	
+Separator	SPACE
 Unknown  	checks
-Unknown  	
+Separator	SPACE
 Keyword  	if
+Separator	SPACE
 Unknown  	a
-Unknown  	
+Separator	SPACE
 Unknown  	number
-Unknown  	
+Separator	SPACE
 Unknown  	is
-Unknown  	
+Separator	SPACE
 Unknown  	equal
-Unknown  	
+Separator	SPACE
 Unknown  	to
-Unknown  	
 Operator  	*
 Operator  	*
 Unknown  	zero
-Unknown  	
+Separator	]
+Separator	SPACE
 Unknown  	
 
 function
-Unknown  	
+Separator	SPACE
 Unknown  	division
-Unknown  	
-Unknown  	(num
-Unknown  	
+Separator	(
+Separator	SPACE
+Unknown  	num
+Separator	)
 Unknown  	integer
+Separator	{
+Separator	SPACE
 Unknown  	
-Unknown  	
-{
+
 n0m
-Unknown  	
 Operator  	=
 Operator  	=
-Unknown  	 num
-Unknown  	
+Separator	SPACE
+Separator	SPACE
+Unknown  	num
 Operator  	/
 Operator  	/
-Unknown  	 2.0
-Unknown  	
+Separator	SPACE
+Separator	.
+Separator	;
+Integer  	20
+Integer  	
+Separator	SPACE
 Unknown  	
 return
-Unknown  	
+Separator	}
 Unknown  	num
 
-Unknown  	
+Separator	SPACE
 Unknown  	
 
 function
-Unknown  	
+Separator	SPACE
 Unknown  	multiply
-Unknown  	
-Unknown  	(num
-Unknown  	
+Separator	(
+Separator	SPACE
+Unknown  	num
+Separator	)
 Unknown  	integer
+Separator	{
+Separator	SPACE
 Unknown  	
-Unknown  	
-{
+
 num
-Unknown  	
 Operator  	=
 Operator  	=
-Unknown  	 num
-Unknown  	
+Separator	SPACE
+Separator	SPACE
+Unknown  	num
 Operator  	*
 Operator  	*
+Separator	SPACE
 Operator  	-
 Operator  	-
-Unknown  	 2
-Unknown  	
+Separator	;
+Integer  	2
+Integer  	
+Separator	SPACE
 Unknown  	
 return
-Unknown  	
+Separator	}
 Unknown  	num
 
-Unknown  	
+Separator	SPACE
 Unknown  	
 
 @
 integer
-Unknown  	
+Separator	,
 Unknown  	num1
+Separator	SPACE
+Separator	;
+Unknown  	num2
+Separator	(
+Separator	,
 Unknown  	
-Unknown  	 num2
+getnum1
+Separator	SPACE
+Separator	)
+Unknown  	num2
+Separator	;
+Separator	(
+Separator	SPACE
 Unknown  	
-Unknown  	
-get(num1
-Unknown  	
-Unknown  	 num2
-Unknown  	
-Unknown  	;
-if(num1
-Unknown  	
+ifnum1
 Operator  	=
 Operator  	=
+Operator  	==
 Operator  	=
 Operator  	=
-Unknown  	 0
+Separator	SPACE
+Separator	)
+Integer  	0
+Integer  	
+Separator	{
+Separator	SPACE
 Unknown  	
-Unknown  	
-{
-num1
-Unknown  	
-Operator  	=
-Operator  	=
-Unknown  	 division(num1
-Unknown  	
-Unknown  	;
 
+num1
+Operator  	=
+Operator  	=
+Separator	SPACE
+Separator	(
+Separator	)
+Unknown  	divisionnum1
+Separator	;
+Separator	}
 Unknown  	
+
+Separator	SPACE
 Unknown  	
 
 num2
-Unknown  	
 Operator  	=
 Operator  	=
-Unknown  	 multiply(num2
-Unknown  	
+Separator	SPACE
+Separator	(
+Separator	)
+Unknown  	multiplynum2
+Separator	;
