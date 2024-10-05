@@ -107,6 +107,11 @@ int main(int argc, char const *argv[])
         // Separator Function
         findSeparator(type, dstFile, c);
         
+        if (srcFile.peek() == '=' && c == '=')
+        {
+            logLexeme(OPERATOR, dstFile, "==");
+        }
+
         if (type != DEFAULT)
             findUnknownChar(c, temp, type, dstFile);
         
