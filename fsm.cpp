@@ -119,16 +119,18 @@ bool reals(const std::string& lexeme) {
 }
 
 void real_output() {
+    std::cout << "REALS TRANSITION TABLE\n";
     std::cout << " " << std::setw(5) << "|" << std::setw(5) << "d" << std::setw(10) << ".\n";
     std::cout << "-----|--------------------\n";
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "5\n";
     std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "3\n";
     std::cout << "3" << std::setw(5) << "|" << std::setw(5) << "4" << std::setw(10) << "5\n";
     std::cout << "4" << std::setw(5) << "|" << std::setw(5) << "4" << std::setw(10) << "5\n";
-    std::cout << "5" << std::setw(5) << "|";
+    std::cout << "5" << std::setw(5) << "|" << std::endl;
 }
 
 void ids_output() {
+    std::cout << "IDS TRANSITION TABLE\n";
     std::cout << " " << std::setw(5) << "|" << std::setw(5) << "l" << std::setw(10) << "d\n";
     std::cout << "-----|--------------------\n";
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "13\n";
@@ -143,12 +145,13 @@ void ids_output() {
     std::cout << "10" << std::setw(4) << "|" << std::setw(5) << "11" << std::setw(10) << "13\n";
     std::cout << "11" << std::setw(4) << "|" << std::setw(5) << "7" << std::setw(10) << "6\n";
     std::cout << "12" << std::setw(4) << "|" << std::setw(5) << "10" << std::setw(10) << "6\n";
-    std::cout << "13" << std::setw(4) << "|";
+    std::cout << "13" << std::setw(4) << "|" << std::endl;
 }
 
 void int_output() {
+    std::cout << "INTEGERS TRANSITION TABLE\n";
     std::cout << " " << std::setw(5) << "|" << std::setw(5) << "d" << std::setw(10) << "\n";
     std::cout << "-----|----------\n";
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
-    std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
+    std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << << std::endl;
 }
