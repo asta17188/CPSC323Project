@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <set>
 #include <algorithm>
+#include <iomanip>
 
 enum Token
 {
@@ -41,19 +42,23 @@ std::set<std::string> keywords{"if", "switch", "else","double","fi","new","retur
 std::set<std::string> operators{"=", "==", ">", "<", "<=",">=","!=","+","-","*","/"};
 
 
-std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",".",";","::",R"(\n)","//","[","]","|",","};
+std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",";","::",R"(\n)","//","[","]","|",","};
 
-void findOperator(Token& , std::fstream& , std::string& );
-void findOperator(Token& , std::fstream& , char& );
-void findSeparator(Token& , std::fstream& , std::string& );
-void findSeparator(Token& , std::fstream& , char& );
+void findOperator(Token& , std::fstream& , std::string&);
+void findOperator(Token& , std::fstream& , char&);
+void findSeparator(Token& , std::fstream& , std::string&);
+void findSeparator(Token& , std::fstream& , char&);
 void findKeyword(Token&, std::fstream&, std::string&);
-void IDs(std::string&, Token&, std::fstream&);
-void integers(std::string&, Token&, std::fstream&);
-void reals(std::string&, Token&, std::fstream&);
+bool IDs(const std::string&);
+bool integers(const std::string&);
+bool reals(const std::string&);
 void findUnknownChar(char&, std::string&, Token&, std::fstream&); 
 template <typename T> void logLexeme(Token, std::fstream&, T&);          
-void logLexeme(Token, std::fstream&, std::string&);                 
+void logLexeme(Token, std::fstream&, std::string&);  
+void real_output();
+void ids_output();
+void int_output();
+
 
 int main(int argc, char const *argv[])
 {
@@ -82,25 +87,52 @@ int main(int argc, char const *argv[])
     if (!dstFile)
         throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE YOU INPUT THE CORRECT FILE NAME");
 
-    // TEMP: Check file size for testing purposes
-    srcFile.seekg(0, std::ios::end);
-    int fileSize{srcFile.tellg()};
-    srcFile.seekg(0);
-    std::cout << "File Size: " << fileSize << std::endl;
-    // END OF TEMP
+    real_output();
+    ids_output();
+    int_output();
 
     // Formatting Output File
     dstFile << "TOKEN    \t" << "LEXEME\n";
-    
-    // Setting up Output to Terminal
-    std::cout << "TOKEN    \t" << "LEXEME\n";
 
     // While Loop: Run Through Test File Character By Character (!eof)
     while (!srcFile.eof())
     {
         c = srcFile.get();
-        std::cout << c << ' ';      // TEMP: This line is just for testing purposes, can be removed later
+        //std::cout << c << ' ';      // TEMP: This line is just for testing purposes, can be removed later
+        
+        if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*') && temp != "")
+        {
+            // Integer Function
+            if(integers(temp))
+            {
+                type = INTEGER;
+                logLexeme(type, dstFile, temp);
+            }
 
+            // Real Function
+            if(reals(temp))
+            {
+                type = REAL;
+                logLexeme(type, dstFile, temp);
+            }
+
+            // Keyword Function
+            findKeyword(type, dstFile, temp);
+            
+            // ID Function
+            if(IDs(temp))
+            {
+                type = ID;
+                logLexeme(type, dstFile, temp);
+            }
+
+            // Unknown Function
+            if(type == DEFAULT)
+            {
+                type = UNKNOWN;
+                logLexeme(type, dstFile, temp);
+            }
+        }
         // Operator Function
         findOperator(type, dstFile, c);
 
@@ -114,27 +146,6 @@ int main(int argc, char const *argv[])
 
         if (type != DEFAULT)
             findUnknownChar(c, temp, type, dstFile);
-        
-        if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*') && temp != "")
-        {
-            // Integer Function
-            integers(temp, type, dstFile);
-
-            // Real Function
-            reals(temp, type, dstFile);
-
-            // Keyword Function
-            findKeyword(type, dstFile, temp);
-            
-            // ID Function
-            IDs(temp, type, dstFile);
-            // Unknown Function
-            if(type == DEFAULT)
-            {
-                type = UNKNOWN;
-                logLexeme(type, dstFile, temp);
-            }
-        }
         
         if (type == DEFAULT)
             temp += c;          // appends current character to string
@@ -248,96 +259,116 @@ void findUnknownChar(char& c, std::string& s, Token& t, std::fstream& dst)
     return;
 }
 
-void integers(std::string& input, Token& type, std::fstream& dst) {
+bool IDs(const std::string& lexeme) {
+    int state = 0; // starting state
+    int accepting_state = 1; // accepting state
 
-    int i = 0;
-
-    if (input.size() == 0) {
-        return; // not valid string size of 0
+    if(lexeme.empty()) {
+        return false;
     }
 
-    for (i = 0; i < input.size(); i++) {
-        if(!isdigit(input[i])) {
-            return; // if there is not an integer, invalid integer
+    for (size_t i = 0; i < lexeme.size(); ++i) {
+        char character = lexeme[i];
+        switch (state)
+        {
+            case 0: // starting
+                if (isalpha(character)) {
+                    state = 1; // state 1 if first character is a letter
+                } else {
+                    return false; // means first char is not a letter
+                }
+                break;
+            case 1:
+                if (isalnum(character)) { // if letter & or digit
+                    state = 1; // stay in this state
+                } else {
+                    return false;
+                }
+                break;
+        }
+        if (i == lexeme.size() - 1) {
+            if (!isalpha(character)) {
+                return false; // checks if last char is a letter
+            }
         }
     }
-
-    type = INTEGER;
-    logLexeme(type, dst, input);
-
-    return;
-    // integer division ignores any remainders
-    // sequence of decimal digits
-    // if (std::regex_search(input, /*match,*/ int_pattern)) {
-        // type = INTEGER;
-        // std::cout << "integer" << "         " << match.str() << "\n";
-    // }
+    return (state == accepting_state);
 }
 
-void reals(std::string& input, Token& type, std::fstream& dst) {
-
-    int i = 0;
-
-    if (input.size() == 0) {
-        return; // not valid string size of 0
+bool integers(const std::string& lexeme) {
+    if(lexeme.empty()) {
+        return false;
     }
 
-    while (i < input.size() && isdigit(input[i])) {
-        i++; // increment i if the size is valid and if the item is a digit
-    }
+    int state = 0;
+    int accepting_state = 1;
 
-    if (i < input.size() && input[i] == '.') {
-        i++; // if size is valid and there is a decimal at i's location, increment i
-    } else {
-        return; // if there is no decimal, it is not a real
-    }
-
-    while (i < input.size() && isdigit(input[i])) {
-        i++; // repeat the process again for integers after the decimal
-    }
-
-    if (i == input.size()) {
-        type = REAL; // if we checked the entire string and it is valid, type=real
-        logLexeme(type, dst, input);
-    }
-
-    return;
-    // integer followed by "."
-    // if (std::regex_search(input, /*match,*/ real_pattern)) {
-        // type = REAL;
-        // std::cout << "real" << "         " << match.str() << "\n";
-    // }
-}
-
-void IDs(std::string& input, Token& type, std::fstream& dst) {
-
-    int i=0;
-
-    if (input.size() == 0) {
-        return; // not valid string size of 0
-    } else if (!isalpha(input[i])) {
-        return; // if it is not alphabetic, not a valid string
-    }
-
-    for (i = 1; i < input.size() - 1; i++) {
-        if (!isalnum(input[i])) {
-            return; // if it is not alphabetic/numeric, then return, not valid string
+    for (char character : lexeme) {
+        switch (state)
+        {
+        case 0:
+            if (isdigit(character)) {
+                state = 1; //goes to integer state
+            } else {
+                return false;
+            }
+            break;
+        case 1:
+            if (isdigit(character)) {
+                state = 1; //stays in this state
+            } else {
+                return false; 
+            }
+            break;
         }
     }
+    return (state==accepting_state);
+}
 
-    if (isalpha(input[input.size()-1])) {
-            type = ID;
-            logLexeme(type, dst, input);
+bool reals(const std::string& lexeme) {
+    if(lexeme.empty()) {
+        return false;
     }
 
-    
-    return;
-    // sequence of letters/digits, first & last characters must be letters
-    // upper/lowercase letters are different
-    // if (std::regex_search(input, /*match,*/ id_pattern)) {
-        // type = ID;
-        // std::cout << "identifier" << "         " << match.str() << "\n";
-    // }
+    int state = 0;
+    int accepting_state = 3;
+
+    for (char character : lexeme) {
+        switch (state)
+        {
+        case 0: //starting
+            if (isdigit(character)) {
+                state = 1;
+            } else {
+                return false;
+            }
+            break;
+        case 1: // integer state
+            if (isdigit(character)) {
+                state = 1; // stays in integer state
+            } else if (character == '.') {
+                state = 2; //goes to decimal state
+            } else {
+                return false;
+            }
+            break;
+        case 2:
+            if (isdigit(character)) {
+                state = 3;
+            } else {
+                return false;
+            }
+            break;
+        case 3:
+            if (isdigit(character)) {
+                state = 3;
+            } else {
+                return false;
+            }
+            break;
+        }
+    }
+    return (state == accepting_state);
 }
 
 void findKeyword(Token& t, std::fstream& file, std::string& word)
@@ -347,6 +378,45 @@ void findKeyword(Token& t, std::fstream& file, std::string& word)
         logLexeme(t, file, word);
     return; 
 }
+
+void real_output() {
+    std::cout << "REALS TRANSITION TABLE\n";
+    std::cout << " " << std::setw(5) << "|" << std::setw(5) << "d" << std::setw(10) << ".\n";
+    std::cout << "-----|--------------------\n";
+    std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "5\n";
+    std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "3\n";
+    std::cout << "3" << std::setw(5) << "|" << std::setw(5) << "4" << std::setw(10) << "5\n";
+    std::cout << "4" << std::setw(5) << "|" << std::setw(5) << "4" << std::setw(10) << "5\n";
+    std::cout << "5" << std::setw(5) << "|" << std::endl;
+}
+
+void ids_output() {
+    std::cout << "IDs TRANSITION TABLE\n";
+    std::cout << " " << std::setw(5) << "|" << std::setw(5) << "l" << std::setw(10) << "d\n";
+    std::cout << "-----|--------------------\n";
+    std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "13\n";
+    std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "3" << std::setw(10) << "13\n";
+    std::cout << "3" << std::setw(5) << "|" << std::setw(5) << "4" << std::setw(10) << "13\n";
+    std::cout << "4" << std::setw(5) << "|" << std::setw(5) << "5" << std::setw(10) << "6\n";
+    std::cout << "5" << std::setw(5) << "|" << std::setw(5) << "7" << std::setw(10) << "13\n";
+    std::cout << "6" << std::setw(5) << "|" << std::setw(5) << "13" << std::setw(10) << "8\n";
+    std::cout << "7" << std::setw(5) << "|" << std::setw(5) << "9" << std::setw(10) << "13\n";
+    std::cout << "8" << std::setw(5) << "|" << std::setw(5) << "10" << std::setw(10) << "12\n";
+    std::cout << "9" << std::setw(5) << "|" << std::setw(5) << "9" << std::setw(10) << "6\n";
+    std::cout << "10" << std::setw(4) << "|" << std::setw(5) << "11" << std::setw(10) << "13\n";
+    std::cout << "11" << std::setw(4) << "|" << std::setw(5) << "7" << std::setw(10) << "6\n";
+    std::cout << "12" << std::setw(4) << "|" << std::setw(5) << "10" << std::setw(10) << "6\n";
+    std::cout << "13" << std::setw(4) << "|" << std::endl;
+}
+
+void int_output() {
+    std::cout << "INTEGERS TRANSITION TABLE\n";
+    std::cout << " " << std::setw(5) << "|" << std::setw(5) << "d" << std::setw(10) << "\n";
+    std::cout << "-----|----------\n";
+    std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
+    std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n\n";
+}
+
 
 
 
