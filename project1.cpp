@@ -190,15 +190,18 @@ template <typename T> void findOperator(Token& t, std::fstream& file, T& word)
     {
         //std::string chword;
         chword += word;
+        if(operators.find(chword) != operators.end())
+            t = OPERATOR;
+            logLexeme(t, file, chword);
         //word = chword;
     } 
     
     if(std::is_same<T, std::string>::value)
     {
         chword += word;
-        if(operators.find(chword) != operators.end())
-            t = OPERATOR;
-            logLexeme(t, file, chword);
+        // if(operators.find(chword) != operators.end())
+        //     t = OPERATOR;
+        //     logLexeme(t, file, chword);
     }
     return; 
     
@@ -213,15 +216,18 @@ template <typename T> void findSeparator(Token& t, std::fstream& file, T& word)
     {
         //std::string chword;
         strword += word;
+        if(separators.find(strword) != separators.end())
+            t = SEPARATOR;
+            logLexeme(t, file, strword);
         //word = chword;
     } 
     
     if(std::is_same<T, std::string>::value)
     {
         strword += word;
-        if(separators.find(strword) != separators.end())
-            t = SEPARATOR;
-            logLexeme(t, file, strword);
+        // if(separators.find(strword) != separators.end())
+        //     t = SEPARATOR;
+        //     logLexeme(t, file, strword);
     }
     return; 
     

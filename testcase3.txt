@@ -2,13 +2,13 @@
 
 function division (num integer)
 {
-num = num / 2;
+n0m = num / 2.0;
 return num
 }
 
 function multiply (num integer)
 {
-num = num * 2;
+num = num * -2;
 return num
 }
 

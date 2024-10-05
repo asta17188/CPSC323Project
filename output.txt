@@ -1,219 +1,123 @@
 TOKEN    	LEXEME
-Unknown  	[*This
+Unknown  	@
 Unknown  	
 Unknown  	
-Unknown  	
-Keyword  	function
-Keyword  	
-Keyword  	
-Unknown  	divides
+
 Unknown  	
 Unknown  	
+
+Unknown  	[
+Unknown  	*
+Unknown  	*
+Unknown  	 
+Unknown  	@
+
+[
 Unknown  	
-Unknown  	and
+Unknown  	T
+Unknown  	h
+Unknown  	i
+Unknown  	s
+Unknown  	 
+Unknown  	This
 Unknown  	
+Unknown  	p
+Unknown  	r
+Unknown  	o
+Unknown  	g
+Unknown  	r
+Unknown  	a
+Unknown  	m
+Unknown  	 
+Unknown  	program
 Unknown  	
+Unknown  	a
+Unknown  	d
+Unknown  	d
+Unknown  	s
+Unknown  	 
+Unknown  	adds
 Unknown  	
-Unknown  	multiples
+Unknown  	t
+Unknown  	w
+Unknown  	o
+Unknown  	 
+Unknown  	two
 Unknown  	
-Unknown  	
-Unknown  	
+Unknown  	n
+Unknown  	u
+Unknown  	m
+Unknown  	b
+Unknown  	e
+Unknown  	r
+Unknown  	s
+Unknown  	 
 Unknown  	numbers
 Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	by
-Unknown  	
-Unknown  	
-Unknown  	
-Integer  	2
-Integer  	
-Integer  	
-Unknown  	and
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	checks
-Unknown  	
-Unknown  	
-Unknown  	
-Keyword  	if
-Keyword  	
-Keyword  	
-Integer  	a
-Integer  	
-Integer  	
-Unknown  	number
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	is
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	equal
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	to
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	zero*
-Unknown  	
-Unknown  	
+Unknown  	*
+Unknown  	*
+Unknown  	]
 Unknown  	
 Unknown  	
 
-function
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	division
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	(num
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	integer
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	
-{
-num
-Unknown  	
-Unknown  	
-Unknown  	
-Integer  	=
-Integer  	
-Integer  	
-Unknown  	num
-Unknown  	
-Unknown  	
-Unknown  	
-Integer  	/
-Integer  	
-Integer  	
-Unknown  	2;
-return
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	num
-
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	
-
-function
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	multiply
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	(num
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	integer
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	
-{
-num
-Unknown  	
-Unknown  	
-Unknown  	
-Integer  	=
-Integer  	
-Integer  	
-Unknown  	num
-Unknown  	
-Unknown  	
-Unknown  	
-Integer  	*
-Integer  	
-Integer  	
-Unknown  	2;
-return
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	num
-
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	@
-Unknown  	
-
-
+Unknown  	i
+Unknown  	n
+Unknown  	t
+Unknown  	e
+Unknown  	g
+Unknown  	e
+Unknown  	r
+Unknown  	 
+Unknown  	]
 integer
 Unknown  	
+Unknown  	a
+Unknown  	,
+Unknown  	a
 Unknown  	
+Unknown  	b
+Unknown  	,
+Unknown  	b
 Unknown  	
-Unknown  	num1,
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	num2;
-get(num1,
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	num2
-Unknown  	
-Unknown  	
-Unknown  	
+Unknown  	s
+Unknown  	u
+Unknown  	m
 Unknown  	;
-if(num1
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	==
-Unknown  	
-Unknown  	
-Unknown  	
-Integer  	0
-Integer  	
-Integer  	
-Unknown  	
-{
-num1
-Unknown  	
-Unknown  	
-Unknown  	
-Integer  	=
-Integer  	
-Integer  	
-Unknown  	division(num1
-Unknown  	
-Unknown  	
-Unknown  	
-Unknown  	;
-
-Unknown  	
+Unknown  	sum
 Unknown  	
 Unknown  	
 Unknown  	
 
-num2
 Unknown  	
 Unknown  	
+
+Unknown  	s
+Unknown  	u
+Unknown  	m
+Unknown  	 
 Unknown  	
-Integer  	=
-Integer  	
-Integer  	
-Unknown  	multiply(num2
+
+sum
+Unknown  	
+Unknown  	=
+Unknown  	=
+Unknown  	 
+Unknown  	a
+Unknown  	 
+Unknown  	 a
+Unknown  	
+Unknown  	+
+Unknown  	+
+Unknown  	 
+Unknown  	b
 Unknown  	
 Unknown  	
+
 Unknown  	
+Unknown  	
+
 Unknown  	@
-Unknown  	@
+Unknown  	
+Unknown  	
+
+Unknown  	ÿ
