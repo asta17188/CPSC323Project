@@ -82,6 +82,12 @@ int main(int argc, char const *argv[])
     if (!dstFile)
         throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE YOU INPUT THE CORRECT FILE NAME");
 
+    // TEMP: Check file size for testing purposes
+    srcFile.seekg(0, std::ios::end);
+    int fileSize{srcFile.tellg()};
+    srcFile.seekg(0);
+    std::cout << "File Size: " << fileSize << std::endl;
+    // END OF TEMP
 
     // Formatting Output File
     dstFile << "TOKEN    \t" << "LEXEME\n";
