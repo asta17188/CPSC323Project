@@ -1,123 +1,137 @@
 TOKEN    	LEXEME
-Unknown  	@
+Operator  	*
+Operator  	*
+Unknown  	[This
 Unknown  	
+Keyword  	function
+Unknown  	divides
 Unknown  	
-
+Unknown  	and
 Unknown  	
+Unknown  	multiples
 Unknown  	
-
-Unknown  	[
-Unknown  	*
-Unknown  	*
-Unknown  	 
-Unknown  	@
-
-[
-Unknown  	
-Unknown  	T
-Unknown  	h
-Unknown  	i
-Unknown  	s
-Unknown  	 
-Unknown  	This
-Unknown  	
-Unknown  	p
-Unknown  	r
-Unknown  	o
-Unknown  	g
-Unknown  	r
-Unknown  	a
-Unknown  	m
-Unknown  	 
-Unknown  	program
-Unknown  	
-Unknown  	a
-Unknown  	d
-Unknown  	d
-Unknown  	s
-Unknown  	 
-Unknown  	adds
-Unknown  	
-Unknown  	t
-Unknown  	w
-Unknown  	o
-Unknown  	 
-Unknown  	two
-Unknown  	
-Unknown  	n
-Unknown  	u
-Unknown  	m
-Unknown  	b
-Unknown  	e
-Unknown  	r
-Unknown  	s
-Unknown  	 
 Unknown  	numbers
 Unknown  	
-Unknown  	*
-Unknown  	*
-Unknown  	]
+Unknown  	by
+Unknown  	
+Integer  	2
+Integer  	
+Unknown  	and
+Unknown  	
+Unknown  	checks
+Unknown  	
+Keyword  	if
+Unknown  	a
+Unknown  	
+Unknown  	number
+Unknown  	
+Unknown  	is
+Unknown  	
+Unknown  	equal
+Unknown  	
+Unknown  	to
+Unknown  	
+Operator  	*
+Operator  	*
+Unknown  	zero
 Unknown  	
 Unknown  	
 
-Unknown  	i
-Unknown  	n
-Unknown  	t
-Unknown  	e
-Unknown  	g
-Unknown  	e
-Unknown  	r
-Unknown  	 
-Unknown  	]
+function
+Unknown  	
+Unknown  	division
+Unknown  	
+Unknown  	(num
+Unknown  	
+Unknown  	integer
+Unknown  	
+Unknown  	
+{
+n0m
+Unknown  	
+Operator  	=
+Operator  	=
+Unknown  	 num
+Unknown  	
+Operator  	/
+Operator  	/
+Unknown  	 2.0
+Unknown  	
+Unknown  	
+return
+Unknown  	
+Unknown  	num
+
+Unknown  	
+Unknown  	
+
+function
+Unknown  	
+Unknown  	multiply
+Unknown  	
+Unknown  	(num
+Unknown  	
+Unknown  	integer
+Unknown  	
+Unknown  	
+{
+num
+Unknown  	
+Operator  	=
+Operator  	=
+Unknown  	 num
+Unknown  	
+Operator  	*
+Operator  	*
+Operator  	-
+Operator  	-
+Unknown  	 2
+Unknown  	
+Unknown  	
+return
+Unknown  	
+Unknown  	num
+
+Unknown  	
+Unknown  	
+
+@
 integer
 Unknown  	
-Unknown  	a
-Unknown  	,
-Unknown  	a
+Unknown  	num1
 Unknown  	
-Unknown  	b
-Unknown  	,
-Unknown  	b
+Unknown  	 num2
 Unknown  	
-Unknown  	s
-Unknown  	u
-Unknown  	m
+Unknown  	
+get(num1
+Unknown  	
+Unknown  	 num2
+Unknown  	
 Unknown  	;
-Unknown  	sum
+if(num1
+Unknown  	
+Operator  	=
+Operator  	=
+Operator  	=
+Operator  	=
+Unknown  	 0
 Unknown  	
 Unknown  	
+{
+num1
 Unknown  	
+Operator  	=
+Operator  	=
+Unknown  	 division(num1
+Unknown  	
+Unknown  	;
 
 Unknown  	
 Unknown  	
 
-Unknown  	s
-Unknown  	u
-Unknown  	m
-Unknown  	 
+num2
 Unknown  	
-
-sum
+Operator  	=
+Operator  	=
+Unknown  	 multiply(num2
 Unknown  	
-Unknown  	=
-Unknown  	=
-Unknown  	 
-Unknown  	a
-Unknown  	 
-Unknown  	 a
-Unknown  	
-Unknown  	+
-Unknown  	+
-Unknown  	 
-Unknown  	b
-Unknown  	
-Unknown  	
-
-Unknown  	
-Unknown  	
-
-Unknown  	@
-Unknown  	
-Unknown  	
-
-Unknown  	ÿ
