@@ -33,10 +33,10 @@ bool IDs(const std::string& lexeme) {
                 }
                 break;
         }
-        if (i == lexeme.size() - 1) {
-            if (!isalpha(character)) {
-                return false; // checks if last char is a letter
-            }
+    }
+    if (i == lexeme.size() - 1) {
+        if (!isalpha(character)) {
+            return false; // checks if last char is a letter
         }
     }
     return (state == accepting_state);
