@@ -8,13 +8,13 @@
 
 bool IDs(const std::string& lexeme) {
     int state = 0; // starting state
-    int accepting_state = 1; // accepting state
+    // int accepting_state = 1; // accepting state
 
     if(lexeme.empty()) {
         return false;
     }
 
-    for (size_t i = 0; i < lexeme.size(); ++i) {
+    for (size_t i = 0; i < lexeme.size() - 1; ++i) {
         char character = lexeme[i];
         switch (state)
         {
@@ -33,13 +33,11 @@ bool IDs(const std::string& lexeme) {
                 }
                 break;
         }
-    }
-    if (i == lexeme.size() - 1) {
-        if (!isalpha(character)) {
-            return false; // checks if last char is a letter
+        if (!isalpha(lexeme[lexeme.size() - 1])) {
+            return false;
         }
     }
-    return (state == accepting_state);
+    return true;
 }
 
 bool integers(const std::string& lexeme) {
