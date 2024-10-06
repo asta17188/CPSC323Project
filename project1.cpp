@@ -42,7 +42,7 @@ std::set<std::string> keywords{"if", "switch", "else","double","fi","new","retur
 std::set<std::string> operators{"=", "==", ">", "<", "<=",">=","!=","+","-","*","/"};
 
 
-std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",";","::",R"(\n)","//","[","]","|",","};
+std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",";","::","\n","//","[","]","|",","};
 
 void findOperator(Token& , std::fstream& , std::string&);
 void findOperator(Token& , std::fstream& , char&);
@@ -100,7 +100,7 @@ int main(int argc, char const *argv[])
         c = srcFile.get();
         //std::cout << c << ' ';      // TEMP: This line is just for testing purposes, can be removed later
         
-        if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*') && temp != "")
+        if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*' || c == '(') && temp != "")
         {
             // Integer Function
             if(integers(temp))
@@ -125,7 +125,6 @@ int main(int argc, char const *argv[])
                 type = ID;
                 logLexeme(type, dstFile, temp);
             }
-
             // Unknown Function
             if(type == DEFAULT)
             {
@@ -133,30 +132,33 @@ int main(int argc, char const *argv[])
                 logLexeme(type, dstFile, temp);
             }
         }
-        // Operator Function
-        findOperator(type, dstFile, c);
-
-        // Separator Function
-        findSeparator(type, dstFile, c);
         
+        // Operator Function
         if (srcFile.peek() == '=' && c == '=')
         {
-            logLexeme(OPERATOR, dstFile, "==");
+            type = OPERATOR;
+            logLexeme(type, dstFile, "==");
         }
-
-        if (srcFile.peek() == '=' && c == '>')
+         if (srcFile.peek() == '=' && c == '>')
         {
-            logLexeme(OPERATOR, dstFile, ">=");
+            type = OPERATOR;
+            logLexeme(type, dstFile, ">=");
         }
-        if (srcFile.peek() == '=' && c == '>')
+        if (srcFile.peek() == '=' && c == '<')
         {
-            logLexeme(OPERATOR, dstFile, ">=");
+            type = OPERATOR;
+            logLexeme(type, dstFile, "<=");
         }
         if (srcFile.peek() == '=' && c == '!')
         {
-            logLexeme(OPERATOR, dstFile, "!=");
+            type = OPERATOR;
+            logLexeme(type, dstFile, "!=");
         }
+        if (type == DEFAULT)
+            findOperator(type, dstFile, c);
+        
 
+        // Separator Function
         if (srcFile.peek() == ':' && c == ':')
         {
             logLexeme(SEPARATOR, dstFile, "::");
@@ -165,8 +167,9 @@ int main(int argc, char const *argv[])
         {
             logLexeme(SEPARATOR, dstFile, "//");
         }
-
-        if (type != DEFAULT)
+        findSeparator(type, dstFile, c);
+        
+        if (type == DEFAULT)
             findUnknownChar(c, temp, type, dstFile);
         
         if (type == DEFAULT)
@@ -267,7 +270,6 @@ void findSeparator(Token& t, std::fstream& file, char& ch)
     return; 
 }
 
-
 void findUnknownChar(char& c, std::string& s, Token& t, std::fstream& dst)
 {
     for (size_t i = 0; i < ARRAY_SIZE; i++)
@@ -283,13 +285,13 @@ void findUnknownChar(char& c, std::string& s, Token& t, std::fstream& dst)
 
 bool IDs(const std::string& lexeme) {
     int state = 0; // starting state
-    int accepting_state = 1; // accepting state
+    // int accepting_state = 1; // accepting state
 
     if(lexeme.empty()) {
         return false;
     }
 
-    for (size_t i = 0; i < lexeme.size(); ++i) {
+    for (size_t i = 0; i < lexeme.size() - 1; ++i) {
         char character = lexeme[i];
         switch (state)
         {
@@ -308,13 +310,11 @@ bool IDs(const std::string& lexeme) {
                 }
                 break;
         }
-        if (i == lexeme.size() - 1) {
-            if (!isalpha(character)) {
-                return false; // checks if last char is a letter
-            }
+        if (!isalpha(lexeme[lexeme.size() - 1])) {
+            return false;
         }
     }
-    return (state == accepting_state);
+    return true;
 }
 
 bool integers(const std::string& lexeme) {
@@ -396,8 +396,10 @@ bool reals(const std::string& lexeme) {
 void findKeyword(Token& t, std::fstream& file, std::string& word)
 {
     if(keywords.find(word) != keywords.end())
+    {
         t = KEYWORD;
         logLexeme(t, file, word);
+    }
     return; 
 }
 
