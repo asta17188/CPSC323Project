@@ -2,166 +2,206 @@ TOKEN    	LEXEME
 Separator	[
 Operator  	*
 Operator  	*
-Separator	SPACE
 Unknown  	This
+Unknown  	
 Separator	SPACE
 Keyword  	function
 Separator	SPACE
 Unknown  	divides
+Unknown  	
 Separator	SPACE
 Unknown  	and
+Unknown  	
 Separator	SPACE
 Unknown  	multiples
+Unknown  	
 Separator	SPACE
 Unknown  	numbers
+Unknown  	
 Separator	SPACE
 Unknown  	by
+Unknown  	
 Separator	SPACE
 Integer  	2
 Integer  	
 Separator	SPACE
 Unknown  	and
+Unknown  	
 Separator	SPACE
 Unknown  	checks
+Unknown  	
 Separator	SPACE
 Keyword  	if
 Separator	SPACE
 Unknown  	a
+Unknown  	
 Separator	SPACE
 Unknown  	number
+Unknown  	
 Separator	SPACE
 Unknown  	is
+Unknown  	
 Separator	SPACE
 Unknown  	equal
+Unknown  	
 Separator	SPACE
 Unknown  	to
-Operator  	*
-Operator  	*
-Unknown  	zero
-Separator	]
+Unknown  	
 Separator	SPACE
+Unknown  	zero
+Unknown  	
+Operator  	*
+Operator  	*
+Separator	]
 Unknown  	
 
 function
+Unknown  	
 Separator	SPACE
 Unknown  	division
+Unknown  	
+Separator	SPACE
 Separator	(
-Separator	SPACE
 Unknown  	num
-Separator	)
-Unknown  	integer
-Separator	{
+Unknown  	
 Separator	SPACE
+Unknown  	integer
+Unknown  	
+Separator	)
+Separator	{
 Unknown  	
 
 n0m
-Operator  	=
-Operator  	=
+Unknown  	
 Separator	SPACE
+Operator  	=
+Operator  	=
 Separator	SPACE
 Unknown  	num
+Unknown  	
+Separator	SPACE
 Operator  	/
 Operator  	/
 Separator	SPACE
-Separator	.
+Real     	2.0
+Real     	
 Separator	;
-Integer  	20
-Integer  	
-Separator	SPACE
 Unknown  	
 return
-Separator	}
+Unknown  	
+Separator	SPACE
 Unknown  	num
 
-Separator	SPACE
+Unknown  	
+Separator	}
 Unknown  	
 
 function
+Unknown  	
 Separator	SPACE
 Unknown  	multiply
+Unknown  	
+Separator	SPACE
 Separator	(
-Separator	SPACE
 Unknown  	num
-Separator	)
-Unknown  	integer
-Separator	{
+Unknown  	
 Separator	SPACE
+Unknown  	integer
+Unknown  	
+Separator	)
+Separator	{
 Unknown  	
 
 num
-Operator  	=
-Operator  	=
+Unknown  	
 Separator	SPACE
+Operator  	=
+Operator  	=
 Separator	SPACE
 Unknown  	num
+Unknown  	
+Separator	SPACE
 Operator  	*
 Operator  	*
 Separator	SPACE
 Operator  	-
 Operator  	-
-Separator	;
 Integer  	2
 Integer  	
-Separator	SPACE
+Separator	;
 Unknown  	
 return
-Separator	}
+Unknown  	
+Separator	SPACE
 Unknown  	num
 
-Separator	SPACE
+Unknown  	
+Separator	}
 Unknown  	
 
 @
 integer
-Separator	,
-Unknown  	num1
+Unknown  	
 Separator	SPACE
-Separator	;
-Unknown  	num2
-Separator	(
+Unknown  	num1
+Unknown  	
 Separator	,
+Separator	SPACE
+Unknown  	num2
+Unknown  	
+Separator	;
+Separator	(
 Unknown  	
 getnum1
+Unknown  	
+Separator	,
 Separator	SPACE
-Separator	)
 Unknown  	num2
+Unknown  	
+Separator	)
 Separator	;
 Separator	(
-Separator	SPACE
 Unknown  	
 ifnum1
+Unknown  	
+Separator	SPACE
 Operator  	=
 Operator  	=
 Operator  	==
 Operator  	=
 Operator  	=
 Separator	SPACE
-Separator	)
 Integer  	0
 Integer  	
+Separator	)
 Separator	{
-Separator	SPACE
 Unknown  	
 
 num1
+Unknown  	
+Separator	SPACE
 Operator  	=
 Operator  	=
 Separator	SPACE
 Separator	(
-Separator	)
 Unknown  	divisionnum1
+Unknown  	
+Separator	)
 Separator	;
+Unknown  	
+
+Unknown  	
 Separator	}
 Unknown  	
 
-Separator	SPACE
-Unknown  	
-
 num2
+Unknown  	
+Separator	SPACE
 Operator  	=
 Operator  	=
 Separator	SPACE
 Separator	(
-Separator	)
 Unknown  	multiplynum2
+Unknown  	
+Separator	)
 Separator	;

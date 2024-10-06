@@ -144,6 +144,28 @@ int main(int argc, char const *argv[])
             logLexeme(OPERATOR, dstFile, "==");
         }
 
+        if (srcFile.peek() == '=' && c == '>')
+        {
+            logLexeme(OPERATOR, dstFile, ">=");
+        }
+        if (srcFile.peek() == '=' && c == '>')
+        {
+            logLexeme(OPERATOR, dstFile, ">=");
+        }
+        if (srcFile.peek() == '=' && c == '!')
+        {
+            logLexeme(OPERATOR, dstFile, "!=");
+        }
+
+        if (srcFile.peek() == ':' && c == ':')
+        {
+            logLexeme(SEPARATOR, dstFile, "::");
+        }
+        if (srcFile.peek() == '/' && c == '/')
+        {
+            logLexeme(SEPARATOR, dstFile, "//");
+        }
+
         if (type != DEFAULT)
             findUnknownChar(c, temp, type, dstFile);
         
