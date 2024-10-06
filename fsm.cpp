@@ -151,5 +151,5 @@ void int_output() {
     std::cout << " " << std::setw(5) << "|" << std::setw(5) << "d" << std::setw(10) << "\n";
     std::cout << "-----|----------\n";
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
-    std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << << std::endl;
+    std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << std::endl;
 }
