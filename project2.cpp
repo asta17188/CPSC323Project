@@ -1,4 +1,4 @@
-// Project 1: Syntax Analyzer
+// Project 2: Syntax Analyzer
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -30,6 +30,7 @@ const int ARRAY_SIZE = 11;
 char unknownCharArray[ARRAY_SIZE] = {'!', '#', '$', '%', '&', '`', '?', '^', '_', '~'};
 
 // 10.23.24 - Missing commas added after "asm" and "integer"
+// 10.27.24 - added true/false keywords
 std::set<std::string> keywords{"if", "switch", "else","double","fi","new","return","asm",
                             "get","auto","while","extern","put","typedef","break","integer",
                             "break","boolean","operator","real","template","goto","enum",
@@ -38,11 +39,13 @@ std::set<std::string> keywords{"if", "switch", "else","double","fi","new","retur
                             "catch","union","public","continue","protected","virtual","private",
                             "default","inline","sizeof","delete","int","static","volatile","do",
                             "long","struct","char16_t","char32_t","explicit","nullptr","static_cast",
-                            "overload","short"};
+                            "overload","short", "true", "false"};
 
 std::set<std::string> operators{"=", "==", ">", "<", "<=",">=","!=","+","-","*","/"};
 
 // 10.23.24 - Moved "@" symbol from unknowns to separators 
+// 10.27.24 (NOTE) - Left space and newline char in separator set so program wouldn't leave spaces 
+//                   attached to lexemes. Removing them from the led to erroneous results.
 std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",";","::","\n","//","[","]","|",",", "@"};
 
 void findOperator(Token& , std::fstream& , std::string&);
@@ -101,7 +104,8 @@ int main(int argc, char const *argv[])
         c = srcFile.get();
         //std::cout << c << ' ';      // TEMP: This line is just for testing purposes, can be removed later
         
-        if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*' || c == '(') && temp != "")
+        // 10.27.24 - Added newline as a delimiter
+        if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*' || c == '(' || c == '\n') && temp != "")
         {
             // Integer Function
             if(integers(temp))
@@ -202,10 +206,9 @@ template <typename T> void logLexeme(Token t, std::fstream& dst, T& lexeme)
         dst << "Operator  \t" << lexeme << std::endl;
     else if(t == SEPARATOR)
     {
-        if(str == "\n")
-            dst << "Separator\t" << "NEWLINE" << std::endl;
-        else if(str == " ")
-            dst << "Separator\t" << "SPACE" << std::endl;
+        // 10.27.24 - Modified func. to ignore spaces and newline
+        if(str == "\n" || str == " ")
+            return;
         else
             dst << "Separator\t" << lexeme << std::endl;
     }
@@ -441,5 +444,3 @@ void int_output() {
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
     std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n\n";
 }
-
-
