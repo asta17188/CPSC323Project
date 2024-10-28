@@ -136,6 +136,13 @@ int main(int argc, char const *argv[])
                 type = UNKNOWN;
                 logLexeme(type, dstFile, temp);
             }
+
+            /* 10.27.24
+                Program would forget about the separator (delim) after the int/real/keyword/id/mutli-char unknown was found
+                since it would change type from DEFAULT. And since type would no longer equal DEFAULT, the findSeparator function
+                wouldn't run and the delim wouldn't be logged. So, the findSeparator was also added within the if condition.
+            */
+            findSeparator(type, dstFile, c);
         }
         
         // Operator Function
@@ -172,8 +179,10 @@ int main(int argc, char const *argv[])
         {
             logLexeme(SEPARATOR, dstFile, "//");
         }
-        findSeparator(type, dstFile, c);
+        if(type == DEFAULT)     // 10.27.24 - Added this if condition and it fixed the double operator issue (???)
+            findSeparator(type, dstFile, c);
         
+        // Unknown Character Function
         if (type == DEFAULT)
             findUnknownChar(c, temp, type, dstFile);
         
