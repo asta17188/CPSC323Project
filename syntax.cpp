@@ -4,19 +4,28 @@
 
 //main function will read word by word
 std::string current_word;
+std::string token;
+    //ifstream has special functions and you dont need 
+    //to open and close the file but you still need to make sure the file opened correctly, we can add that later
 std::ifstream file("output.txt"); 
 
 int main() {    
 
-    //ifstream has special functions and you dont need 
-    //to open and close the file but you still need to make sure the file opened correctly, we can add that later
     
-    //skip first 2 words because the first two words are just lexeme and token 
+    
+    
+    file >> token;
+    file >> current_word;
+    //skip first 2 words because the first two words are just lexeme and token
+
+
+
     return 0;
 }
 
 // Issue: find a way to store token type each time because whenever <Identifier>,<Integer>,<Real> are in
 // the rules we need to check if the current word is those types. 
+// i think the token and current word vars fixes this
 
 int Rat24F() {
 
@@ -72,8 +81,10 @@ int Function() {
     
     if(current_word == "function") {
         //print <identifier> i think
+        file >> token;
         file >> current_word; // move position
         if(current_word == "(") {
+            file >> token;
             file >> current_word;
             if(OptParameterList()) {
                 if(current_word == ")") {
@@ -109,6 +120,7 @@ int ParameterList() {
         return 1;
     } 
     else if(current_word == ",") {
+        file >> token;
         file >> current_word;
         if(ParameterList()) {
             return 1;
@@ -132,14 +144,17 @@ int Parameter() {
 int Qualifier() {
 
     if(current_word == "integer") {
+        file >> token;
         file >> current_word; 
         return 1;
     }
     else if(current_word == "boolean"){
+        file >> token;
         file >> current_word; 
         return 1;
     } 
     else if(current_word == "real") {
+        file >> token;
         file >> current_word; 
         return 1;
     }
@@ -453,6 +468,16 @@ int Term() {
 
 int Factor() {
 
+    if(current_word == "-") {
+        file >> current_word;
+        if(Primary()) {
+            return 1;
+        }
+    } 
+    else if(Primary()) {
+        return 1;
+    }
+    else return 0;
 }
 
 int Primary() {
