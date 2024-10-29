@@ -3,14 +3,16 @@
 #include <string>
 
 //main function will read word by word
+std::string current_word;
+std::ifstream file("output.txt"); 
 
 int main() {    
 
-    std::ifstream file("output.txt"); //ifstream has special functions and you dont need 
+    //ifstream has special functions and you dont need 
     //to open and close the file but you still need to make sure the file opened correctly, we can add that later
-    std::string current_word;
+    
     //skip first 2 words because the first two words are just lexeme and token 
-    return 0
+    return 0;
 }
 
 // Issue: find a way to store token type each time because whenever <Identifier>,<Integer>,<Real> are in
@@ -46,7 +48,7 @@ int Rat24F() {
 int OptFunctionDefinitions() {
 
     if(FunctionDefinitions()) {
-        return 1
+        return 1;
     }
     else 
         // hit empty 
@@ -67,7 +69,7 @@ int FunctionDefinitions() {
 }
 
 int Function() {
-
+    
     if(current_word == "function") {
         //print <identifier> i think
         file >> current_word; // move position
@@ -86,7 +88,10 @@ int Function() {
     }
     else 
         return 0;
+
 }
+
+
 
 int OptParameterList(){
 
@@ -103,7 +108,7 @@ int ParameterList() {
     if (Parameter()) {
         return 1;
     } 
-    else if(current_word == ',') {
+    else if(current_word == ",") {
         file >> current_word;
         if(ParameterList()) {
             return 1;
@@ -199,7 +204,7 @@ int IDs() {
     if (current_word == "identifier") {
         return 1;
     } 
-    else if(current_word == ',') {
+    else if(current_word == ",") {
         file >> current_word;
         if(IDs()) {
             return 1;
