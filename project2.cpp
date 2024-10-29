@@ -67,10 +67,12 @@ int main(int argc, char const *argv[])
 {
     // Declare Local Variables
     std::ifstream srcFile;      // "Source" File
-    char c;     
+    char c;                     
     Token type{DEFAULT};
     std::string temp{""};
     std::string fileName;
+    bool isComment{false};      // Added 10.28.24
+    bool isEndComment{false};
 
     // i.e. "testcase1.txt", "testcase2.txt", "testcase3.txt"
     std::cout << "Enter Test File Name: ";
@@ -103,7 +105,28 @@ int main(int argc, char const *argv[])
     {
         c = srcFile.get();
         //std::cout << c << ' ';      // TEMP: This line is just for testing purposes, can be removed later
-        
+
+        // CODE START: Ignores comments (4 steps)
+        if(isEndComment == true)   //  (4) Skips over ], the end of comment. Afterwards turns isEndComment back to false
+        {
+            isEndComment = false;
+            continue;
+        }
+        if (srcFile.peek() == ']' && c == '*')  // (3) Detects the end of comments, skips *, marks end of comment true to skip ] in next iteration of loop. isComment is turned back to false
+        {
+            isComment = false;
+            isEndComment = true;
+            continue;
+        }
+        if(srcFile.peek() == '*' && c == '[')   // (1) Detects the start of comment, sets isComment true to skip following iterations until end of comment
+        {
+            isComment = true;
+            continue;
+        }
+        if (isComment)  // (2) if isComment is true, then it skips following iterations until isComment is false
+            continue;
+        // CODE END
+
         // 10.27.24 - Added newline as a delimiter
         if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*' || c == '(' || c == '\n') && temp != "")
         {
@@ -453,3 +476,4 @@ void int_output() {
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
     std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n\n";
 }
+
