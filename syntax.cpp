@@ -5,6 +5,7 @@
 //main function will read word by word
 std::string current_word;
 std::string token;
+int line_number;
     //ifstream has special functions and you dont need 
     //to open and close the file but you still need to make sure the file opened correctly, we can add that later
 std::ifstream file("output.txt"); 
@@ -16,6 +17,7 @@ int main() {
     
     file >> token;
     file >> current_word;
+    line_number++;
     //skip first 2 words because the first two words are just lexeme and token
 
 
@@ -83,9 +85,11 @@ int Function() {
         //print <identifier> i think
         file >> token;
         file >> current_word; // move position
+        line_number++;
         if(current_word == "(") {
             file >> token;
             file >> current_word;
+            line_number++;
             if(OptParameterList()) {
                 if(current_word == ")") {
                     return 1;
@@ -122,6 +126,7 @@ int ParameterList() {
     else if(current_word == ",") {
         file >> token;
         file >> current_word;
+        line_number++;
         if(ParameterList()) {
             return 1;
         }
@@ -165,10 +170,14 @@ int Qualifier() {
 int Body() {
 
     if(current_word == "{") {
+        file >> token;
         file >> current_word; 
+        line_number++;
         if(StatementList()) {
             if (current_word == "}") {
+                file >> token;
                 file >> current_word;
+                line_number++;
                 return 1;
             }
             else 
@@ -220,7 +229,9 @@ int IDs() {
         return 1;
     } 
     else if(current_word == ",") {
+        file >> token;
         file >> current_word;
+        line_number++;
         if(IDs()) {
             return 1;
         }
@@ -266,10 +277,14 @@ int Statement() {
 
 int Compound() {
     if(current_word == "{") {
+        file >> token;
         file >> current_word; 
+        line_number++;
         if(StatementList()) {
             if (current_word == "}") {
+                file >> token;
                 file >> current_word;
+                line_number++;
                 return 1;
             }
             else 
@@ -285,7 +300,9 @@ int Compound() {
 int Assign() {
 
     if(current_word == "identifier") {
+        file >> token;
         file >> current_word;
+        line_number++;
         if (current_word == "=") {
             if(Expression()) {
                 if(current_word == ";") {
@@ -306,21 +323,33 @@ int If() {
 //im so sorry this looks so awful but idk if theres another way to write it lmao
 //maybe this is left recursion cause this feels diabolical 
     if(current_word == "if") {
+        line_number++;
+        file >> token;
         file >> current_word;
         if(current_word == "(") {
+            line_number++;
+            file >> token;
             file >> current_word;
             if(Condition()) {
                 if(current_word == ")") {
+                    line_number++;
+                    file >> token;
                     file >> current_word;
                     if(Statement()) {
                         if(current_word == "fi") {
+                            line_number++;
+                            file >> token;
                             file >> current_word;
                             return 1;
                         } 
                         else if (current_word == "else") {
+                            line_number++;
+                            file >> token;
                             file >> current_word;
                             if(Statement()) {
                                 if(current_word == "fi") {
+                                    line_number++;
+                                    file >> token;
                                     file >> current_word;
                                     return 1;
                                 }
@@ -343,12 +372,18 @@ int If() {
 
 int Return() {
     if(current_word == "return") {
+        line_number++;
+        file >> token;
         file >> current_word;
         if(current_word == ";") {
+            line_number++;
+            file >> token;
             file >> current_word;
             return 1;
         } else if(Expression()) {
             if(current_word == ";") {
+                line_number++;
+                file >> token;
                 file >> current_word;
                 return 1;
             }
@@ -362,13 +397,21 @@ int Return() {
 int Print() {
 
     if (current_word == "put") {
+        line_number++;
+        file >> token;
         file >> current_word;
         if(current_word == "(") {
+            line_number++;
+            file >> token;
             file >> current_word;
             if(Expression()) {
                 if(current_word == ")") {
+                    line_number++;
+                    file >> token;
                     file >> current_word;
                     if(current_word == ";") {
+                        line_number++;
+                        file >> token;
                         file >> current_word; 
                         return 1;
                     }
@@ -386,11 +429,17 @@ int Print() {
 int Scan() {
 
     if(current_word == "get") {
+        line_number++;
+        file >> token;
         file >> current_word;
         if(current_word == "(") {
+            line_number++;
+            file >> token;
             file >> current_word;
             if(IDs()) {
                 if(current_word == ")") {
+                    line_number++;
+                    file >> token;
                     file >> current_word;
                     if(current_word == ";") {
                         return 1;
@@ -409,11 +458,17 @@ int Scan() {
 int While() {
 
     if(current_word == "while") {
+        line_number++;
+        file >> token;
         file >> current_word;
         if(current_word == "(") {
+            line_number++;
+            file >> token;
             file >> current_word;
             if(Condition()) {
                 if(current_word == ")") {
+                    line_number++;
+                    file >> token;
                     file >> current_word;
                     if(Statement()) {
                         return 1;
@@ -451,6 +506,8 @@ int Relop() {
        current_word =="<" | 
        current_word =="<=" | 
        current_word =="=>") {
+        line_number++;
+        file >> token;
         file >> current_word;
         return 1;
        }
@@ -469,6 +526,8 @@ int Term() {
 int Factor() {
 
     if(current_word == "-") {
+        line_number++;
+        file >> token;
         file >> current_word;
         if(Primary()) {
             return 1;

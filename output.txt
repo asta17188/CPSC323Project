@@ -1,207 +1,79 @@
 TOKEN    	LEXEME
-Separator	[
-Operator  	*
-Operator  	*
-Unknown  	This
-Unknown  	
-Separator	SPACE
+ID       	
 Keyword  	function
-Separator	SPACE
-Unknown  	divides
-Unknown  	
-Separator	SPACE
-Unknown  	and
-Unknown  	
-Separator	SPACE
-Unknown  	multiples
-Unknown  	
-Separator	SPACE
-Unknown  	numbers
-Unknown  	
-Separator	SPACE
-Unknown  	by
-Unknown  	
-Separator	SPACE
-Integer  	2
-Integer  	
-Separator	SPACE
-Unknown  	and
-Unknown  	
-Separator	SPACE
-Unknown  	checks
-Unknown  	
-Separator	SPACE
-Keyword  	if
-Separator	SPACE
-Unknown  	a
-Unknown  	
-Separator	SPACE
-Unknown  	number
-Unknown  	
-Separator	SPACE
-Unknown  	is
-Unknown  	
-Separator	SPACE
-Unknown  	equal
-Unknown  	
-Separator	SPACE
-Unknown  	to
-Unknown  	
-Separator	SPACE
-Unknown  	zero
-Unknown  	
-Operator  	*
-Operator  	*
-Separator	]
-Unknown  	
-
-function
-Unknown  	
-Separator	SPACE
-Unknown  	division
-Unknown  	
-Separator	SPACE
+ID       	convert
 Separator	(
-Unknown  	num
-Unknown  	
-Separator	SPACE
-Unknown  	integer
-Unknown  	
+ID       	fahr
+Keyword  	integer
 Separator	)
+ID       	
 Separator	{
-Unknown  	
-
-n0m
-Unknown  	
-Separator	SPACE
-Operator  	=
-Operator  	=
-Separator	SPACE
-Unknown  	num
-Unknown  	
-Separator	SPACE
-Operator  	/
-Operator  	/
-Separator	SPACE
-Real     	2.0
-Real     	
-Separator	;
-Unknown  	
-return
-Unknown  	
-Separator	SPACE
-Unknown  	num
-
-Unknown  	
-Separator	}
-Unknown  	
-
-function
-Unknown  	
-Separator	SPACE
-Unknown  	multiply
-Unknown  	
-Separator	SPACE
+ID       	
+Keyword  	return
+Integer  	5
+Operator  	*
 Separator	(
-Unknown  	num
-Unknown  	
-Separator	SPACE
-Unknown  	integer
-Unknown  	
-Separator	)
-Separator	{
-Unknown  	
-
-num
-Unknown  	
-Separator	SPACE
-Operator  	=
-Operator  	=
-Separator	SPACE
-Unknown  	num
-Unknown  	
-Separator	SPACE
-Operator  	*
-Operator  	*
-Separator	SPACE
+ID       	fahr
 Operator  	-
-Operator  	-
-Integer  	2
-Integer  	
+Integer  	32
+Separator	)
+Operator  	/
+Integer  	9
 Separator	;
-Unknown  	
-return
-Unknown  	
-Separator	SPACE
-Unknown  	num
-
-Unknown  	
+ID       	
 Separator	}
-Unknown  	
-
-@
-integer
-Unknown  	
-Separator	SPACE
-Unknown  	num1
-Unknown  	
+ID       	
+Separator	@
+ID       	
+Keyword  	integer
+ID       	low
 Separator	,
-Separator	SPACE
-Unknown  	num2
-Unknown  	
+ID       	high
+Separator	,
+ID       	step
 Separator	;
+ID       	
+Keyword  	get
 Separator	(
-Unknown  	
-getnum1
-Unknown  	
+ID       	low
 Separator	,
-Separator	SPACE
-Unknown  	num2
-Unknown  	
+ID       	high
+Separator	,
+ID       	step
 Separator	)
 Separator	;
+ID       	
+Keyword  	while
 Separator	(
-Unknown  	
-ifnum1
-Unknown  	
-Separator	SPACE
+ID       	low
+Operator  	<=
 Operator  	=
-Operator  	=
-Operator  	==
-Operator  	=
-Operator  	=
-Separator	SPACE
-Integer  	0
-Integer  	
+ID       	high
 Separator	)
+ID       	
 Separator	{
-Unknown  	
-
-num1
-Unknown  	
-Separator	SPACE
-Operator  	=
-Operator  	=
-Separator	SPACE
+Keyword  	put
 Separator	(
-Unknown  	divisionnum1
-Unknown  	
+ID       	low
 Separator	)
 Separator	;
-Unknown  	
-
-Unknown  	
+ID       	
+Keyword  	put
+Separator	(
+ID       	convert
+Separator	(
+ID       	low
+Separator	)
+Separator	)
+Separator	;
+ID       	
+ID       	low
+Operator  	=
+ID       	low
+Operator  	+
+ID       	step
+Separator	;
+ID       	
 Separator	}
-Unknown  	
-
-num2
-Unknown  	
-Separator	SPACE
-Operator  	=
-Operator  	=
-Separator	SPACE
-Separator	(
-Unknown  	multiplynum2
-Unknown  	
-Separator	)
-Separator	;
+ID       	
+Separator	@
