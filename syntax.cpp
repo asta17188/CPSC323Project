@@ -10,6 +10,13 @@ int line_number;
     //to open and close the file but you still need to make sure the file opened correctly, we can add that later
 std::ifstream file("output.txt"); 
 
+void errors(const std::string& expected, const std::string suggested) {
+    std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
+    std::cerr << "Expected " << expected << ".\n";
+    std::cerr << "Suggested: " << suggested << ".\n"; 
+    // std::cerr is similar to cout, but meant for errors. there is no buffer so it will print immediately
+}
+
 int main() {    
 
     
@@ -40,15 +47,19 @@ int Rat24F() {
                         return 1;
                     }
                     else 
+                        errors("'@'", "Add a '@' to close the struct");
                         return 0;
                 }
-                else 
+                else
+                    errors("a valid statements","Ensure the statements are valid in the body");
                     return 0;
             }
             else 
+                errors("optional function definitions or empty", "Check for function definitions");
                 return 0;
         }
         else 
+            errors("'@'", "The Rat24F should be delimited by '@'");
             return 0;
     }
     else 
@@ -93,16 +104,21 @@ int Function() {
             if(OptParameterList()) {
                 if(current_word == ")") {
                     return 1;
+                } else {
+                    errors("')'", "Add a closing parenthesis");
+                    return 0;
                 }
-            }
-            else 
+            } else {
+                errors("parameters or empty parameters", "Check your parameters");
                 return 0;
-        }
-        else 
+            }
+        } else {
+            errors("'('", "Add an opening parenthesis");
             return 0;
-    }
-    else 
+        }
+    } else {
         return 0;
+    }
 
 }
 
@@ -130,9 +146,15 @@ int ParameterList() {
         if(ParameterList()) {
             return 1;
         }
-        else return 0;
+        else {
+            errors("','", "Parameter after comma");
+            return 0;
+        }
     }
-    else return 0;
+    else {
+        errors("parameter or ','", "Check parameters and format");
+        return 0;
+    }
     
 }
 
@@ -143,6 +165,7 @@ int Parameter() {
         }
     }
     else 
+        errors("an identifier", "Ensure there is a valid identifier for the parameter");
         return 0;
 }
 
@@ -164,6 +187,7 @@ int Qualifier() {
         return 1;
     }
     else 
+        errors("valid qualifier", "Check for type (e.g., 'integer', 'boolean', 'real')");
         return 0;
 }
 
@@ -179,16 +203,19 @@ int Body() {
                 file >> current_word;
                 line_number++;
                 return 1;
-            }
-            else 
+            } else {
+                errors("'}'","Add a closing brace to end the body");
                 return 0;
-        }
-        else 
+            }
+        } else {
+            errors("valid statements", "Ensure the statements are valid in the body");
             return 0;
-    }
-    else 
+        } 
+    } else {
+        errors("'{'", "Add an opening brace to the start of the body");
         return 0;
-}
+    }
+   }
 
 int OptDeclarationList(){
 
@@ -210,7 +237,9 @@ int DeclarationList(){
         else if(DeclarationList()) {
             return 1;
         }
-        else return 0;
+        else
+            // errors("';'", "Add a semicolon, ';'");
+            return 0;
     } //questionable    
 }
 
@@ -221,8 +250,9 @@ int Declaration(){
         }
     }
     else 
+        errors("a valid qualifier","Ensure it starts with a valid type (e.g., 'int', 'real', 'boolean')");
         return 0;
-}
+} // ----------------------------------- kat stopped here ----------------------------------------------
 
 int IDs() {
     if (current_word == "identifier") {
