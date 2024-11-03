@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 
 //main function will read word by word
 std::string current_word;
@@ -15,6 +16,7 @@ void errors(const std::string& expected, const std::string suggested) {
     std::cerr << "Expected " << expected << ".\n";
     std::cerr << "Suggested: " << suggested << ".\n"; 
     // std::cerr is similar to cout, but meant for errors. there is no buffer so it will print immediately!
+    exit(1);
 }
 
 int main() {    
