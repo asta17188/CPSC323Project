@@ -10,6 +10,7 @@ int line_number;
     //ifstream has special functions and you dont need 
     //to open and close the file but you still need to make sure the file opened correctly, we can add that later
 std::ifstream file("output.txt"); 
+bool switch{true};
 
 void errors(const std::string& expected, const std::string suggested) {
     std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
@@ -41,6 +42,8 @@ int main() {
 int Rat24F() {
 
     //print rule
+    if (switch)
+        std::cout << "<Rat24F>  ::=   <Opt Function Definitions>   @  <Opt Declaration List>  <Statement List>  @\n";
     if(OptFunctionDefinitions()) {
         if (current_word == "@") {
             if(OptFunctionDefinitions()) {
@@ -69,7 +72,8 @@ int Rat24F() {
 }
 
 int OptFunctionDefinitions() {
-
+    if (switch)
+        std::cout << "<Opt Function Definitions> ::= <Function Definitions>     |  <Empty>\n";
     if(FunctionDefinitions()) {
         return 1;
     } else {
@@ -78,8 +82,10 @@ int OptFunctionDefinitions() {
     }
 }
 
+// Backtracking
 int FunctionDefinitions() {
-
+    if(switch)
+        std::cout << "<Function Definitions>  ::= <Function> | <Function> <Function Definitions>\n";
     if(Function()) {
         return 1;
     } else {
@@ -92,7 +98,9 @@ int FunctionDefinitions() {
 }
 
 int Function() {
-    
+    if(switch)
+        std::cout << "<Function> ::= function  <Identifier>   ( <Opt Parameter List> )  <Opt Declaration List>  <Body>\n";
+
     if(current_word == "function") {
         //print <identifier> i think
         file >> token;
@@ -126,7 +134,8 @@ int Function() {
 
 
 int OptParameterList(){
-
+    if(switch)
+        std::cout << "<Opt Parameter List> ::=  <Parameter List>    |     <Empty>\n";
     if(ParameterList()) {
         return 1;
     }
@@ -136,8 +145,11 @@ int OptParameterList(){
     }
 }
 
+// Backtracking
 int ParameterList() {
-
+    if(switch)
+        std::cout << "<Parameter List>  ::=  <Parameter>    |     <Parameter> , <Parameter List>\n";
+        
     if (Parameter()) {
         return 1;
     } else if(current_word == ",") {
@@ -157,6 +169,8 @@ int ParameterList() {
 }
 
 int Parameter() {
+    if(switch)
+        std::cout << "<Parameter> ::=  <IDs >  <Qualifier>\n";
     if(IDs()) {
         if(Qualifier()) {
             return 1;
@@ -168,7 +182,9 @@ int Parameter() {
 }
 
 int Qualifier() {
-
+    if(switch)
+        std::cout << "<Qualifier> ::= integer    |    boolean    |  real \n";
+        
     if(current_word == "integer") {
         file >> token;
         file >> current_word; 
@@ -188,7 +204,9 @@ int Qualifier() {
 }
 
 int Body() {
-
+    if(switch)
+        std::cout << "<Body>  ::=  {  < Statement List>  }\n";
+        
     if(current_word == "{") {
         file >> token;
         file >> current_word; 
@@ -214,7 +232,9 @@ int Body() {
 }
 
 int OptDeclarationList(){
-
+    if(switch)
+        std::cout << "<Opt Declaration List> ::= <Declaration List>   |    <Empty>\n";
+        
     if(DeclarationList()) {
         return 1;
     } else {
@@ -223,8 +243,11 @@ int OptDeclarationList(){
     }
 }
 
+// Backtracking
 int DeclarationList(){
-    
+    if(switch)
+        std::cout << "<Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List>\n";   
+        
     if(Declaration()) {
         if(current_word == ";") {
             return 1;
@@ -238,6 +261,8 @@ int DeclarationList(){
 }
 
 int Declaration(){
+    if(switch)
+        std::cout << "<Declaration> ::=   <Qualifier > <IDs>\n";
     if(Qualifier()) {
         if(IDs()) {
             return 1;
@@ -248,7 +273,11 @@ int Declaration(){
     }
 } 
 
+// Backtracking
 int IDs() {
+    if(switch)
+        std::cout << "<IDs> ::=     <Identifier>    | <Identifier>, <IDs>\n";
+
     if (current_word == "identifier") {
         return 1;
     } else if(current_word == ",") {
@@ -268,8 +297,10 @@ int IDs() {
     }
 }
 
+// Backtracking
 int StatementList() {
-
+    if(switch)
+        std::cout << "<Statement List> ::=   <Statement>   | <Statement> <Statement List>\n";
     if(Statement()) {
         return 1;
     }
@@ -278,6 +309,8 @@ int StatementList() {
 }
 
 int Statement() {
+    if(switch)
+        std::cout << "<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Return>   | <Print>   |   <Scan>   |  <While>\n";
     if(Compound()) {
         return 1;
     } else if(Assign()) {
@@ -298,6 +331,8 @@ int Statement() {
 }
 
 int Compound() {
+    if(switch)
+        std::cout << "<Compound> ::=   {  <Statement List>  }\n";
     if(current_word == "{") {
         file >> token;
         file >> current_word; 
@@ -323,7 +358,8 @@ int Compound() {
 }
 
 int Assign() {
-
+    if(switch)
+        std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n";
     if(current_word == "identifier") {
         file >> token;
         file >> current_word;
@@ -350,9 +386,12 @@ int Assign() {
     }
 }
 
+// Backtracking
 int If() {
 //im so sorry this looks so awful but idk if theres another way to write it lmao
 //maybe this is left recursion cause this feels diabolical 
+    if(switch)
+        std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi  |   if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
     if(current_word == "if") {
         line_number++;
         file >> token;
@@ -415,7 +454,10 @@ int If() {
     }
 }
 
+// Backtracking
 int Return() {
+    if(switch)
+        std::cout << "<Return> ::=  return ; |  return <Expression> ;\n";
     if(current_word == "return") {
         line_number++;
         file >> token;
@@ -445,7 +487,8 @@ int Return() {
 }
 
 int Print() {
-
+    if(switch)
+        std::cout << "<Print> ::=     put ( <Expression>);\n";
     if (current_word == "put") {
         line_number++;
         file >> token;
@@ -486,7 +529,8 @@ int Print() {
 }
 
 int Scan() {
-
+    if(switch)
+        std::cout << "<Scan> ::=    get ( <IDs> );\n";
     if(current_word == "get") {
         line_number++;
         file >> token;
@@ -524,7 +568,8 @@ int Scan() {
 }
 
 int While() {
-
+    if(switch)
+        std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n";
     if(current_word == "while") {
         line_number++;
         file >> token;
@@ -562,7 +607,9 @@ int While() {
 }
 
 int Condition() {
-
+    if(switch)
+        std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
+        
     if(Expression()) {
         if(Relop()) {
             if(Expression()) {
@@ -582,7 +629,9 @@ int Condition() {
 }
 
 int Relop() {
-
+    if(switch)
+        std::cout << "<Relop> ::=        ==   |   !=    |   >     |   <    |  <=   |    =>\n";
+        
     if(current_word == "==" || 
        current_word =="!=" || 
        current_word ==">" || 
@@ -601,15 +650,21 @@ int Relop() {
 
 //left recursion 
 int Expression() {
-
+    if(switch)
+        std::cout << "<Expression>  ::=    <Expression> + <Term>    | <Expression>  - <Term>    |    <Term>\n";
+    
 }
 
+// left recursion
 int Term() {
-
+    if(switch)
+        std::cout << "<Term>    ::=      <Term>  *  <Factor>     |   <Term>  /  <Factor>     |     <Factor>\n";
 }
 
 int Factor() {
-
+    if(switch)
+        std::cout << "<Factor> ::=      -  <Primary>    |    <Primary>\n";
+        
     if(current_word == "-") {
         line_number++;
         file >> token;
@@ -629,5 +684,7 @@ int Factor() {
 }
 
 int Primary() {
+    if(switch)
+        std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n";
 
 }
