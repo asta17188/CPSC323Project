@@ -16,7 +16,7 @@ bool IDs(const std::string& lexeme) {
 
     for (size_t i = 0; i < lexeme.size(); ++i) {
         char character = lexeme[i];
-        switch (state)
+        switch (state) // switches
         {
             case 1:
                 if (isalpha(character)) {
