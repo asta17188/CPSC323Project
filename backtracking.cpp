@@ -1,5 +1,12 @@
 // FOR EASE OF USE:
 // ctrl + F -> Find, type in rule or function you want to see
+// R3) Function Definitions
+// R6) Parameter List
+// R11) Declaration List
+// R13) IDs
+// R14) Statement List
+// R18) If
+// R19) Return
 
 #include <iostream>
 #include <fstream>
