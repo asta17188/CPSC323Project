@@ -652,8 +652,32 @@ int Relop() {
 int Expression() {
     if(switch)
         std::cout << "<Expression>  ::=    <Expression> + <Term>    | <Expression>  - <Term>    |    <Term>\n";
+    if(Term()) {
+        if(ExpressionPrime()){
+            return 1;
+        }
+    } 
+    return 0;
     
 }
+
+int ExpressionPrime() {
+    if(current_word == "+" || current_word == "-") {
+        line_number++;
+        file >> token;
+        file >> current_word;
+        if(Term()) {
+            if(ExpressionPrime()) {
+                return 1;
+            } else return 0
+        } else return 0;
+    } else if(Term()) {
+        return 1;
+    }
+    return 1;
+
+}
+
 
 // left recursion
 int Term() {
