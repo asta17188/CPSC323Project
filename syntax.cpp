@@ -93,23 +93,24 @@ int OptFunctionDefinitions() {
 }
 
 // Backtracking
+// <FD> → <F> <FD’>
 int FunctionDefinitions() {
-    // if(switch)
-    //     std::cout << "<Function Definitions>  ::= <Function> | <Function> <Function Definitions>\n";
+    if(switch)
+        std::cout << "<Function Definitions>  ::= <Function> | <Function> <Function Definitions>\n";
     if(Function()) {
-        if(switch) {
-            std::cout << "<Function Definitions>  ::=  <Function>\n";
+        if(FunctionDefinitionPrime()) {
+            return 1;
         }
+    } 
+    return 0;
+}
+
+// <FD’> → <FD> | ε
+int FunctionDefinitionsPrime() {
+    if(FunctionDefinitions()) {
         return 1;
-    } else {
-        if(Function()) {
-            if(FunctionDefinitions()) {
-                if(switch) {
-                    std::cout << "<Function Definitions>  ::=  <Function> <Function Definitions>\n";
-                }
-                return 1;
-            }
-        }
+    } else {    // hit empty
+        return 1;
     }
 }
 
@@ -172,30 +173,32 @@ int OptParameterList(){
 
 // Backtracking
 int ParameterList() {
-    // if(switch)
-    //     std::cout << "<Parameter List>  ::=  <Parameter>    |     <Parameter> , <Parameter List>\n";
+    if(switch)
+        std::cout << "<Parameter List>  ::=  <Parameter>    |     <Parameter> , <Parameter List>\n";
         
     if (Parameter()) {
-        if(switch) {
-            std::cout << "<Parameter List>  ::=  <Parameter>\n";
+        if(ParameterListPrime()) {
+            return 1;
         }
-        return 1;
-    } else if(current_word == ",") {
+        return 0;
+    }
+}
+
+// <PL’> → ,<PL> | ε
+int ParameterListPrime() {
+    if(current_word == ",") {   // ,
         file >> token;
         file >> current_word;
         line_number++;
-        if(ParameterList()) {
-            if(switch) {
-                std::cout << "<Parameter List>  ::=  <Parameter> , <Parameter List>\n";
-            }
+        if(ParameterList()) {   // <PL>
             return 1;
         } else {
             errors("','", "Parameter after comma");
             return 0;
         }
-    } else {
-        errors("parameter or ','", "Check parameters and format");
-        return 0;
+    } else {    // | ε 
+        // hit empty
+        return 1;
     }
 }
 
@@ -297,25 +300,28 @@ int OptDeclarationList(){
 
 // Backtracking
 int DeclarationList(){
-    // if(switch)
-    //     std::cout << "<Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List>\n";   
+    if(switch)
+        std::cout << "<Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List>\n";   
         
-    if(Declaration()) {
-        if(current_word == ";") {
-            if(switch) {
-                std::cout << "<Declaration List>  := <Declaration> \n"; 
-            }
-            return 1;
-        } else if(DeclarationList()) {
-            if(switch) {
-                std::cout << "<Declaration List>  := <Declaration> ; <Declaration List>\n"; 
-            }
-            return 1;
+    if(Declaration()) {     // <D>
+        if(current_word == ";") {   // ;
+            if (DeclarationListPrime()) // <DL'>
+                return 1;
         } else {
             // errors("';'", "Add a semicolon, ';'");
             return 0;
         }
-    } //questionable    
+    } 
+    return 0;
+}
+
+// <DL’> → <DL> | ε
+int DeclarationListPrime() {
+    if(Declaration()) {
+        return 1;
+    } else {
+        return 1;
+    }
 }
 
 int Declaration(){
@@ -335,51 +341,55 @@ int Declaration(){
 } 
 
 // Backtracking
+// <ID> → <I><ID’>
 int IDs() {
-    // if(switch)
-    //     std::cout << "<IDs> ::=     <Identifier>    | <Identifier>, <IDs>\n";
+    if(switch)
+        std::cout << "<IDs> ::=     <Identifier>    | <Identifier>, <IDs>\n";
 
-    if (current_word == "identifier") {
-        if(switch) {
-            std::cout << "<IDs> ::=     <Identifier>\n";
-        }
-        return 1;
-    } else if(current_word == ",") {
+    if (current_word == "identifier") { // <I>
+        if(IDsPrime()) // <ID'>
+            return 1;
+    }  else {
+        errors("an identifier", "Ensure the current token is valid");
+        return 0;
+    }
+}
+
+// <ID’> → ,<ID> | ε
+int IDsPrime() {
+    if(current_word == ",") {   // ,
         file >> token;
         file >> current_word;
         line_number++;
-        if(IDs()) {
-            if(switch) {
-                std::cout << "<IDs> ::=     <Identifier>, <IDs>\n";
-            }
+        if(IDs()) { // <ID>
             return 1;
         } else {
             errors("an identifier", "Check if token is a valid identifier following ','");
             return 0;
         }
-    } else {
-        errors("an identifier", "Ensure the current token is valid");
-        // guys am i going crazy, is this correct, my brain is confused.
-        return 0;
+    } else {    // hit empty
+        return 1;
     }
 }
 
 // Backtracking
 int StatementList() {
-    // if(switch)
-    //     std::cout << "<Statement List> ::=   <Statement>   | <Statement> <Statement List>\n";
+    if(switch)
+        std::cout << "<Statement List> ::=   <Statement>   | <Statement> <Statement List>\n";
     if(Statement()) {
-        if(switch) {
-            std::cout << "<Statement List> ::=   <Statement>\n";
+        if(StatementListPrime()) {
+            return 1;
         }
+    } 
+    return 0;
+}
+
+// <SL’> → <SL> | ε
+int StatementListPrime() {
+    if(StatementList()) {
         return 1;
-    }
-    else if(StatementList()) {
-        if(switch) {
-            std::cout << "<Statement List> ::=   <Statement> <Statement List>\n";
-        }
-        // return 1 ???
-        // then return 0 ??? and add errors?  :)  -kat
+    } else {    // hit empty
+        return 1;
     }
 }
 
@@ -491,102 +501,88 @@ int Assign() {
 
 // Backtracking
 int If() {
-//im so sorry this looks so awful but idk if theres another way to write it lmao
-//maybe this is left recursion cause this feels diabolical 
-    // if(switch)
-    //     std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi  |   if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
-    if(current_word == "if") {
+    if(switch)
+        std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi  |   if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
+    if(current_word == "if") {              // if 1
         line_number++;
         file >> token;
         file >> current_word;
-        if(current_word == "(") {
+        if(current_word == "(") {           // ( 2
             line_number++;
             file >> token;
             file >> current_word;
-            if(Condition()) {
-                if(current_word == ")") {
+            if(Condition()) {               // <C> 3
+                if(current_word == ")") {   // ) 4
                     line_number++;
                     file >> token;
                     file >> current_word;
-                    if(Statement()) {
-                        if(current_word == "fi") {
-                            line_number++;
-                            file >> token;
-                            file >> current_word;
-                            if(switch) {
-                                std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi\n";
-                            }
+                    if(Statement()) {       // <S> 5
+                        if (fiPrime())
                             return 1;
-                        } else if (current_word == "else") {
-                            line_number++;
-                            file >> token;
-                            file >> current_word;
-                            if(Statement()) {
-                                if(current_word == "fi") {
-                                    line_number++;
-                                    file >> token;
-                                    file >> current_word;
-                                    if(switch) {
-                                        std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
-                                    }
-                                    return 1;
-                                } else {
-                                    errors("'fi'", "Ensure the block is closed with 'fi'");
-                                    return 0;
-                                }
-                            } else {
-                                errors("a valid statement", "Ensure there is a valid statement after 'else'");
-                                return 0;
-                            }
-                        } else {
-                            errors("'fi' or 'else'", "Ensure there is a valid statement after the condition");
-                            return 0;
-                        }
-                    } else {
+                    } else { // 5
                         errors("a valid statement", "Ensure there is a valid statement after 'if' condition");
                         return 0;
                     }
-                } else {
+                } else { // 4
                     errors("')'", "Ensure the condition is closed");
                     return 0;
                 }
-            } else {
+            } else {    // 3
                 errors("a valid condition", "Ensure the statement contains a valid condition");
                 return 0;
             }
-        } else {
+        } else {    // 2
             errors("'('", "Ensure the condition contains an opening parenthesis");
             return 0;
-        }
-    } else {
-        return 0; // means it is not an if statement
-    }
+        } 
+    }  // 1
+    return 0; // means it is not an if statement
+}
+
+// <f’> → <f> | <e> <S> <f>
+int fiPrime() {
+    if(current_word == "fi") {  // <f>
+        line_number++;
+        file >> token;
+        file >> current_word;
+        return 1;
+    } else if (current_word == "else") {    //  <e> 6
+        line_number++;
+        file >> token;
+        file >> current_word;
+        if(Statement()) {       // 7
+            if(current_word == "fi") {  // <f> 8
+                line_number++;
+                file >> token;
+                file >> current_word;
+                return 1;
+            } else {    // 8
+                errors("'fi'", "Ensure the block is closed with 'fi'");
+                return 0;
+            }
+        } else {    // 7
+            errors("a valid statement", "Ensure there is a valid statement after 'else'");
+            return 0;
+        } 
+    } else { // 6
+        errors("'fi' or 'else'", "Ensure there is a valid statement after the condition");
+        return 0;
+    }  
 }
 
 // Backtracking
 int Return() {
-    // if(switch)
-    //     std::cout << "<Return> ::=  return ; |  return <Expression> ;\n";
-    if(current_word == "return") {
+    if(switch)
+        std::cout << "<Return> ::=  return ; |  return <Expression> ;\n";
+    if(current_word == "return") {  // <r>
         line_number++;
         file >> token;
         file >> current_word;
-        if(current_word == ";") {
+        if(current_word == ";") {   // ,
             line_number++;
             file >> token;
             file >> current_word;
-            if(switch) {
-                std::cout << "<Return> ::=  return ;\n";
-            }
-            return 1;
-        } else if(Expression()) {
-            if(current_word == ";") {
-                line_number++;
-                file >> token;
-                file >> current_word;
-                if(switch) {
-                    std::cout << "<Return> ::=  return <Expression> ;\n";
-                }
+            if(ExpressionPrime()) { // <E'>
                 return 1;
             } else {
                 errors("';'", "Add a semicolon");
@@ -596,10 +592,10 @@ int Return() {
             errors("valid expression", "Check the expression for missing parts");
             return 0;
         }
-    } else {
-        return 0;
-    }
+    } 
+    return 0;
 }
+// (!!!) NOTE: Left factorization for backtracking doesn't match left factorization for left recursion
 
 int Print() {
     // if(switch)
@@ -873,8 +869,29 @@ int ExpressionPrime() {
 int Term() {
     if(switch)
         std::cout << "<Term>    ::=      <Term>  *  <Factor>     |   <Term>  /  <Factor>     |     <Factor>\n";
-} // shall we add more statements to accompany the other statements? (im just adding comments to keep track of stuff)
+    
+    if(Factor()){
+        if(TermPrime()) {
+            return 1;
+        }
+    } else {
+        // Error Handling Here?
+    }
+    return 1;   // temp
+}
 
+
+int TermPrime() {
+    if(current_word == "*" || current_word == "/") {
+        if(Factor()) {
+            if (TermPrime()) {
+                return 1;
+            }  
+        }
+    } else {    // hit empty
+        return 1;
+    }
+}
 
 int Factor() {
     // if(switch)
