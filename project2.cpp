@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iomanip>
 
+// Declaring Enums for Token Types
 enum Token
 {
     OPERATOR,   // 0
@@ -26,11 +27,11 @@ enum Token
           will still be on the output.txt when running the program again
           and create erroneous results.
 */
+
+// Declaring Lists of Operators, Separators, Keywords, and Unknown Chars
 const int ARRAY_SIZE = 11;
 char unknownCharArray[ARRAY_SIZE] = {'!', '#', '$', '%', '&', '`', '?', '^', '_', '~'};
 
-// 10.23.24 - Missing commas added after "asm" and "integer"
-// 10.27.24 - added true/false keywords
 std::set<std::string> keywords{"if", "switch", "else","double","fi","new","return","asm",
                             "get","auto","while","extern","put","typedef","break","integer",
                             "break","boolean","operator","real","template","goto","enum",
@@ -43,11 +44,10 @@ std::set<std::string> keywords{"if", "switch", "else","double","fi","new","retur
 
 std::set<std::string> operators{"=", "==", ">", "<", "<=",">=","!=","+","-","*","/"};
 
-// 10.23.24 - Moved "@" symbol from unknowns to separators 
-// 10.27.24 (NOTE) - Left space and newline char in separator set so program wouldn't leave spaces 
-//                   attached to lexemes. Removing them from the led to erroneous results.
+
 std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",";","::","\n","//","[","]","|",",", "@"};
 
+// Function Prototypes
 void findOperator(Token& , std::fstream& , std::string&);
 void findOperator(Token& , std::fstream& , char&);
 void findSeparator(Token& , std::fstream& , std::string&);
@@ -63,16 +63,17 @@ void real_output();
 void ids_output();
 void int_output();
 
+
 int main(int argc, char const *argv[])
 {
     // Declare Local Variables
     std::ifstream srcFile;      // "Source" File
-    char c;                     
-    Token type{DEFAULT};
-    std::string temp{""};
+    char c;                     // Character in Current Loop
+    Token type{DEFAULT};        // Type of Token
+    std::string temp{""};       // Holds a string of int/real/id/keyword/multi-char unknown
     std::string fileName;
-    bool isComment{false};      // Added 10.28.24
-    bool isEndComment{false};
+    bool isComment{false};      // True if detects beginning of comment
+    bool isEndComment{false};   // True if detects end of comment
 
     // i.e. "testcase1.txt", "testcase2.txt", "testcase3.txt"
     std::cout << "Enter Test File Name: ";
@@ -97,8 +98,6 @@ int main(int argc, char const *argv[])
     ids_output();
     int_output();
 
-    // Formatting Output File
-    dstFile << "TOKEN    \t" << "LEXEME\n";
 
     // While Loop: Run Through Test File Character By Character (!eof)
     while (!srcFile.eof())
@@ -127,7 +126,10 @@ int main(int argc, char const *argv[])
             continue;
         // CODE END
 
-        // 10.27.24 - Added newline as a delimiter
+        /*
+            If delimiter is met, it signals the end of the string.
+            Afterwards, checks for int/real/id/keyword/multi-char unknown
+        */
         if((c == ' ' || c == ';' || c == '}' || c == ')' || c == ']' || c == ',' || c == '*' || c == '(' || c == '\n') && temp != "")
         {
             // Integer Function
@@ -160,15 +162,14 @@ int main(int argc, char const *argv[])
                 logLexeme(type, dstFile, temp);
             }
 
-            /* 10.27.24
-                Program would forget about the separator (delim) after the int/real/keyword/id/mutli-char unknown was found
-                since it would change type from DEFAULT. And since type would no longer equal DEFAULT, the findSeparator function
-                wouldn't run and the delim wouldn't be logged. So, the findSeparator was also added within the if condition.
-            */
+            
             findSeparator(type, dstFile, c);
         }
         
-        // Operator Function
+        /*  OPERATOR FUNCTIONS
+            If statements checks for multi-char operators (i.e. ==, <=, etc.)
+            If Token type still DEFAULT, checks for single char operators
+        */
         if (srcFile.peek() == '=' && c == '=')
         {
             type = OPERATOR;
@@ -193,7 +194,10 @@ int main(int argc, char const *argv[])
             findOperator(type, dstFile, c);
         
 
-        // Separator Function
+        /*  SEPARATOR FUNCTIONS
+            If statements checks for multi-char separators
+            If Token type still DEFAULT, checks for single char separators
+        */
         if (srcFile.peek() == ':' && c == ':')
         {
             logLexeme(SEPARATOR, dstFile, "::");
@@ -202,21 +206,26 @@ int main(int argc, char const *argv[])
         {
             logLexeme(SEPARATOR, dstFile, "//");
         }
-        if(type == DEFAULT)     // 10.27.24 - Added this if condition and it fixed the double operator issue (???)
+        if(type == DEFAULT)     
             findSeparator(type, dstFile, c);
         
         // Unknown Character Function
         if (type == DEFAULT)
             findUnknownChar(c, temp, type, dstFile);
         
+
+        // If Token type still DEFAULT at end of loop, 
+        // adds current character to string (for multi-char lexemes)
         if (type == DEFAULT)
             temp += c;          // appends current character to string
-                      
+
+        // Sets Token type back to DEFAULT at end of loop  
         type = DEFAULT;
     }
     // End of While Loop
     
-    std::cout << "\n\n";  // TEMP
+    // Print Formatting Purposes
+    std::cout << "\n\n";  
 
     // Print Output File Contents
     dstFile.seekg(0);
@@ -235,14 +244,14 @@ template <typename T> void logLexeme(Token t, std::fstream& dst, T& lexeme)
 {
     std::string str{lexeme};
     if (t == OPERATOR)
-        dst << "Operator  \t" << lexeme << std::endl;
+        dst << "TOKEN: Operator  \tLEXEME: " << lexeme << std::endl;
     else if(t == SEPARATOR)
     {
         // 10.27.24 - Modified func. to ignore spaces and newline
         if(str == "\n" || str == " ")
             return;
         else
-            dst << "Separator\t" << lexeme << std::endl;
+            dst << "TOKEN: Separator\tLEXEME: " << lexeme << std::endl;
     }
             
     return;
@@ -253,19 +262,19 @@ void logLexeme(Token t, std::fstream& dst, std::string& s)
     switch (t)
     {
     case 2:
-        dst << "Integer  \t" << s << std::endl;
+        dst << "TOKEN: Integer  \tLEXEME: " << s << std::endl;
         break;
     case 3: 
-        dst << "Real     \t" << s << std::endl;
+        dst << "TOKEN: Real     \tLEXEME: " << s << std::endl;
         break;
     case 4:
-        dst << "Keyword  \t" << s << std::endl;
+        dst << "TOKEN: Keyword  \tLEXEME: " << s << std::endl;
         break;
     case 5:
-        dst << "ID       \t" << s << std::endl;
+        dst << "TOKEN: ID       \tLEXEME: " << s << std::endl;
         break;
     default:
-        dst << "Unknown  \t" << s << std::endl;
+        dst << "TOKEN: Unknown  \tLEXEME: " << s << std::endl;
         break;
     }
         s = "";     // Resets temp string
@@ -320,37 +329,135 @@ void findUnknownChar(char& c, std::string& s, Token& t, std::fstream& dst)
 }
 
 bool IDs(const std::string& lexeme) {
-    int state = 0; // starting state
+    int state = 1; // starting state
     // int accepting_state = 1; // accepting state
 
     if(lexeme.empty()) {
         return false;
     }
 
-    for (size_t i = 0; i < lexeme.size() - 1; ++i) {
+    for (size_t i = 0; i < lexeme.size(); ++i) {
         char character = lexeme[i];
-        switch (state)
+        switch (state) // switches
         {
-            case 0: // starting
-                if (isalpha(character)) {
-                    state = 1; // state 1 if first character is a letter
-                } else {
-                    return false; // means first char is not a letter
-                }
-                break;
             case 1:
-                if (isalnum(character)) { // if letter & or digit
-                    state = 1; // stay in this state
+                if (isalpha(character)) {
+                    state = 2;
                 } else {
-                    return false;
+                    state = 13; // rejected
                 }
                 break;
+            case 2:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)) {
+                    state = 4;
+                } else {
+                    state = 13;
+                }
+                break;
+            case 3:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)){
+                    state = 5;
+                }
+                break;
+            case 4:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)) {
+                    state = 6;
+                } else {
+                    state = 13;
+                }
+                break;
+            case 5:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)) {
+                    state = 7;
+                } else {
+                    state = 13;
+                }
+                break;
+            case 6:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)) {
+                    state = 8;
+                } else {
+                    state = 13;
+                }
+                break;
+            case 7:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)) {
+                    state = 9;
+                } else {
+                    state = 13;
+                }
+                break;
+            case 8:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)) {
+                    state = 10;
+                } else {
+                    state = 13;
+                }
+                break;
+            case 9:
+                if(isalpha(character)) {
+                    state = 10;
+                } else if (isdigit(character)) {
+                    state = 11;
+                } else {
+                    state = 13;
+                }
+                break;
+            case 10:
+                if(isalpha(character)) {
+                    state = 10; // stay in laste letter state check
+                } else if (isdigit(character)) {
+                    state = 11; // go to digits state
+                }
+                break;
+            case 11:
+                if(isalpha(character)) {
+                    state = 10; // go to letter state
+                } else if (isdigit(character)) {
+                    state = 11; // stay in digits state
+                } else {
+                    state = 13; // reject
+                }
+                break;
+            case 13:
+                return false;
+
+            // case 0: // starting
+            //     if (isalpha(character)) {
+            //         state = 1; // state 1 if first character is a letter
+            //     } else {
+            //         return false; // means first char is not a letter
+            //     }
+            //     break;
+            // case 1:
+            //     if (isalnum(character)) { // if letter & or digit
+            //         state = 1; // stay in this state
+            //     } else {
+            //         return false;
+            //     }
+            //     break;
+
         }
-        if (!isalpha(lexeme[lexeme.size() - 1])) {
-            return false;
-        }
+        // if (!isalpha(lexeme[lexeme.size() - 1])) {
+        //     return false;
+        // }
     }
-    return true;
+    // return true;
+    return (state == 10);
 }
 
 bool integers(const std::string& lexeme) {
@@ -476,4 +583,5 @@ void int_output() {
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
     std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n\n";
 }
+
 
