@@ -63,6 +63,8 @@ void real_output();
 void ids_output();
 void int_output();
 
+// Holds name of temp file, which will hold results from lexer
+const std::string tempName = "temp.txt";
 
 int main(int argc, char const *argv[])
 {
@@ -93,11 +95,15 @@ int main(int argc, char const *argv[])
     if (!dstFile)
         throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE YOU INPUT THE CORRECT FILE NAME");
 
+    // Declare Temp File
+    std::fstream tempFile(tempName, std::ios::in | std::ios::out);
+    if (!tempFile)
+        throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE TEMP FILE IS IN SAME FOLDER AS .EXE");
+
     // Print Transition Tables to Terminal
     real_output();
     ids_output();
     int_output();
-
 
     // While Loop: Run Through Test File Character By Character (!eof)
     while (!srcFile.eof())
@@ -236,6 +242,8 @@ int main(int argc, char const *argv[])
     srcFile.close();
     // Close Output File
     dstFile.close();
+    // Close Temp File
+    tempFile.close();
 
     return 0;
 }
@@ -583,5 +591,6 @@ void int_output() {
     std::cout << "1" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n";
     std::cout << "2" << std::setw(5) << "|" << std::setw(5) << "2" << std::setw(10) << "\n\n";
 }
+
 
 
