@@ -22,6 +22,11 @@ enum Token
 
 };
 
+// Holds name of temp file, which will hold results from lexer
+const std::string tempName = "temp.txt";
+
+std::fstream tempFile(tempName, std::ios::in | std::ios::out);
+
 /*
     NOTE: When testing program, make sure to delete the output.txt file
           and create a new one. Otherwise, old (and possibly failed) attempts
@@ -126,17 +131,14 @@ void printToken(std::string tok, std::string lex) {
 }
 
 void moveFile() {
-    file >> token;
-    file >> token;
-    file >> current_word;
-    file >> current_word;
+    tempFile >> token;
+    tempFile >> token;
+    tempFile >> current_word;
+    tempFile >> current_word;
     line_number++;
 }
 
-// Holds name of temp file, which will hold results from lexer
-const std::string tempName = "temp.txt";
 
-std::fstream tempFile(tempName, std::ios::in | std::ios::out);
 
 
 int main(int argc, char const *argv[])
@@ -307,15 +309,17 @@ int main(int argc, char const *argv[])
     std::cout << "\n\n";  
 
     // Print Output File Contents
-    dstFile.seekg(0);
+    tempFile.seekg(0);
     while(getline(tempFile, temp))
-        std::cout << temp << std::endl;
-        file >> temp;
+        std::cout << temp << std::endl;     // testing purposes only
+        // file >> temp;
         
     
     moveFile();
     Rat24F();
     dstFile << add;
+
+    // Print results of lexical + syntax analyzer
 
     // Close Test File (src)
     srcFile.close();
