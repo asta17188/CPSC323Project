@@ -308,9 +308,9 @@ int main(int argc, char const *argv[])
     std::cout << "\n\n";  
 
     // Print Output File Contents
-    tempFile.seekg(0);                      // sets file pointer to beginning of tempFile
-    while(getline(tempFile, temp))
-        std::cout << temp << std::endl;     // testing purposes only
+    //tempFile.seekg(0);                      // sets file pointer to beginning of tempFile
+    //while(getline(tempFile, temp))
+        //std::cout << temp << std::endl;     // testing purposes only
         // file >> temp;
         
     tempFile.seekg(0);                      // sets file pointer to beginning of tempFile
