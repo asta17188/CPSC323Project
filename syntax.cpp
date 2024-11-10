@@ -43,6 +43,7 @@ int TermPrime();
 int Factor();
 int Primary();
 
+std::ofstream ostrm("test.txt");
 
 std::string current_word;
 std::string token;
@@ -53,15 +54,16 @@ std::ifstream file("temp.txt"); //test line
 bool switcher{true};
 
 void errors(const std::string& expected, const std::string suggested) {
-    // std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
-    // std::cerr << "Expected " << expected << ".\n";
-    // std::cerr << "Suggested: " << suggested << ".\n"; 
-    // std::cerr is similar to cout, but meant for errors. there is no buffer so it will print immediately!
+    std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
+    std::cerr << "Expected " << expected << ".\n";
+    std::cerr << "Suggested: " << suggested << ".\n"; 
+    //std::cerr is similar to cout, but meant for errors. there is no buffer so it will print immediately!
     //exit(1);
 }
 
 void printToken(std::string tok, std::string lex) {
     std::cout << "Token: " << tok << "     Lexeme: " << lex << "\n";
+    ostrm << "Token: " << tok << "     Lexeme: " << lex << "\n";
 }
 
 void moveFile() {
@@ -73,7 +75,7 @@ void moveFile() {
 }
 //
 
-int main1() {    
+int main() {    
 
     if(!file.is_open()) {
         std::cout<< "failure"; 
@@ -163,10 +165,14 @@ int FunctionDefinitions() {
 
 
 int FunctionDefinitionsPrime() {
-    if(FunctionDefinitions()) {
+    
+    if(Function()) {
+        if(FunctionDefinitions()) {
         if(switcher) std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
         return 1;
     }
+    }
+    
     return 1;
 }
 
@@ -237,8 +243,9 @@ int ParameterList() {
         if(ParameterListPrime()) {
             return 1;
         }
-        return 0;
+    
     }
+    return 0;
 }
 
 int ParameterListPrime() {
@@ -255,6 +262,7 @@ int ParameterListPrime() {
         // hit empty
         return 1;
     }
+    return 1;
 }
 
 int Parameter() {
@@ -271,6 +279,7 @@ int Parameter() {
         errors("an identifier", "Ensure there is a valid identifier for the parameter");
         return 0;
     }
+    return 0;
 }
 
 int Qualifier() {
@@ -394,6 +403,7 @@ int Declaration(){
         errors("a valid qualifier","Ensure it starts with a valid type (e.g., 'int', 'real', 'boolean')");
         return 0;
     }
+    return 0;
 } 
 
 // Backtracking
@@ -411,6 +421,7 @@ int IDs() {
         errors("an identifier", "Ensure the current token is valid");
         return 0;
     }
+    return 0;
 }
 
 // <ID’> → ,<ID> | ε
@@ -557,6 +568,7 @@ int Assign() {
         errors("identifier", "Needs a starting identifier");
         return 0;
     }
+return 0;
 }
 
 
@@ -994,6 +1006,7 @@ int TermPrime() {
     } else {    // hit empty
         return 1;
     }
+return 1;
 }
 
 int Factor() {
@@ -1021,6 +1034,7 @@ int Factor() {
         errors("a valid primary value", "Ensure it starts with a valid primary value");
         return 0;
     }
+return 0;
 }
 
 int Primary() {
@@ -1060,5 +1074,5 @@ int Primary() {
         moveFile();
         return 1;
     }
-
+return 0;
 }

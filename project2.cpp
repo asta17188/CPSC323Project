@@ -118,9 +118,9 @@ int line_number;
 bool switcher{true};
 
 void errors(const std::string& expected, const std::string suggested) {
-    // std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
-    // std::cerr << "Expected " << expected << ".\n";
-    // std::cerr << "Suggested: " << suggested << ".\n"; 
+    std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
+    std::cerr << "Expected " << expected << ".\n";
+    std::cerr << "Suggested: " << suggested << ".\n"; 
     // std::cerr is similar to cout, but meant for errors. there is no buffer so it will print immediately!
     //exit(1);
 }
@@ -315,6 +315,7 @@ int main(int argc, char const *argv[])
         
     tempFile.seekg(0);                      // sets file pointer to beginning of tempFile
     moveFile();
+    dstFile.clear();
     Rat24F(dstFile);
     dstFile << add;
 
@@ -757,14 +758,17 @@ int FunctionDefinitions(std::fstream& dst) {
 }
 
 
+
 int FunctionDefinitionsPrime(std::fstream& dst) {
-    if(FunctionDefinitions(dst)) {
-        if(switcher) {
-            std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
-            dst << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
-        }
+    
+    if(Function(dst)) {
+        if(FunctionDefinitions(dst)) {
+        if(switcher) std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
+        dst << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
         return 1;
     }
+    }
+    
     return 1;
 }
 
