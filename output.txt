@@ -1,79 +1,79 @@
-TOKEN    	LEXEME
-ID       	
-Keyword  	function
-ID       	convert
-Separator	(
-ID       	fahr
-Keyword  	integer
-Separator	)
-ID       	
-Separator	{
-ID       	
-Keyword  	return
-Integer  	5
-Operator  	*
-Separator	(
-ID       	fahr
-Operator  	-
-Integer  	32
-Separator	)
-Operator  	/
-Integer  	9
-Separator	;
-ID       	
-Separator	}
-ID       	
-Separator	@
-ID       	
-Keyword  	integer
-ID       	low
-Separator	,
-ID       	high
-Separator	,
-ID       	step
-Separator	;
-ID       	
-Keyword  	get
-Separator	(
-ID       	low
-Separator	,
-ID       	high
-Separator	,
-ID       	step
-Separator	)
-Separator	;
-ID       	
-Keyword  	while
-Separator	(
-ID       	low
-Operator  	<=
-Operator  	=
-ID       	high
-Separator	)
-ID       	
-Separator	{
-Keyword  	put
-Separator	(
-ID       	low
-Separator	)
-Separator	;
-ID       	
-Keyword  	put
-Separator	(
-ID       	convert
-Separator	(
-ID       	low
-Separator	)
-Separator	)
-Separator	;
-ID       	
-ID       	low
-Operator  	=
-ID       	low
-Operator  	+
-ID       	step
-Separator	;
-ID       	
-Separator	}
-ID       	
-Separator	@
+TOKEN: Separator	LEXEME: @
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: Unknown  	LEXEME: a
+TOKEN: Separator	LEXEME: ,
+TOKEN: Unknown  	LEXEME: b
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: sum
+TOKEN: Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Unknown  	LEXEME: 
+TOKEN: ID       	LEXEME: sum
+TOKEN: Operator  	LEXEME: =
+TOKEN: Unknown  	LEXEME: a
+TOKEN: Operator  	LEXEME: +
+TOKEN: Unknown  	LEXEME: b
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Separator	LEXEME: @
+TOKEN: Unknown  	LEXEME: 
+ Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Separator	LEXEME: }
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Separator	LEXEME: @
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: high
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: step
+TOKEN: Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Keyword  	LEXEME: get
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: high
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: step
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Keyword  	LEXEME: while
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Operator  	LEXEME: <=
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: high
+TOKEN: Separator	LEXEME: )
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Separator	LEXEME: {
+TOKEN: Keyword  	LEXEME: put
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Keyword  	LEXEME: put
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: convert
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: ID       	LEXEME: low
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: low
+TOKEN: Operator  	LEXEME: +
+TOKEN: ID       	LEXEME: step
+TOKEN: Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Separator	LEXEME: }
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Separator	LEXEME: @

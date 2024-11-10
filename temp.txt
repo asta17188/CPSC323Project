@@ -1,0 +1,21 @@
+TOKEN: Separator	LEXEME: @
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: Unknown  	LEXEME: a
+TOKEN: Separator	LEXEME: ,
+TOKEN: Unknown  	LEXEME: b
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: sum
+TOKEN: Separator	LEXEME: ;
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Unknown  	LEXEME: 
+TOKEN: ID       	LEXEME: sum
+TOKEN: Operator  	LEXEME: =
+TOKEN: Unknown  	LEXEME: a
+TOKEN: Operator  	LEXEME: +
+TOKEN: Unknown  	LEXEME: b
+TOKEN: Unknown  	LEXEME: 
+TOKEN: Separator	LEXEME: @
+TOKEN: Unknown  	LEXEME: 

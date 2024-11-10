@@ -4,24 +4,64 @@
 #include <cstdlib>
 
 //main function will read word by word
+
+int Rat24F();
+int OptFunctionDefinitions();
+int FunctionDefinitions();
+int FunctionDefinitionsPrime();
+int Function();
+int OptParameterList();
+int ParameterList();
+int ParameterListPrime();
+int Parameter();
+int Qualifier();
+int Body();
+int OptDeclarationList();
+int DeclarationList();
+int DeclarationListPrime();
+int Declaration();
+int IDs();
+int IDsPrime();
+int StatementList();
+int StatementListPrime();
+int Statement();
+int Compound();
+int Assign();
+int If();
+int fiPrime();
+int Return();
+int ReturnPrime();
+int Print();
+int Scan();
+int While();
+int Condition();
+int Relop();
+int Expression();
+int ExpressionPrime();
+int Term();
+int TermPrime();
+int Factor();
+int Primary();
+
+
 std::string current_word;
 std::string token;
 int line_number;
     //ifstream has special functions and you dont need 
     //to open and close the file but you still need to make sure the file opened correctly, we can add that later
-std::ifstream file("output.txt"); 
-bool switch{true};
+std::ifstream file("temp.txt"); //test line
+bool switcher{true};
 
 void errors(const std::string& expected, const std::string suggested) {
-    std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
-    std::cerr << "Expected " << expected << ".\n";
-    std::cerr << "Suggested: " << suggested << ".\n"; 
+    // std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
+    // std::cerr << "Expected " << expected << ".\n";
+    // std::cerr << "Suggested: " << suggested << ".\n"; 
     // std::cerr is similar to cout, but meant for errors. there is no buffer so it will print immediately!
-    exit(1);
+    //exit(1);
 }
 
 void printToken(std::string tok, std::string lex) {
-    std::cout << "Token: " << tok << "     : " << lex << "\n";
+    std::cout << "Token: " << tok << "     Lexeme: " << lex << "\n";
 }
 
 void moveFile() {
@@ -29,14 +69,19 @@ void moveFile() {
     file >> token;
     file >> current_word;
     file >> current_word;
-    line_number++
+    line_number++;
 }
+//
 
-int main() {    
+int main1() {    
 
-    
-    
-    //skip first 2 words because the first two words are just lexeme and token
+    if(!file.is_open()) {
+        std::cout<< "failure"; 
+    } else {
+        moveFile();
+        Rat24F();
+        std::cout <<"success";
+    }
 
 
 
@@ -50,19 +95,18 @@ int main() {
 int Rat24F() {
 
     //print rule
-    // if (switch == true) {
+    // if (switcher == true) {
     //     std::cout << "<Rat24F>  ::=   <Opt Function Definitions>   @  <Opt Declaration List>  <Statement List>  @\n";
     // }
     if(OptFunctionDefinitions()) {
         if (current_word == "@") {
             printToken(token, current_word);
             moveFile();
-            if(OptFunctionDefinitions()) {
+            if(OptDeclarationList()) {
                 if(StatementList()) {
                     if (current_word == "@") {
                         printToken(token, current_word);
-                        moveFile();
-                        if (switch == true) {
+                        if (switcher == true) {
                             std::cout << "<Rat24F>  ::=   <Opt Function Definitions>   @  <Opt Declaration List>  <Statement List>  @\n";
                         }
                         return 1;
@@ -88,15 +132,15 @@ int Rat24F() {
 }
 
 int OptFunctionDefinitions() {
-    // if (switch)
+    // if (switcher)
     //     std::cout << "<Opt Function Definitions> ::= <Function Definitions>     |  <Empty>\n";
     if(FunctionDefinitions()) {
-        if (switch) {
+        if (switcher) {
             std::cout << "<Opt Function Definitions> ::=  <Function Definitions>\n";
         }
         return 1;
     } else {
-        if (switch) {
+        if (switcher) {
             std::cout << "<Opt Function Definitions> ::=  <Empty>\n";
         }
         // hit empty 
@@ -106,27 +150,29 @@ int OptFunctionDefinitions() {
 
 // Backtracking
 int FunctionDefinitions() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Function Definitions>  ::= <Function> | <Function> <Function Definitions>\n";
-    if(Function()) {
-        if(switch) {
-            std::cout << "<Function Definitions>  ::=  <Function>\n";
-        }
-        return 1;
-    } else {
-        if(Function()) {
-            if(FunctionDefinitions()) {
-                if(switch) {
-                    std::cout << "<Function Definitions>  ::=  <Function> <Function Definitions>\n";
-                }
-                return 1;
-            }
+    if (Function()) {
+        if (FunctionDefinitionsPrime()) {
+            if(switcher) std::cout << "<Function Definitions> ::= <Function><FunctionDefinitionsPrime>\n";
+            return 1;
         }
     }
+    return 0;
 }
 
+
+int FunctionDefinitionsPrime() {
+    if(FunctionDefinitions()) {
+        if(switcher) std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
+        return 1;
+    }
+    return 1;
+}
+
+
 int Function() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Function> ::= function  <Identifier>   ( <Opt Parameter List> )  <Opt Declaration List>  <Body>\n";
 
     if(current_word == "function") {
@@ -140,7 +186,7 @@ int Function() {
                 if(current_word == ")") {
                     printToken(token, current_word);
                     moveFile();
-                    if(switch) {
+                    if(switcher) {
                         std::cout << "<Function> ::= function  <Identifier>   ( <Opt Parameter List> )  <Opt Declaration List>  <Body>\n";
                     }
                     return 1;
@@ -165,17 +211,17 @@ int Function() {
 
 
 int OptParameterList(){
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Opt Parameter List> ::=  <Parameter List>    |     <Empty>\n";
     if(ParameterList()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Opt Parameter List> ::=  <Parameter List>\n";
         }
         return 1;
     }
     else {
         //hit empty
-        if(switch) {
+        if(switcher) {
             std::cout << "<Opt Parameter List> ::=  <Empty>\n";
         }
         return 1;
@@ -184,7 +230,7 @@ int OptParameterList(){
 
 // Backtracking
 int ParameterList() {
-    if(switch)
+    if(switcher)
         std::cout << "<Parameter List>  ::=  <Parameter>    |     <Parameter> , <Parameter List>\n";
         
     if (Parameter()) {
@@ -212,11 +258,11 @@ int ParameterListPrime() {
 }
 
 int Parameter() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Parameter> ::=  <IDs >  <Qualifier>\n";
     if(IDs()) {
         if(Qualifier()) {
-            if(switch) {
+            if(switcher) {
                 std::cout << "<Parameter> ::=  <IDs >  <Qualifier>\n";
             }
             return 1;
@@ -228,27 +274,27 @@ int Parameter() {
 }
 
 int Qualifier() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Qualifier> ::= integer    |    boolean    |  real \n";
         
     if(current_word == "integer") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Qualifier> ::= integer \n";
         }
         return 1;
     } else if(current_word == "boolean") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Qualifier> ::= boolean \n";
         }
         return 1;
     } else if(current_word == "real") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Qualifier> ::=  real \n";
         }
         return 1;
@@ -259,7 +305,7 @@ int Qualifier() {
 }
 
 int Body() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Body>  ::=  {  < Statement List>  }\n";
         
     if(current_word == "{") {
@@ -269,7 +315,7 @@ int Body() {
             if (current_word == "}") {
                 printToken(token, current_word);
                 moveFile();
-                if(switch) {
+                if(switcher) {
                     std::cout << "<Body>  ::=  {  < Statement List>  }\n";
                 }
                 return 1;
@@ -288,17 +334,17 @@ int Body() {
 }
 
 int OptDeclarationList(){
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Opt Declaration List> ::= <Declaration List>   |    <Empty>\n";
         
     if(DeclarationList()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Opt Declaration List> ::= <Declaration List>\n";
         }
         return 1;
     } else {
         //hit empty
-        if(switch) {
+        if(switcher) {
             std::cout << "<Opt Declaration List> ::= <Empty>\n";
         }
         return 1;
@@ -307,7 +353,7 @@ int OptDeclarationList(){
 
 // Backtracking
 int DeclarationList(){
-    if(switch)
+    if(switcher)
         std::cout << "<Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List>\n";   
         
     if(Declaration()) {     // <D>
@@ -335,11 +381,11 @@ int DeclarationListPrime() {
 }
 
 int Declaration(){
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Declaration> ::=   <Qualifier > <IDs>\n";
     if(Qualifier()) {
         if(IDs()) {
-            if(switch) {
+            if(switcher) {
                 std::cout << "<Declaration> ::=   <Qualifier > <IDs>\n";
             }
             return 1;
@@ -353,7 +399,7 @@ int Declaration(){
 // Backtracking
 // <ID> → <I><ID’>
 int IDs() {
-    if(switch)
+    if(switcher)
         std::cout << "<IDs> ::=     <Identifier>    | <Identifier>, <IDs>\n";
 
     if (token == "ID") { // <I>
@@ -387,7 +433,7 @@ int IDsPrime() {
 
 // Backtracking
 int StatementList() {
-    if(switch)
+    if(switcher)
         std::cout << "<Statement List> ::=   <Statement>   | <Statement> <Statement List>\n";
     if(Statement()) {
         if(StatementListPrime()) {
@@ -400,47 +446,49 @@ int StatementList() {
 // <SL’> → <SL> | ε
 int StatementListPrime() {
     if(StatementList()) {
+        if(switcher) std::cout <<"<SL’> → <SL> | ε";
         return 1;
     } else {    // hit empty
+        if(switcher) std::cout <<"<SL’> → <SL> | ε";
         return 1;
     }
 }
 
 int Statement() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Return>   | <Print>   |   <Scan>   |  <While>\n";
     if(Compound()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Statement> ::=   <Compound>\n";
         }
         return 1;
     } else if(Assign()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Statement> ::=   <Assign>\n";
         }
         return 1;
     } else if(If()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Statement> ::=   <If>\n";
         }
         return 1;
     } else if (Return()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Statement> ::=   <Return>\n";
         }
         return 1;
     }  else if (Print()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Statement> ::=   <Print>\n";
         }
         return 1;
     } else if(Scan()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Statement> ::=   <Scan>\n";
         }
         return 1;
     } else if(While()) {
-        if(switch) {
+        if(switcher) {
             std::cout << "<Statement> ::=   <While>\n";
         }
         return 1;
@@ -451,7 +499,7 @@ int Statement() {
 }
 
 int Compound() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Compound> ::=   {  <Statement List>  }\n";
     if(current_word == "{") {
         printToken(token, current_word);
@@ -460,7 +508,7 @@ int Compound() {
             if (current_word == "}") {
                 printToken(token, current_word);
                 moveFile();
-                if(switch) {
+                if(switcher) {
                     std::cout << "<Compound> ::=   {  <Statement List>  }\n";
                 }
                 return 1;
@@ -479,7 +527,7 @@ int Compound() {
 }
 
 int Assign() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n";
     if(token == "ID") {
         printToken(token, current_word);
@@ -489,7 +537,7 @@ int Assign() {
                 if(current_word == ";") {
                     printToken(token, current_word);
                     moveFile();
-                    if(switch) {
+                    if(switcher) {
                         std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n";
                     }
                     return 1;
@@ -511,8 +559,10 @@ int Assign() {
     }
 }
 
-int If() {
-    if(switch)
+
+
+int If(){
+    if(switcher)
         std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi  |   if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
     if(current_word == "if") {              // if 1
         printToken(token, current_word);
@@ -526,82 +576,147 @@ int If() {
                     moveFile();
                     if(Statement()) {       // <S> 5
                         if (fiPrime())
-                            return 1;
-                    } else { // 5
-                        errors("a valid statement", "Ensure there is a valid statement after 'if' condition");
-                        return 0;
+                            if(current_word == "fi") {
+                                printToken(token, current_word);
+                                moveFile();
+                                return 1;
+                            }
                     }
-                } else { // 4
-                    errors("')'", "Ensure the condition is closed");
-                    return 0;
                 }
-            } else {    // 3
-                errors("a valid condition", "Ensure the statement contains a valid condition");
-                return 0;
             }
-        } else {    // 2
-            errors("'('", "Ensure the condition contains an opening parenthesis");
-            return 0;
-        } 
-    }  // 1
-    return 0; // means it is not an if statement
+        }
+    }
+    return 0;
 }
 
-// <f’> → <f> | <e> <S> <f>
 int fiPrime() {
-    if(current_word == "fi") {  // <f>
+    std::cout << "fiprime";
+    if(current_word == "else") {
         printToken(token, current_word);
         moveFile();
-        return 1;
-    } else if (current_word == "else") {    //  <e> 6
-        printToken(token, current_word);
-        moveFile();
-        if(Statement()) {       // 7
-            if(current_word == "fi") {  // <f> 8
-                printToken(token, current_word);
-                moveFile();
-                return 1;
-            } else {    // 8
-                errors("'fi'", "Ensure the block is closed with 'fi'");
-                return 0;
-            }
-        } else {    // 7
-            errors("a valid statement", "Ensure there is a valid statement after 'else'");
-            return 0;
-        } 
-    } else { // 6
-        errors("'fi' or 'else'", "Ensure there is a valid statement after the condition");
-        return 0;
-    }  
+        if(Statement()) {
+            return 1;
+        }
+    }
+    return 1;
 }
+
+
+
+
+// int If() {
+//     if(switcher)
+//         std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi  |   if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
+//     if(current_word == "if") {              // if 1
+//         printToken(token, current_word);
+//         moveFile();
+//         if(current_word == "(") {           // ( 2
+//             printToken(token, current_word);
+//             moveFile();
+//             if(Condition()) {               // <C> 3
+//                 if(current_word == ")") {   // ) 4
+//                     printToken(token, current_word);
+//                     moveFile();
+//                     if(Statement()) {       // <S> 5
+//                         if (fiPrime())
+//                             return 1;
+//                     } else { // 5
+//                         errors("a valid statement", "Ensure there is a valid statement after 'if' condition");
+//                         return 0;
+//                     }
+//                 } else { // 4
+//                     errors("')'", "Ensure the condition is closed");
+//                     return 0;
+//                 }
+//             } else {    // 3
+//                 errors("a valid condition", "Ensure the statement contains a valid condition");
+//                 return 0;
+//             }
+//         } else {    // 2
+//             errors("'('", "Ensure the condition contains an opening parenthesis");
+//             return 0;
+//         } 
+//     }  // 1
+//     return 0; // means it is not an if statement
+// }
+
+// // <f’> → <f> | <e> <S> <f>
+// int fiPrime() {
+//     if(current_word == "fi") {  // <f>
+//         printToken(token, current_word);
+//         moveFile();
+//         return 1;
+//     } else if (current_word == "else") {    //  <e> 6
+//         printToken(token, current_word);
+//         moveFile();
+//         if(Statement()) {       // 7
+//             if(current_word == "fi") {  // <f> 8
+//                 printToken(token, current_word);
+//                 moveFile();
+//                 return 1;
+//             } else {    // 8
+//                 errors("'fi'", "Ensure the block is closed with 'fi'");
+//                 return 0;
+//             }
+//         } else {    // 7
+//             errors("a valid statement", "Ensure there is a valid statement after 'else'");
+//             return 0;
+//         } 
+//     } else { // 6
+//         errors("'fi' or 'else'", "Ensure there is a valid statement after the condition");
+//         return 0;
+//     }  
+// }
 
 
 // Backtracking
 int Return() {
-    if(switch)
-        std::cout << "<Return> ::=  return ; |  return <Expression> ;\n";
     if(current_word == "return") {  // <r>
         printToken(token, current_word);
         moveFile();
         if(current_word == ";") {   // ,
             printToken(token, current_word);
-            moveFile();
-            if(ExpressionPrime()) { // <E'>
+            moveFile(); 
+            if(ReturnPrime()) {
                 return 1;
-            } else {
-                errors("';'", "Add a semicolon");
-                return 0;
             }
-        } else {
-            errors("valid expression", "Check the expression for missing parts");
-            return 0;
         }
     } 
     return 0;
 }
 
+int ReturnPrime() {
+
+    if(Expression()) {
+        return 1;
+    }
+    return 1;
+}
+// int Return() {
+//     if(switcher)
+//         std::cout << "<Return> ::=  return ; |  return <Expression> ;\n";
+//     if(current_word == "return") {  // <r>
+//         printToken(token, current_word);
+//         moveFile();
+//         if(current_word == ";") {   // ,
+//             printToken(token, current_word);
+//             moveFile();
+//             if(ExpressionPrime()) { // <E'>
+//                 return 1;
+//             } else {
+//                 errors("';'", "Add a semicolon");
+//                 return 0;
+//             }
+//         } else {
+//             errors("valid expression", "Check the expression for missing parts");
+//             return 0;
+//         }
+//     } 
+//     return 0;
+// }
+
 int Print() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Print> ::=     put ( <Expression>);\n";
     if (current_word == "put") {
         printToken(token, current_word);
@@ -616,7 +731,7 @@ int Print() {
                     if(current_word == ";") {
                         printToken(token, current_word);
                         moveFile();
-                        if(switch) {
+                        if(switcher) {
                             std::cout << "<Print> ::=     put ( <Expression>);\n";
                         }
                         return 1;
@@ -642,7 +757,7 @@ int Print() {
 }
 
 int Scan() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Scan> ::=    get ( <IDs> );\n";
     if(current_word == "get") {
         printToken(token, current_word);
@@ -655,7 +770,7 @@ int Scan() {
                     printToken(token, current_word);
                     moveFile();
                     if(current_word == ";") {
-                        if(switch) {
+                        if(switcher) {
                             std::cout << "<Scan> ::=    get ( <IDs> );\n";
                         }
                         return 1;
@@ -681,7 +796,7 @@ int Scan() {
 }
 
 int While() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n";
     if(current_word == "while") {
         printToken(token, current_word);
@@ -694,7 +809,7 @@ int While() {
                     printToken(token, current_word);
                     moveFile();
                     if(Statement()) {
-                        if(switch) {
+                        if(switcher) {
                             std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n";
                         }
                         return 1;
@@ -720,13 +835,13 @@ int While() {
 }
 
 int Condition() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
         
     if(Expression()) {
         if(Relop()) {
             if(Expression()) {
-                if(switch) {
+                if(switcher) {
                     std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
                 }
                 return 1;
@@ -745,48 +860,48 @@ int Condition() {
 }
 
 int Relop() {
-    if(switch)
+    if(switcher)
         std::cout << "<Relop> ::=        ==   |   !=    |   >     |   <    |  <=   |    =>\n";
         
     if (current_word == "==") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Relop> ::=        ==\n";
         }
         return 1;
     } else if (current_word == "!=") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Relop> ::=        !=\n";
         }
         return 1;
     } else if (current_word == ">") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Relop> ::=        >\n";
         }
         return 1;
     } else if (current_word == "<") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Relop> ::=        <\n";
         }
         return 1;
     } else if (current_word == "<=") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Relop> ::=        <=\n";
         }
         return 1;
     } else if (current_word == "=>") {
         printToken(token, current_word);
         moveFile();
-        if(switch) {
+        if(switcher) {
             std::cout << "<Relop> ::=        =>\n";
         }
         return 1;
@@ -814,11 +929,11 @@ int Relop() {
 
 //left recursion 
 int Expression() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Expression>  ::=    <Expression> + <Term>    | <Expression>  - <Term>    |    <Term>\n";
     if(Term()) {
         if(ExpressionPrime()){
-            if(switch) {
+            if(switcher) {
                 std::cout << "<Expression>  ::=    <Expression> + <Term>    | <Expression>  - <Term>    |    <Term>\n";
             } // shall we add more statements to accompany the other statements? (+, -, and just the term) (im just adding comments to keep track of stuff)
             return 1;
@@ -853,7 +968,7 @@ int ExpressionPrime() {
 
 // left recursion
 int Term() {
-    if(switch)
+    if(switcher)
         std::cout << "<Term>    ::=      <Term>  *  <Factor>     |   <Term>  /  <Factor>     |     <Factor>\n";
     
     if(Factor()){
@@ -882,14 +997,14 @@ int TermPrime() {
 }
 
 int Factor() {
-    // if(switch)
+    // if(switcher)
     //     std::cout << "<Factor> ::=      -  <Primary>    |    <Primary>\n";
         
     if(current_word == "-") {
         printToken(token, current_word);
         moveFile();
         if(Primary()) {
-            if(switch) {
+            if(switcher) {
                 std::cout << "<Factor> ::=      -  <Primary>\n";
             }
             return 1;
@@ -898,7 +1013,7 @@ int Factor() {
             // return 0;
         }
     } else if(Primary()) {
-        if(switch) {
+        if(switcher) {
                 std::cout << "<Factor> ::=      <Primary>\n";
             }
         return 1;
@@ -909,7 +1024,7 @@ int Factor() {
 }
 
 int Primary() {
-    if(switch)
+    if(switcher)
         std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n";
 
     if(token == "ID") {
@@ -931,7 +1046,7 @@ int Primary() {
     if(current_word == "(") {
             printToken(token, current_word);
             moveFile();
-        if(IDs()) {
+        if(Expression()) {
             if(current_word == ")") {
                 printToken(token, current_word);
                 moveFile();
