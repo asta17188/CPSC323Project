@@ -54,7 +54,7 @@ std::set<std::string> operators{"=", "==", ">", "<", "<=",">=","!=","+","-","*",
 std::set<std::string> separators{"{","}","(",")",R"(")", ":"," ",";","::","\n","//","[","]","|",",", "@"};
 
 // Function Prototypes
-void findOperator(Token& , std::fstream& , std::string&);
+void findOperator(Token& , std::fstream&, std::string&);
 void findOperator(Token& , std::fstream& , char&);
 void findSeparator(Token& , std::fstream& , std::string&);
 void findSeparator(Token& , std::fstream& , char&);
@@ -70,43 +70,43 @@ void ids_output();
 void int_output();
 
 // Syntax Analyzer Functions
-int Rat24F();
-int OptFunctionDefinitions();
-int FunctionDefinitions();
-int FunctionDefinitionsPrime();
-int Function();
-int OptParameterList();
-int ParameterList();
-int ParameterListPrime();
-int Parameter();
-int Qualifier();
-int Body();
-int OptDeclarationList();
-int DeclarationList();
-int DeclarationListPrime();
-int Declaration();
-int IDs();
-int IDsPrime();
-int StatementList();
-int StatementListPrime();
-int Statement();
-int Compound();
-int Assign();
-int If();
-int fiPrime();
-int Return();
-int ReturnPrime();
-int Print();
-int Scan();
-int While();
-int Condition();
-int Relop();
-int Expression();
-int ExpressionPrime();
-int Term();
-int TermPrime();
-int Factor();
-int Primary();
+int Rat24F(std::fstream&);
+int OptFunctionDefinitions(std::fstream&);
+int FunctionDefinitions(std::fstream&);
+int FunctionDefinitionsPrime(std::fstream&);
+int Function(std::fstream&);
+int OptParameterList(std::fstream&);
+int ParameterList(std::fstream&);
+int ParameterListPrime(std::fstream&);
+int Parameter(std::fstream&);
+int Qualifier(std::fstream&);
+int Body(std::fstream&);
+int OptDeclarationList(std::fstream&);
+int DeclarationList(std::fstream&);
+int DeclarationListPrime(std::fstream&);
+int Declaration(std::fstream&);
+int IDs(std::fstream&);
+int IDsPrime(std::fstream&);
+int StatementList(std::fstream&);
+int StatementListPrime(std::fstream&);
+int Statement(std::fstream&);
+int Compound(std::fstream&);
+int Assign(std::fstream&);
+int If(std::fstream&);
+int fiPrime(std::fstream&);
+int Return(std::fstream&);
+int ReturnPrime(std::fstream&);
+int Print(std::fstream&);
+int Scan(std::fstream&);
+int While(std::fstream&);
+int Condition(std::fstream&);
+int Relop(std::fstream&);
+int Expression(std::fstream&);
+int ExpressionPrime(std::fstream&);
+int Term(std::fstream&);
+int TermPrime(std::fstream&);
+int Factor(std::fstream&);
+int Primary(std::fstream&);
 
 //std::fstream dstFile;
 std::string add;
@@ -316,7 +316,7 @@ int main(int argc, char const *argv[])
         
     
     moveFile();
-    Rat24F();
+    Rat24F(dstFile);
     dstFile << add;
 
     // Print results of lexical + syntax analyzer
@@ -679,22 +679,23 @@ void int_output() {
 
 
 
-int Rat24F() {
+int Rat24F(std::fstream& dst) {
     //print rule
     // if (switcher == true) {
     //     std::cout << "<Rat24F>  ::=   <Opt Function Definitions>   @  <Opt Declaration List>  <Statement List>  @\n";
     // }
     add += "sssssssssss";
-    if(OptFunctionDefinitions()) {
+    if(OptFunctionDefinitions(dst)) {
         if (current_word == "@") {
             printToken(token, current_word);
             moveFile();
-            if(OptDeclarationList()) {
-                if(StatementList()) {
+            if(OptDeclarationList(dst)) {
+                if(StatementList(dst)) {
                     if (current_word == "@") {
                         printToken(token, current_word);
                         if (switcher == true) {
                             std::cout << "<Rat24F>  ::=   <Opt Function Definitions>   @  <Opt Declaration List>  <Statement List>  @\n";
+                            dst << "<Rat24F>  ::=   <Opt Function Definitions>   @  <Opt Declaration List>  <Statement List>  @\n";
                         }
                         return 1;
                     } else {
@@ -718,17 +719,19 @@ int Rat24F() {
     }
 }
 
-int OptFunctionDefinitions() {
+int OptFunctionDefinitions(std::fstream& dst) {
     // if (switcher)
     //     std::cout << "<Opt Function Definitions> ::= <Function Definitions>     |  <Empty>\n";
-    if(FunctionDefinitions()) {
+    if(FunctionDefinitions(dst)) {
         if (switcher) {
             std::cout << "<Opt Function Definitions> ::=  <Function Definitions>\n";
+            dst << "<Opt Function Definitions> ::=  <Function Definitions>\n";
         }
         return 1;
     } else {
         if (switcher) {
             std::cout << "<Opt Function Definitions> ::=  <Empty>\n";
+            dst << "<Opt Function Definitions> ::=  <Empty>\n";
         }
         // hit empty 
         return 1;
@@ -736,12 +739,15 @@ int OptFunctionDefinitions() {
 }
 
 // Backtracking
-int FunctionDefinitions() {
+int FunctionDefinitions(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Function Definitions>  ::= <Function> | <Function> <Function Definitions>\n";
-    if (Function()) {
-        if (FunctionDefinitionsPrime()) {
-            if(switcher) std::cout << "<Function Definitions> ::= <Function><FunctionDefinitionsPrime>\n";
+    if (Function(dst)) {
+        if (FunctionDefinitionsPrime(dst)) {
+            if(switcher) {
+                std::cout << "<Function Definitions> ::= <Function><FunctionDefinitionsPrime>\n";
+                dst << "<Function Definitions> ::= <Function><FunctionDefinitionsPrime>\n";
+            }
             return 1;
         }
     }
@@ -749,16 +755,19 @@ int FunctionDefinitions() {
 }
 
 
-int FunctionDefinitionsPrime() {
-    if(FunctionDefinitions()) {
-        if(switcher) std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
+int FunctionDefinitionsPrime(std::fstream& dst) {
+    if(FunctionDefinitions(dst)) {
+        if(switcher) {
+            std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
+            dst << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
+        }
         return 1;
     }
     return 1;
 }
 
 
-int Function() {
+int Function(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Function> ::= function  <Identifier>   ( <Opt Parameter List> )  <Opt Declaration List>  <Body>\n";
 
@@ -769,12 +778,13 @@ int Function() {
         if(current_word == "(") {
             printToken(token, current_word);
             moveFile();
-            if(OptParameterList()) {
+            if(OptParameterList(dst)) {
                 if(current_word == ")") {
                     printToken(token, current_word);
                     moveFile();
                     if(switcher) {
                         std::cout << "<Function> ::= function  <Identifier>   ( <Opt Parameter List> )  <Opt Declaration List>  <Body>\n";
+                        dst << "<Function> ::= function  <Identifier>   ( <Opt Parameter List> )  <Opt Declaration List>  <Body>\n";
                     }
                     return 1;
                 } else {
@@ -797,12 +807,13 @@ int Function() {
 
 
 
-int OptParameterList(){
+int OptParameterList(std::fstream& dst){
     // if(switcher)
     //     std::cout << "<Opt Parameter List> ::=  <Parameter List>    |     <Empty>\n";
-    if(ParameterList()) {
+    if(ParameterList(dst)) {
         if(switcher) {
             std::cout << "<Opt Parameter List> ::=  <Parameter List>\n";
+            dst << "<Opt Parameter List> ::=  <Parameter List>\n";
         }
         return 1;
     }
@@ -810,29 +821,32 @@ int OptParameterList(){
         //hit empty
         if(switcher) {
             std::cout << "<Opt Parameter List> ::=  <Empty>\n";
+            dst << "<Opt Parameter List> ::=  <Empty>\n";
         }
         return 1;
     }
 }
 
 // Backtracking
-int ParameterList() {
-    if(switcher)
+int ParameterList(std::fstream& dst) {
+    if(switcher) {
         std::cout << "<Parameter List>  ::=  <Parameter>    |     <Parameter> , <Parameter List>\n";
+        dst << "<Parameter List>  ::=  <Parameter>    |     <Parameter> , <Parameter List>\n";
+    }
         
-    if (Parameter()) {
-        if(ParameterListPrime()) {
+    if (Parameter(dst)) {
+        if(ParameterListPrime(dst)) {
             return 1;
         }
         return 0;
     }
 }
 
-int ParameterListPrime() {
+int ParameterListPrime(std::fstream& dst) {
     if(current_word == ",") {   // ,
         printToken(token, current_word);
         moveFile();
-        if(ParameterList()) {   // <PL>
+        if(ParameterList(dst)) {   // <PL>
             return 1;
         } else {
             errors("','", "Parameter after comma");
@@ -844,13 +858,14 @@ int ParameterListPrime() {
     }
 }
 
-int Parameter() {
+int Parameter(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Parameter> ::=  <IDs >  <Qualifier>\n";
-    if(IDs()) {
-        if(Qualifier()) {
+    if(IDs(dst)) {
+        if(Qualifier(dst)) {
             if(switcher) {
                 std::cout << "<Parameter> ::=  <IDs >  <Qualifier>\n";
+                dst << "<Parameter> ::=  <IDs >  <Qualifier>\n";
             }
             return 1;
         }
@@ -860,7 +875,7 @@ int Parameter() {
     }
 }
 
-int Qualifier() {
+int Qualifier(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Qualifier> ::= integer    |    boolean    |  real \n";
         
@@ -869,6 +884,7 @@ int Qualifier() {
         moveFile();
         if(switcher) {
             std::cout << "<Qualifier> ::= integer \n";
+            dst << "<Qualifier> ::= integer \n";
         }
         return 1;
     } else if(current_word == "boolean") {
@@ -876,6 +892,7 @@ int Qualifier() {
         moveFile();
         if(switcher) {
             std::cout << "<Qualifier> ::= boolean \n";
+            dst << "<Qualifier> ::= boolean \n";
         }
         return 1;
     } else if(current_word == "real") {
@@ -883,6 +900,7 @@ int Qualifier() {
         moveFile();
         if(switcher) {
             std::cout << "<Qualifier> ::=  real \n";
+            dst << "<Qualifier> ::=  real \n";
         }
         return 1;
     } else {
@@ -891,19 +909,20 @@ int Qualifier() {
     }
 }
 
-int Body() {
+int Body(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Body>  ::=  {  < Statement List>  }\n";
         
     if(current_word == "{") {
         printToken(token, current_word);
         moveFile();
-        if(StatementList()) {
+        if(StatementList(dst)) {
             if (current_word == "}") {
                 printToken(token, current_word);
                 moveFile();
                 if(switcher) {
                     std::cout << "<Body>  ::=  {  < Statement List>  }\n";
+                    dst << "<Body>  ::=  {  < Statement List>  }\n";
                 }
                 return 1;
             } else {
@@ -920,34 +939,38 @@ int Body() {
     }
 }
 
-int OptDeclarationList(){
+int OptDeclarationList(std::fstream& dst){
     // if(switcher)
     //     std::cout << "<Opt Declaration List> ::= <Declaration List>   |    <Empty>\n";
         
-    if(DeclarationList()) {
+    if(DeclarationList(dst)) {
         if(switcher) {
             std::cout << "<Opt Declaration List> ::= <Declaration List>\n";
+            dst << "<Opt Declaration List> ::= <Declaration List>\n";
         }
         return 1;
     } else {
         //hit empty
         if(switcher) {
             std::cout << "<Opt Declaration List> ::= <Empty>\n";
+            dst << "<Opt Declaration List> ::= <Empty>\n";
         }
         return 1;
     }
 }
 
 // Backtracking
-int DeclarationList(){
-    if(switcher)
-        std::cout << "<Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List>\n";   
+int DeclarationList(std::fstream& dst){
+    if(switcher) {
+        std::cout << "<Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List>\n";  
+        dst << "<Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List>\n";  
+    } 
         
-    if(Declaration()) {     // <D>
+    if(Declaration(dst)) {     // <D>
         if(current_word == ";") {   // ;
             printToken(token, current_word);
             moveFile();
-            if (DeclarationListPrime()) // <DL'>
+            if (DeclarationListPrime(dst)) // <DL'>
                 return 1;
         } else {
             // errors("';'", "Add a semicolon, ';'");
@@ -959,21 +982,22 @@ int DeclarationList(){
 
 
 // <DL’> → <DL> | ε
-int DeclarationListPrime() {
-    if(Declaration()) {
+int DeclarationListPrime(std::fstream& dst) {
+    if(Declaration(dst)) {
         return 1;
     } else {
         return 1;
     }
 }
 
-int Declaration(){
+int Declaration(std::fstream& dst){
     // if(switcher)
     //     std::cout << "<Declaration> ::=   <Qualifier > <IDs>\n";
-    if(Qualifier()) {
-        if(IDs()) {
+    if(Qualifier(dst)) {
+        if(IDs(dst)) {
             if(switcher) {
                 std::cout << "<Declaration> ::=   <Qualifier > <IDs>\n";
+                dst << "<Declaration> ::=   <Qualifier > <IDs>\n";
             }
             return 1;
         }
@@ -985,14 +1009,16 @@ int Declaration(){
 
 // Backtracking
 // <ID> → <I><ID’>
-int IDs() {
-    if(switcher)
+int IDs(std::fstream& dst) {
+    if(switcher) {
         std::cout << "<IDs> ::=     <Identifier>    | <Identifier>, <IDs>\n";
+        dst << "<IDs> ::=     <Identifier>    | <Identifier>, <IDs>\n";
+    }
 
     if (token == "ID") { // <I>
         printToken(token, current_word);
         moveFile();
-        if(IDsPrime()) // <ID'>
+        if(IDsPrime(dst)) // <ID'>
             return 1;
     }  else {
         errors("an identifier", "Ensure the current token is valid");
@@ -1001,11 +1027,11 @@ int IDs() {
 }
 
 // <ID’> → ,<ID> | ε
-int IDsPrime() {
+int IDsPrime(std::fstream& dst) {
     if(current_word == ",") {   // ,
         printToken(token, current_word);
         moveFile();
-        if(IDs()) { // <ID>
+        if(IDs(dst)) { // <ID>
             return 1;
         } else {
             errors("an identifier", "Check if token is a valid identifier following ','");
@@ -1019,11 +1045,13 @@ int IDsPrime() {
 
 
 // Backtracking
-int StatementList() {
-    if(switcher)
+int StatementList(std::fstream& dst) {
+    if(switcher) {
         std::cout << "<Statement List> ::=   <Statement>   | <Statement> <Statement List>\n";
-    if(Statement()) {
-        if(StatementListPrime()) {
+        dst << "<Statement List> ::=   <Statement>   | <Statement> <Statement List>\n";
+    }
+    if(Statement(dst)) {
+        if(StatementListPrime(dst)) {
             return 1;
         }
     } 
@@ -1031,52 +1059,65 @@ int StatementList() {
 }
 
 // <SL’> → <SL> | ε
-int StatementListPrime() {
-    if(StatementList()) {
-        if(switcher) std::cout <<"<SL’> → <SL> | ε";
+int StatementListPrime(std::fstream& dst) {
+    if(StatementList(dst)) {
+        if(switcher) {
+            std::cout << "<SL’> → <SL> | ε\n";
+            dst << "<SL’> → <SL> | ε\n";
+        }
         return 1;
     } else {    // hit empty
-        if(switcher) std::cout <<"<SL’> → <SL> | ε";
+        if(switcher) {
+            std::cout << "<SL’> → <SL> | ε\n";
+            dst << "<SL’> → <SL> | ε\n";
+        }
         return 1;
     }
 }
 
-int Statement() {
+int Statement(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Return>   | <Print>   |   <Scan>   |  <While>\n";
-    if(Compound()) {
+    if(Compound(dst)) {
         if(switcher) {
             std::cout << "<Statement> ::=   <Compound>\n";
+            dst << "<Statement> ::=   <Compound>\n";
         }
         return 1;
-    } else if(Assign()) {
+    } else if(Assign(dst)) {
         if(switcher) {
             std::cout << "<Statement> ::=   <Assign>\n";
+            dst << "<Statement> ::=   <Assign>\n";
         }
         return 1;
-    } else if(If()) {
+    } else if(If(dst)) {
         if(switcher) {
             std::cout << "<Statement> ::=   <If>\n";
+            dst << "<Statement> ::=   <If>\n";
         }
         return 1;
-    } else if (Return()) {
+    } else if (Return(dst)) {
         if(switcher) {
             std::cout << "<Statement> ::=   <Return>\n";
+            dst << "<Statement> ::=   <Return>\n";
         }
         return 1;
-    }  else if (Print()) {
+    }  else if (Print(dst)) {
         if(switcher) {
             std::cout << "<Statement> ::=   <Print>\n";
+            dst << "<Statement> ::=   <Print>\n";
         }
         return 1;
-    } else if(Scan()) {
+    } else if(Scan(dst)) {
         if(switcher) {
             std::cout << "<Statement> ::=   <Scan>\n";
+            dst << "<Statement> ::=   <Scan>\n";
         }
         return 1;
-    } else if(While()) {
+    } else if(While(dst)) {
         if(switcher) {
             std::cout << "<Statement> ::=   <While>\n";
+            dst << "<Statement> ::=   <While>\n";
         }
         return 1;
     } else {
@@ -1085,18 +1126,19 @@ int Statement() {
     }
 }
 
-int Compound() {
+int Compound(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Compound> ::=   {  <Statement List>  }\n";
     if(current_word == "{") {
         printToken(token, current_word);
         moveFile();
-        if(StatementList()) {
+        if(StatementList(dst)) {
             if (current_word == "}") {
                 printToken(token, current_word);
                 moveFile();
                 if(switcher) {
                     std::cout << "<Compound> ::=   {  <Statement List>  }\n";
+                    dst << "<Compound> ::=   {  <Statement List>  }\n";
                 }
                 return 1;
             } else {
@@ -1113,19 +1155,20 @@ int Compound() {
     }
 }
 
-int Assign() {
+int Assign(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n";
     if(token == "ID") {
         printToken(token, current_word);
         moveFile();
         if (current_word == "=") {
-            if(Expression()) {
+            if(Expression(dst)) {
                 if(current_word == ";") {
                     printToken(token, current_word);
                     moveFile();
                     if(switcher) {
                         std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n";
+                        dst << "<Assign> ::=     <Identifier> = <Expression> ;\n";
                     }
                     return 1;
                 } else {
@@ -1148,21 +1191,23 @@ int Assign() {
 
 
 
-int If(){
-    if(switcher)
+int If(std::fstream& dst){
+    if(switcher) {
         std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi  |   if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
+        dst << "<If> ::=     if  ( <Condition>  ) <Statement>   fi  |   if  ( <Condition>  ) <Statement>   else  <Statement>  fi\n";
+    }
     if(current_word == "if") {              // if 1
         printToken(token, current_word);
         moveFile();
         if(current_word == "(") {           // ( 2
             printToken(token, current_word);
             moveFile();
-            if(Condition()) {               // <C> 3
+            if(Condition(dst)) {               // <C> 3
                 if(current_word == ")") {   // ) 4
                     printToken(token, current_word);
                     moveFile();
-                    if(Statement()) {       // <S> 5
-                        if (fiPrime())
+                    if(Statement(dst)) {       // <S> 5
+                        if (fiPrime(dst))
                             if(current_word == "fi") {
                                 printToken(token, current_word);
                                 moveFile();
@@ -1176,12 +1221,12 @@ int If(){
     return 0;
 }
 
-int fiPrime() {
+int fiPrime(std::fstream& dst) {
     std::cout << "fiprime";
     if(current_word == "else") {
         printToken(token, current_word);
         moveFile();
-        if(Statement()) {
+        if(Statement(dst)) {
             return 1;
         }
     }
@@ -1257,14 +1302,14 @@ int fiPrime() {
 
 
 // Backtracking
-int Return() {
+int Return(std::fstream& dst) {
     if(current_word == "return") {  // <r>
         printToken(token, current_word);
         moveFile();
         if(current_word == ";") {   // ,
             printToken(token, current_word);
             moveFile(); 
-            if(ReturnPrime()) {
+            if(ReturnPrime(dst)) {
                 return 1;
             }
         }
@@ -1272,9 +1317,9 @@ int Return() {
     return 0;
 }
 
-int ReturnPrime() {
+int ReturnPrime(std::fstream& dst) {
 
-    if(Expression()) {
+    if(Expression(dst)) {
         return 1;
     }
     return 1;
@@ -1302,7 +1347,7 @@ int ReturnPrime() {
 //     return 0;
 // }
 
-int Print() {
+int Print(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Print> ::=     put ( <Expression>);\n";
     if (current_word == "put") {
@@ -1311,7 +1356,7 @@ int Print() {
         if(current_word == "(") {
             printToken(token, current_word);
             moveFile();
-            if(Expression()) {
+            if(Expression(dst)) {
                 if(current_word == ")") {
                     printToken(token, current_word);
                     moveFile();
@@ -1320,6 +1365,7 @@ int Print() {
                         moveFile();
                         if(switcher) {
                             std::cout << "<Print> ::=     put ( <Expression>);\n";
+                            dst << "<Print> ::=     put ( <Expression>);\n";
                         }
                         return 1;
                     } else {
@@ -1343,7 +1389,7 @@ int Print() {
     }
 }
 
-int Scan() {
+int Scan(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Scan> ::=    get ( <IDs> );\n";
     if(current_word == "get") {
@@ -1352,13 +1398,14 @@ int Scan() {
         if(current_word == "(") {
             printToken(token, current_word);
             moveFile();
-            if(IDs()) {
+            if(IDs(dst)) {
                 if(current_word == ")") {
                     printToken(token, current_word);
                     moveFile();
                     if(current_word == ";") {
                         if(switcher) {
                             std::cout << "<Scan> ::=    get ( <IDs> );\n";
+                            dst << "<Scan> ::=    get ( <IDs> );\n";
                         }
                         return 1;
                     } else {
@@ -1382,7 +1429,7 @@ int Scan() {
     }
 }
 
-int While() {
+int While(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n";
     if(current_word == "while") {
@@ -1391,13 +1438,14 @@ int While() {
         if(current_word == "(") {
             printToken(token, current_word);
             moveFile();
-            if(Condition()) {
+            if(Condition(dst)) {
                 if(current_word == ")") {
                     printToken(token, current_word);
                     moveFile();
-                    if(Statement()) {
+                    if(Statement(dst)) {
                         if(switcher) {
                             std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n";
+                            dst << "<While> ::=  while ( <Condition>  )  <Statement>\n";
                         }
                         return 1;
                     } else {
@@ -1421,15 +1469,16 @@ int While() {
     }
 }
 
-int Condition() {
+int Condition(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
         
-    if(Expression()) {
-        if(Relop()) {
-            if(Expression()) {
+    if(Expression(dst)) {
+        if(Relop(dst)) {
+            if(Expression(dst)) {
                 if(switcher) {
                     std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
+                    dst << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
                 }
                 return 1;
             } else {
@@ -1446,15 +1495,18 @@ int Condition() {
     }
 }
 
-int Relop() {
-    if(switcher)
+int Relop(std::fstream& dst) {
+    if(switcher) {
         std::cout << "<Relop> ::=        ==   |   !=    |   >     |   <    |  <=   |    =>\n";
+        dst << "<Relop> ::=        ==   |   !=    |   >     |   <    |  <=   |    =>\n";
+    }
         
     if (current_word == "==") {
         printToken(token, current_word);
         moveFile();
         if(switcher) {
             std::cout << "<Relop> ::=        ==\n";
+            dst << "<Relop> ::=        ==\n";
         }
         return 1;
     } else if (current_word == "!=") {
@@ -1462,6 +1514,7 @@ int Relop() {
         moveFile();
         if(switcher) {
             std::cout << "<Relop> ::=        !=\n";
+            dst << "<Relop> ::=        !=\n";
         }
         return 1;
     } else if (current_word == ">") {
@@ -1469,6 +1522,7 @@ int Relop() {
         moveFile();
         if(switcher) {
             std::cout << "<Relop> ::=        >\n";
+            dst << "<Relop> ::=        >\n";
         }
         return 1;
     } else if (current_word == "<") {
@@ -1476,6 +1530,7 @@ int Relop() {
         moveFile();
         if(switcher) {
             std::cout << "<Relop> ::=        <\n";
+            dst << "<Relop> ::=        <\n";
         }
         return 1;
     } else if (current_word == "<=") {
@@ -1483,6 +1538,7 @@ int Relop() {
         moveFile();
         if(switcher) {
             std::cout << "<Relop> ::=        <=\n";
+            dst << "<Relop> ::=        <=\n";
         }
         return 1;
     } else if (current_word == "=>") {
@@ -1490,6 +1546,7 @@ int Relop() {
         moveFile();
         if(switcher) {
             std::cout << "<Relop> ::=        =>\n";
+            dst << "<Relop> ::=        =>\n";
         }
         return 1;
     } else {
@@ -1515,13 +1572,14 @@ int Relop() {
 }
 
 //left recursion 
-int Expression() {
+int Expression(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Expression>  ::=    <Expression> + <Term>    | <Expression>  - <Term>    |    <Term>\n";
-    if(Term()) {
-        if(ExpressionPrime()){
+    if(Term(dst)) {
+        if(ExpressionPrime(dst)){
             if(switcher) {
                 std::cout << "<Expression>  ::=    <Expression> + <Term>    | <Expression>  - <Term>    |    <Term>\n";
+                dst << "<Expression>  ::=    <Expression> + <Term>    | <Expression>  - <Term>    |    <Term>\n";
             } // shall we add more statements to accompany the other statements? (+, -, and just the term) (im just adding comments to keep track of stuff)
             return 1;
         }
@@ -1530,12 +1588,12 @@ int Expression() {
     
 }
 
-int ExpressionPrime() {
+int ExpressionPrime(std::fstream& dst) {
     if(current_word == "+" || current_word == "-") {
         printToken(token, current_word);
         moveFile();
-        if(Term()) {
-            if(ExpressionPrime()) {
+        if(Term(dst)) {
+            if(ExpressionPrime(dst)) {
                 return 1;
             } //else {
             //     errors("prime expression","Ensure there is a valid Prime Expression"); // keep? adjust? -kat
@@ -1545,7 +1603,7 @@ int ExpressionPrime() {
         //     errors("term","Ensure there is a valid Term used"); // keep? adjust? -kat
         //     return 0;
         // }
-    } else if(Term()) {
+    } else if(Term(dst)) {
         return 1;
     }
     return 1;
@@ -1554,12 +1612,14 @@ int ExpressionPrime() {
 
 
 // left recursion
-int Term() {
-    if(switcher)
+int Term(std::fstream& dst) {
+    if(switcher) {
         std::cout << "<Term>    ::=      <Term>  *  <Factor>     |   <Term>  /  <Factor>     |     <Factor>\n";
+        dst << "<Term>    ::=      <Term>  *  <Factor>     |   <Term>  /  <Factor>     |     <Factor>\n";
+    }
     
-    if(Factor()){
-        if(TermPrime()) {
+    if(Factor(dst)){
+        if(TermPrime(dst)) {
             return 1;
         }
     } else {
@@ -1569,12 +1629,12 @@ int Term() {
 }
 
 
-int TermPrime() {
+int TermPrime(std::fstream& dst) {
     if(current_word == "*" || current_word == "/") {
         printToken(token, current_word);
         moveFile();
-        if(Factor()) {
-            if (TermPrime()) {
+        if(Factor(dst)) {
+            if (TermPrime(dst)) {
                 return 1;
             }  
         }
@@ -1583,25 +1643,27 @@ int TermPrime() {
     }
 }
 
-int Factor() {
+int Factor(std::fstream& dst) {
     // if(switcher)
     //     std::cout << "<Factor> ::=      -  <Primary>    |    <Primary>\n";
         
     if(current_word == "-") {
         printToken(token, current_word);
         moveFile();
-        if(Primary()) {
+        if(Primary(dst)) {
             if(switcher) {
                 std::cout << "<Factor> ::=      -  <Primary>\n";
+                dst << "<Factor> ::=      -  <Primary>\n";
             }
             return 1;
         } else {
             errors("a valid primary value", "Ensure there is a valid value following the '-'");
             // return 0;
         }
-    } else if(Primary()) {
+    } else if(Primary(dst)) {
         if(switcher) {
                 std::cout << "<Factor> ::=      <Primary>\n";
+                dst << "<Factor> ::=      <Primary>\n";
             }
         return 1;
     } else {
@@ -1610,9 +1672,11 @@ int Factor() {
     }
 }
 
-int Primary() {
-    if(switcher)
+int Primary(std::fstream& dst) {
+    if(switcher) {
         std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n";
+        dst << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n"; 
+    }
 
     if(token == "ID") {
         printToken(token, current_word);
@@ -1620,7 +1684,7 @@ int Primary() {
         if(current_word == "(") {
             printToken(token, current_word);
             moveFile(); 
-            if(IDs()) {
+            if(IDs(dst)) {
                 if(current_word == ")") {
                     printToken(token, current_word);
                     moveFile();
@@ -1633,7 +1697,7 @@ int Primary() {
     if(current_word == "(") {
             printToken(token, current_word);
             moveFile();
-        if(Expression()) {
+        if(Expression(dst)) {
             if(current_word == ")") {
                 printToken(token, current_word);
                 moveFile();
@@ -1649,4 +1713,3 @@ int Primary() {
     }
 
 }
-
