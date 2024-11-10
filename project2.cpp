@@ -64,7 +64,7 @@ void real_output();
 void ids_output();
 void int_output();
 
-
+// Syntax Analyzer Functions
 int Rat24F();
 int OptFunctionDefinitions();
 int FunctionDefinitions();
@@ -214,34 +214,34 @@ int main(int argc, char const *argv[])
             if(integers(temp))
             {
                 type = INTEGER;
-                logLexeme(type, dstFile, temp);
+                logLexeme(type, tempFile, temp);
             }
 
             // Real Function
             if(reals(temp))
             {
                 type = REAL;
-                logLexeme(type, dstFile, temp);
+                logLexeme(type, tempFile, temp);
             }
 
             // Keyword Function
-            findKeyword(type, dstFile, temp);
+            findKeyword(type, tempFile, temp);
             
             // ID Function
             if(IDs(temp))
             {
                 type = ID;
-                logLexeme(type, dstFile, temp);
+                logLexeme(type, tempFile, temp);
             }
             // Unknown Function
             if(type == DEFAULT)
             {
                 type = UNKNOWN;
-                logLexeme(type, dstFile, temp);
+                logLexeme(type, tempFile, temp);
             }
 
             
-            findSeparator(type, dstFile, c);
+            findSeparator(type, tempFile, c);
         }
         
         /*  OPERATOR FUNCTIONS
@@ -251,25 +251,25 @@ int main(int argc, char const *argv[])
         if (srcFile.peek() == '=' && c == '=')
         {
             type = OPERATOR;
-            logLexeme(type, dstFile, "==");
+            logLexeme(type, tempFile, "==");
         }
          if (srcFile.peek() == '=' && c == '>')
         {
             type = OPERATOR;
-            logLexeme(type, dstFile, ">=");
+            logLexeme(type, tempFile, ">=");
         }
         if (srcFile.peek() == '=' && c == '<')
         {
             type = OPERATOR;
-            logLexeme(type, dstFile, "<=");
+            logLexeme(type, tempFile, "<=");
         }
         if (srcFile.peek() == '=' && c == '!')
         {
             type = OPERATOR;
-            logLexeme(type, dstFile, "!=");
+            logLexeme(type, tempFile, "!=");
         }
         if (type == DEFAULT)
-            findOperator(type, dstFile, c);
+            findOperator(type, tempFile, c);
         
 
         /*  SEPARATOR FUNCTIONS
@@ -278,18 +278,18 @@ int main(int argc, char const *argv[])
         */
         if (srcFile.peek() == ':' && c == ':')
         {
-            logLexeme(SEPARATOR, dstFile, "::");
+            logLexeme(SEPARATOR, tempFile, "::");
         }
         if (srcFile.peek() == '/' && c == '/')
         {
-            logLexeme(SEPARATOR, dstFile, "//");
+            logLexeme(SEPARATOR, tempFile, "//");
         }
         if(type == DEFAULT)     
-            findSeparator(type, dstFile, c);
+            findSeparator(type, tempFile, c);
         
         // Unknown Character Function
         if (type == DEFAULT)
-            findUnknownChar(c, temp, type, dstFile);
+            findUnknownChar(c, temp, type, tempFile);
         
 
         // If Token type still DEFAULT at end of loop, 
@@ -307,7 +307,7 @@ int main(int argc, char const *argv[])
 
     // Print Output File Contents
     dstFile.seekg(0);
-    while(getline(dstFile, temp))
+    while(getline(tempFile, temp))
         std::cout << temp << std::endl;
         file >> temp;
         
@@ -1644,5 +1644,4 @@ int Primary() {
     }
 
 }
-
 
