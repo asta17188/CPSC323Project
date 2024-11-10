@@ -168,9 +168,11 @@ int FunctionDefinitionsPrime() {
     
     if(Function()) {
         if(FunctionDefinitions()) {
-        if(switcher) std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
+        if(switcher) { 
+            std::cout << "<FunctionDefinitionsPrime> ::= <FunctionDefinitions>";
+        }
         return 1;
-    }
+        }
     }
     
     return 1;
@@ -988,7 +990,9 @@ int Term() {
             return 1;
         }
     } else {
-        // Error Handling Here?
+        errors("factor","Ensure there is a valid Factor used");
+        return 0;
+        // Error Handling Here? for surely
     }
     return 0;   // temp
 }
