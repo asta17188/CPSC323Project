@@ -103,7 +103,7 @@ int TermPrime();
 int Factor();
 int Primary();
 
-std::fstream dstFile;
+//std::fstream dstFile;
 std::string add;
 std::ifstream file;
 std::string current_word;
@@ -133,10 +133,11 @@ void moveFile() {
     line_number++;
 }
 
-
-
 // Holds name of temp file, which will hold results from lexer
 const std::string tempName = "temp.txt";
+
+std::fstream tempFile(tempName, std::ios::in | std::ios::out);
+
 
 int main(int argc, char const *argv[])
 {
@@ -168,10 +169,10 @@ int main(int argc, char const *argv[])
         throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE YOU INPUT THE CORRECT FILE NAME");
     dstFile <<"";
     // Declare Temp File
-    std::fstream tempFile(tempName, std::ios::in | std::ios::out);
-    if (!tempFile)
-        throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE TEMP FILE IS IN SAME FOLDER AS .EXE");
-    tempFile <<"";
+    //std::fstream tempFile("tempName", std::ios::in | std::ios::out);
+    //if (!tempFile)
+        //throw std::invalid_argument("ERROR: FILE CANNOT BE FOUND, ENSURE TEMP FILE IS IN SAME FOLDER AS .EXE");
+    //tempFile <<"";
     // Print Transition Tables to Terminal
     real_output();
     ids_output();
