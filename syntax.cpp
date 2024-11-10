@@ -67,18 +67,25 @@ void printToken(std::string tok, std::string lex) {
 }
 
 void moveFile() {
-    file >> token;
-    file >> token;
-    file >> current_word;
-    file >> current_word;
+    if (file >> token && file >> current_word) {
+        std::cout << token << " " << current_word;
+    } else {
+        std::cerr << "Error: EOF of no more tokens";
+        exit (1);
+    }
+    // file >> token;
+    // file >> token;
+    // file >> current_word;
+    // file >> current_word;
     line_number++;
+
 }
 //
 
 int main() {    
 
     if(!file.is_open()) {
-        std::cout<< "failure"; 
+        std::cout<< "Error: File could not be opened.\n"; 
     } else {
         moveFile();
         Rat24F();
@@ -108,6 +115,7 @@ int Rat24F() {
                 if(StatementList()) {
                     if (current_word == "@") {
                         printToken(token, current_word);
+                        moveFile();
                         if (switcher == true) {
                             std::cout << "<Rat24F>  ::=   <Opt Function Definitions>   @  <Opt Declaration List>  <Statement List>  @\n";
                         }
