@@ -1788,5 +1788,5 @@ int Primary(std::fstream& dst) {
         dst << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
         return 1;
     }
-
+return 0;
 }
