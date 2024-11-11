@@ -790,7 +790,7 @@ int Function(std::fstream& dst) {
     } 
 }
         
-
+    return 0;
 }
 
 
@@ -994,6 +994,7 @@ int Declaration(std::fstream& dst){
         errors("a valid qualifier","Ensure it starts with a valid type (e.g., 'int', 'real', 'boolean')");
         return 0;
     }
+    return 0;
 } 
 
 // Backtracking
@@ -1537,6 +1538,7 @@ int TermPrime(std::fstream& dst) {
         dst << "<Term Prime>    ::=      <Empty>\n";
         return 1;
     }
+    return 0;
 }
 
 int Factor(std::fstream& dst) {   
@@ -1563,6 +1565,7 @@ int Factor(std::fstream& dst) {
         errors("a valid primary value", "Ensure it starts with a valid primary value");
         return 0;
     }
+    return 0;
 }
 
 int Primary(std::fstream& dst) {
