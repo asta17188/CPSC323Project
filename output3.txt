@@ -1,0 +1,89 @@
+-----RESULTS OF SYNTAX ANALYZER-----
+Token: Keyword     Lexeme: function
+Token: ID     Lexeme: division
+Token: Separator     Lexeme: (
+Token: ID     Lexeme: num
+<IDs> ::=     <Identifier> <IDs Prime>
+Token: Keyword     Lexeme: integer
+<Qualifier> ::= integer 
+<Parameter> ::=  <IDs >  <Qualifier>
+<Parameter List Prime>  ::=  <Empty>
+<Parameter List>  ::=  <Parameter> <Parameter List Prime>
+<Opt Parameter List> ::=  <Parameter List>
+Token: Separator     Lexeme: )
+Token: Separator     Lexeme: {
+Token: ID     Lexeme: n0m
+<Opt Function Definitions> ::=  <Empty>
+
+
+-----RESULTS OF LEXICAL ANALYZER-----
+TOKEN: Keyword  	LEXEME: function
+TOKEN: ID       	LEXEME: division
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: num
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: {
+TOKEN: ID       	LEXEME: n0m
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: num
+TOKEN: Operator  	LEXEME: /
+TOKEN: Real     	LEXEME: 2.0
+TOKEN: Separator	LEXEME: ;
+TOKEN: Keyword  	LEXEME: return
+TOKEN: ID       	LEXEME: num
+TOKEN: Separator	LEXEME: }
+TOKEN: Keyword  	LEXEME: function
+TOKEN: ID       	LEXEME: multiply
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: num
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: {
+TOKEN: ID       	LEXEME: num
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: num
+TOKEN: Operator  	LEXEME: *
+TOKEN: Operator  	LEXEME: -
+TOKEN: Integer  	LEXEME: 2
+TOKEN: Separator	LEXEME: ;
+TOKEN: Keyword  	LEXEME: return
+TOKEN: ID       	LEXEME: num
+TOKEN: Separator	LEXEME: }
+TOKEN: Separator	LEXEME: @
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: Unknown  	LEXEME: num1
+TOKEN: Separator	LEXEME: ,
+TOKEN: Unknown  	LEXEME: num2
+TOKEN: Separator	LEXEME: ;
+TOKEN: Keyword  	LEXEME: get
+TOKEN: Separator	LEXEME: (
+TOKEN: Unknown  	LEXEME: num1
+TOKEN: Separator	LEXEME: ,
+TOKEN: Unknown  	LEXEME: num2
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Keyword  	LEXEME: if
+TOKEN: Separator	LEXEME: (
+TOKEN: Unknown  	LEXEME: num1
+TOKEN: Operator  	LEXEME: ==
+TOKEN: Operator  	LEXEME: =
+TOKEN: Integer  	LEXEME: 0
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: {
+TOKEN: Unknown  	LEXEME: num1
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: division
+TOKEN: Separator	LEXEME: (
+TOKEN: Unknown  	LEXEME: num1
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Separator	LEXEME: }
+TOKEN: Unknown  	LEXEME: num2
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: multiply
+TOKEN: Separator	LEXEME: (
+TOKEN: Unknown  	LEXEME: num2
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Separator	LEXEME: @

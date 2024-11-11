@@ -1,0 +1,36 @@
+-----RESULTS OF SYNTAX ANALYZER-----
+<Opt Function Definitions> ::=  <Empty>
+Token: Separator     Lexeme: @
+Token: Keyword     Lexeme: integer
+<Qualifier> ::= integer 
+Token: ID     Lexeme: ax
+Token: Separator     Lexeme: ,
+Token: ID     Lexeme: bx
+Token: Separator     Lexeme: ,
+Token: ID     Lexeme: sum
+<IDs Prime> ::=    , <Identifier> <IDs Prime>
+<IDs Prime> ::=    , <Identifier> <IDs Prime>
+<IDs> ::=     <Identifier> <IDs Prime>
+<Declaration> ::=   <Qualifier > <IDs>
+Token: Separator     Lexeme: ;
+<Declaration List Prime>  := <Empty>
+<Declaration List>  := <Declaration> ; <Declaration List Prime>
+<Opt Declaration List> ::= <Declaration List>
+Token: ID     Lexeme: sum
+
+
+-----RESULTS OF LEXICAL ANALYZER-----
+TOKEN: Separator	LEXEME: @
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: ID       	LEXEME: ax
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: bx
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: sum
+TOKEN: Separator	LEXEME: ;
+TOKEN: ID       	LEXEME: sum
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: ax
+TOKEN: Operator  	LEXEME: +
+TOKEN: ID       	LEXEME: bx
+TOKEN: Separator	LEXEME: @

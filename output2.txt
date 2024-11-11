@@ -1,0 +1,91 @@
+-----RESULTS OF SYNTAX ANALYZER-----
+Token: Keyword     Lexeme: function
+Token: ID     Lexeme: convert
+Token: Separator     Lexeme: (
+Token: ID     Lexeme: fahr
+<IDs> ::=     <Identifier> <IDs Prime>
+Token: Keyword     Lexeme: integer
+<Qualifier> ::= integer 
+<Parameter> ::=  <IDs >  <Qualifier>
+<Parameter List Prime>  ::=  <Empty>
+<Parameter List>  ::=  <Parameter> <Parameter List Prime>
+<Opt Parameter List> ::=  <Parameter List>
+Token: Separator     Lexeme: )
+Token: Separator     Lexeme: {
+Token: Keyword     Lexeme: return
+Token: Integer     Lexeme: 5
+<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false
+<Factor> ::=      <Primary>
+Token: Operator     Lexeme: *
+Token: Separator     Lexeme: (
+Token: ID     Lexeme: fahr
+<Return Prime> ::=    <Empty>
+<Opt Function Definitions> ::=  <Empty>
+
+
+-----RESULTS OF LEXICAL ANALYZER-----
+TOKEN: Keyword  	LEXEME: function
+TOKEN: ID       	LEXEME: convert
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: fahr
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: {
+TOKEN: Keyword  	LEXEME: return
+TOKEN: Integer  	LEXEME: 5
+TOKEN: Operator  	LEXEME: *
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: fahr
+TOKEN: Operator  	LEXEME: -
+TOKEN: Integer  	LEXEME: 32
+TOKEN: Separator	LEXEME: )
+TOKEN: Operator  	LEXEME: /
+TOKEN: Integer  	LEXEME: 9
+TOKEN: Separator	LEXEME: ;
+TOKEN: Separator	LEXEME: }
+TOKEN: Separator	LEXEME: @
+TOKEN: Keyword  	LEXEME: integer
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: high
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: step
+TOKEN: Separator	LEXEME: ;
+TOKEN: Keyword  	LEXEME: get
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: high
+TOKEN: Separator	LEXEME: ,
+TOKEN: ID       	LEXEME: step
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Keyword  	LEXEME: while
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Operator  	LEXEME: <=
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: high
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: {
+TOKEN: Keyword  	LEXEME: put
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: Keyword  	LEXEME: put
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: convert
+TOKEN: Separator	LEXEME: (
+TOKEN: ID       	LEXEME: low
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: )
+TOKEN: Separator	LEXEME: ;
+TOKEN: ID       	LEXEME: low
+TOKEN: Operator  	LEXEME: =
+TOKEN: ID       	LEXEME: low
+TOKEN: Operator  	LEXEME: +
+TOKEN: ID       	LEXEME: step
+TOKEN: Separator	LEXEME: ;
+TOKEN: Separator	LEXEME: }
+TOKEN: Separator	LEXEME: @
