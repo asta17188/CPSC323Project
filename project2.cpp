@@ -1569,10 +1569,10 @@ int Factor(std::fstream& dst) {
 }
 
 int Primary(std::fstream& dst) {
-    if(switcher) {
-        std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n";
-        dst << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n"; 
-    }
+    //if(switcher) {
+        //std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n";
+        //dst << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n"; 
+    //}
 
     if(token == "ID") {
         printToken(token, current_word, dst);
