@@ -19,6 +19,7 @@ if(num1 == 0)
 {
 num1 = division(num1);
 }
+fi
 
 num2 = multiply(num2);
 
