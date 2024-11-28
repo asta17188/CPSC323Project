@@ -1,4 +1,4 @@
-// Project 2: Syntax Analyzer
+// Project 3: Object Code Generation
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <iomanip>
 #include <array>
-//#include "syntax.cpp"
 
 // Declaring Enums for Token Types
 enum Token
@@ -29,10 +28,15 @@ const std::string tempName = "temp.txt";
 std::fstream tempFile(tempName, std::ios::in | std::ios::out);
 
 int memoryAddress{9000};
+int instructionAddress{1};
 
 const int TABLE_COL = 3;
 const int TABLE_ROW = 1000;
+
+// NOTE -> arrayName[row][col]
+// Symbol Table Fields: Name/Lexeme, Data Type, Memory Address
 std::array<std::array<std::string, TABLE_COL>, TABLE_ROW> symbolTable;
+// Instruction Table Fields: Instruction Address/Number (Starts at 1), Op, Operand
 std::array<std::array<std::string, TABLE_COL>, TABLE_ROW> instructionTable;
 
 /*
@@ -115,6 +119,12 @@ int Term(std::fstream&);
 int TermPrime(std::fstream&);
 int Factor(std::fstream&);
 int Primary(std::fstream&);
+
+// Table Functions
+void addSymbol(std::string, std::string);
+void addInstruction(std::string, std::string);
+void printSymbols(std::fstream&);
+void printInstruction(std::fstream&);
 
 //std::fstream dstFile;
 std::string add;
@@ -1641,5 +1651,68 @@ int Primary(std::fstream& dst) {
         dst << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
         return 1;
     }
-return 0;
+    return 0;
+}
+
+void addSymbol(std::string lexeme, std::string type)
+{
+    int row{memoryAddress - 9000};
+    std::string address = std::__cxx11::to_string(memoryAddress++);
+
+    symbolTable[row][0] = lexeme;
+    symbolTable[row][1] = type;
+    symbolTable[row][2] = address;
+
+    return;
+}
+
+void addInstruction(std::string op, std::string operand)
+{
+    int row{instructionAddress - 1};
+    std::string address = std::__cxx11::to_string(instructionAddress++);
+
+    instructionTable[row][0] = address;
+    instructionTable[row][1] = operand;
+    instructionTable[row][2] = op;
+    return;
+}
+
+void printSymbols(std::fstream& dst)
+{
+    std::cout << "---SYMBOL TABLE---\n";
+    std::cout << "LEXEME     " << "DATA TYPE     " << "MEMORY ADDRESS\n";
+    dst << "LEXEME     " << "DATA TYPE     " << "MEMORY ADDRESS\n";
+    for (size_t i = 0; i < (memoryAddress - 9000); i++)
+    {
+        for (size_t j = 0; j < 3; j++)
+        {
+            std::cout << symbolTable[i][j] << "          ";
+            dst << symbolTable[i][j] << "          ";
+        }
+        std::cout << std::endl;
+        dst << std::endl;
+    }
+    std::cout << "\n\n";
+    dst << "\n\n";
+    return;
+}
+
+void printInstruction(std::fstream& dst)
+{
+    std::cout << "---INSTRUCTION TABLE---\n";
+    std::cout << "ADDRESS     " << "OP     "  << "OPERAND\n";
+    dst << "ADDRESS     " << "OP     " << "OPERAND\n";
+    for (size_t i = 0; i < (instructionAddress - 1); i++)
+    {
+        for (size_t j = 0; j < 3; j++)
+        {
+            std::cout << instructionTable[i][j] << "           ";
+            dst << instructionTable[i][j] << "           ";
+        }
+        std::cout << std::endl;
+        dst << std::endl;
+    }
+    std::cout << "\n\n";
+    dst << "\n\n";
+    return;
 }
