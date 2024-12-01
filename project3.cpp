@@ -123,6 +123,7 @@ int Primary(std::fstream&);
 // Table Functions
 void addSymbol(std::string, std::string);
 void addInstruction(std::string, std::string);
+bool checkSymbol(std::string);
 void printSymbols(std::fstream&);
 void printInstruction(std::fstream&);
 
@@ -1657,6 +1658,11 @@ int Primary(std::fstream& dst) {
 void addSymbol(std::string lexeme, std::string type)
 {
     int row{memoryAddress - 9000};
+    if (!checkSymbol(lexeme))
+    {
+        errors("non-duplicate variable", "make sure variables all have distinct names");
+        return;
+    }
     std::string address = std::__cxx11::to_string(memoryAddress++);
 
     symbolTable[row][0] = lexeme;
@@ -1675,6 +1681,17 @@ void addInstruction(std::string op, std::string operand)
     instructionTable[row][1] = operand;
     instructionTable[row][2] = op;
     return;
+}
+
+bool checkSymbol(std::string name)
+{
+    for (size_t i = 0; i < (memoryAddress - 9000); i++)
+    {
+        if (symbolTable[i][0] == name)
+            return false;
+    }
+    
+    return true;
 }
 
 void printSymbols(std::fstream& dst)
