@@ -737,7 +737,7 @@ int OptFunctionDefinitions(std::fstream& dst) {
         // hit empty 
         return 1;
     }
-    return 0;
+    return 1;
 }
 
 // Backtracking
@@ -832,7 +832,7 @@ int OptParameterList(std::fstream& dst){
         }
         return 1;
     }
-    return 0;
+    return 1;
 }
 
 // Backtracking
@@ -870,7 +870,7 @@ int ParameterListPrime(std::fstream& dst) {
         // hit empty
         return 1;
     }
-    return 0;
+    return 1;
 }
 
 int Parameter(std::fstream& dst) {
@@ -964,7 +964,7 @@ int OptDeclarationList(std::fstream& dst){
         }
         return 1;
     }
-    return 0;
+    return 1;
 }
 
 // Backtracking
@@ -993,15 +993,17 @@ int DeclarationList(std::fstream& dst){
 // <DL’> → <DL> | ε
 int DeclarationListPrime(std::fstream& dst) {
     if(Declaration(dst)) {
-        if(current_word == ";") {
-            printToken(token, current_word, dst);
-            moveFile();
-            if(DeclarationListPrime(dst)) {
-                std::cout << "<Declaration List Prime>  := <Declaration> ; <Declaration List>\n";  
-                dst << "<Declaration List Prime>  := <Declaration> ; <Declaration List Prime>\n"; 
-                return 1;
-            }
-        }
+        
+        return 1;
+        // if(current_word == ";") {
+        //     printToken(token, current_word, dst);
+        //     moveFile();
+        //     if(DeclarationListPrime(dst)) {
+        //         std::cout << "<Declaration List Prime>  := <Declaration> ; <Declaration List>\n";  
+        //         dst << "<Declaration List Prime>  := <Declaration> ; <Declaration List Prime>\n"; 
+        //         return 1;
+        //     }
+        // }
     } 
     std::cout << "<Declaration List Prime>  := <Declaration> ; <Declaration List>\n";  
     dst << "<Declaration List Prime>  := <Empty>\n"; 
@@ -1054,25 +1056,24 @@ int IDsPrime(std::fstream& dst) {
     if(current_word == ",") {   // ,
         printToken(token, current_word, dst);
         moveFile();
-        if(token == "ID") { // <ID>
-            printToken(token, current_word, dst);
-            moveFile();
-            if(IDsPrime(dst)) {
+        if(IDs(dst)) { // <ID>
+            return 1;
+            // if(IDsPrime(dst)) {
                 
-                if(switcher) {
-                std::cout << "<IDs Prime> ::=   , <Identifier> <IDs Prime>\n";
-                dst << "<IDs Prime> ::=    , <Identifier> <IDs Prime>\n";
-                }
-                return 1;
-            }
-        } else {
-            errors("an identifier", "Check if token is a valid identifier following ','");
-            return 0;
-        }
-    } else {    // hit empty
-        return 1;
+            //     if(switcher) {
+            //     std::cout << "<IDs Prime> ::=   , <Identifier> <IDs Prime>\n";
+            //     dst << "<IDs Prime> ::=    , <Identifier> <IDs Prime>\n";
+            //     }
+            //     return 1;
+            // }
+        }else {
+             errors("an identifier", "Check if token is a valid identifier following ','");
+             return 0;
+         }
+    // } else {    // hit empty
+    //     return 1;
     }
-    return 0;
+    return 1;
 }
 
 
@@ -1095,17 +1096,15 @@ int StatementList(std::fstream& dst) {
 
 // <SL’> → <SL> | ε
 int StatementListPrime(std::fstream& dst) {
-    if(Statement(dst)) {
-        if(StatementListPrime(dst)) {
-            if(switcher) std::cout <<"<Statement List Prime> ::=   <Statement> <Statement List Prime>";
-            return 1;
-        }
+    if(StatementList(dst)) {
+        if(switcher) std::cout <<"<Statement List Prime> ::=   <Statement> <Statement List Prime>";
+        return 1;
         
     } else {    // hit empty
         if(switcher) std::cout <<"<Statement List Prime> ::=   <Empty>";
         return 1;
     }
-    return 0;
+    return 1;
 }
 
 int Statement(std::fstream& dst) {
@@ -1191,6 +1190,8 @@ int Assign(std::fstream& dst) {
         printToken(token, current_word, dst);
         moveFile();
         if (current_word == "=") {
+            printToken(token, current_word, dst);
+            moveFile();
             if(Expression(dst)) {
                 if(current_word == ";") {
                     printToken(token, current_word, dst);
@@ -1273,15 +1274,20 @@ int Return(std::fstream& dst) {
     if(current_word == "return") {  // <r>
         printToken(token, current_word, dst);
         moveFile();
-        if(ReturnPrime(dst)) {
-            if(current_word == ";") {   // ,
-            printToken(token, current_word, dst);
-            moveFile(); 
-            std::cout << "<Return> ::=    return <Return'> ;\n";
-            dst << "<Return> ::=    return <Return'> ;\n";
-            return 1;
-        }
-        } 
+        
+            if (ReturnPrime(dst)) {
+                
+                if(current_word == ";") {
+                    printToken(token, current_word, dst);
+                    moveFile(); 
+                    std::cout << "<Return> ::=    return <Return'> ;\n";
+                    dst << "<Return> ::=    return <Return'> ;\n";
+                    return 1;
+                }
+                
+                
+            }
+         
         
     } 
     return 0;
@@ -1554,9 +1560,7 @@ int Term(std::fstream& dst) {
             }
             return 1;
         }
-    } else {
-       // EH?
-    }
+    } 
     return 0;   // temp
 }
 
@@ -1577,7 +1581,7 @@ int TermPrime(std::fstream& dst) {
         dst << "<Term Prime>    ::=      <Empty>\n";
         return 1;
     }
-    return 0;
+    return 1;
 }
 
 int Factor(std::fstream& dst) {   
@@ -1613,6 +1617,31 @@ int Primary(std::fstream& dst) {
         //dst << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n"; 
     //}
 
+    if(token == "ID" || token == "Integer" || token == "Real" || current_word == "true" || current_word == "false") {
+        printToken(token, current_word, dst);
+        moveFile();
+        std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
+        dst << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
+        return 1;
+    }
+    return 0;
+
+
+    
+    if(current_word == "(") {
+            printToken(token, current_word, dst);
+            moveFile();
+        if(Expression(dst)) {
+            if(current_word == ")") {
+                printToken(token, current_word, dst);
+                moveFile();
+                std::cout << "<Primary> ::=     ( <Expression> )\n";
+                dst << "<Primary> ::=     ( <Expression> )\n";
+                return 1;
+            }
+        }
+    }
+
     if(token == "ID") {
         printToken(token, current_word, dst);
         moveFile();
@@ -1630,29 +1659,7 @@ int Primary(std::fstream& dst) {
             }
         }
     }
-    
-    if(current_word == "(") {
-            printToken(token, current_word, dst);
-            moveFile();
-        if(Expression(dst)) {
-            if(current_word == ")") {
-                printToken(token, current_word, dst);
-                moveFile();
-                std::cout << "<Primary> ::=     ( <Expression> )\n";
-                dst << "<Primary> ::=     ( <Expression> )\n";
-                return 1;
-            }
-        }
-    }
 
-    if(token == "ID" || token == "Integer" || token == "Real" || current_word == "true" || current_word == "false") {
-        printToken(token, current_word, dst);
-        moveFile();
-        std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
-        dst << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
-        return 1;
-    }
-    return 0;
 }
 
 void addSymbol(std::string lexeme, std::string type)
