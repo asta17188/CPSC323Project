@@ -441,119 +441,37 @@ void findUnknownChar(char& c, std::string& s, Token& t, std::fstream& dst)
 }
 
 bool IDs(const std::string& lexeme) {
-    int state = 1; // starting state
+    int state = 0; // starting state
     // int accepting_state = 1; // accepting state
 
     if(lexeme.empty()) {
         return false;
     }
 
-    for (size_t i = 0; i < lexeme.size(); ++i) {
+    for (size_t i = 0; i < lexeme.size() - 1; ++i) {
         char character = lexeme[i];
-        switch (state) // switcheres
+        switch (state)
         {
-            case 1:
+            case 0: // starting
                 if (isalpha(character)) {
-                    state = 2;
+                    state = 1; // state 1 if first character is a letter
                 } else {
-                    state = 13; // rejected
+                    return false; // means first char is not a letter
                 }
                 break;
-            case 2:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)) {
-                    state = 4;
+            case 1:
+                if (isalnum(character)) { // if letter & or digit
+                    state = 1; // stay in this state
                 } else {
-                    state = 13;
+                    return false;
                 }
                 break;
-            case 3:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)){
-                    state = 5;
-                }
-                break;
-            case 4:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)) {
-                    state = 6;
-                } else {
-                    state = 13;
-                }
-                break;
-            case 5:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)) {
-                    state = 7;
-                } else {
-                    state = 13;
-                }
-                break;
-            case 6:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)) {
-                    state = 8;
-                } else {
-                    state = 13;
-                }
-                break;
-            case 7:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)) {
-                    state = 9;
-                } else {
-                    state = 13;
-                }
-                break;
-            case 8:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)) {
-                    state = 10;
-                } else {
-                    state = 13;
-                }
-                break;
-            case 9:
-                if(isalpha(character)) {
-                    state = 10;
-                } else if (isdigit(character)) {
-                    state = 11;
-                } else {
-                    state = 13;
-                }
-                break;
-            case 10:
-                if(isalpha(character)) {
-                    state = 10; // stay in laste letter state check
-                } else if (isdigit(character)) {
-                    state = 11; // go to digits state
-                }
-                break;
-            case 11:
-                if(isalpha(character)) {
-                    state = 10; // go to letter state
-                } else if (isdigit(character)) {
-                    state = 11; // stay in digits state
-                } else {
-                    state = 13; // reject
-                }
-                break;
-            case 13:
-                return false;
-
-
         }
-
+        if (!isalpha(lexeme[lexeme.size() - 1])) {
+            return false;
+        }
     }
-    // return true;
-    return (state == 10);
+    return true;
 }
 
 bool integers(const std::string& lexeme) {
