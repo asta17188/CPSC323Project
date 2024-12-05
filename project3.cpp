@@ -29,6 +29,8 @@ std::fstream tempFile(tempName, std::ios::in | std::ios::out);
 
 int memoryAddress{9000};
 int instructionAddress{1};
+int jumpzCounter;
+std::string current_type;
 
 const int TABLE_COL = 3;
 const int TABLE_ROW = 1000;
@@ -124,6 +126,7 @@ int Primary(std::fstream&);
 void addSymbol(std::string, std::string);
 void addInstruction(std::string, std::string);
 bool checkSymbol(std::string);
+void backPatch(int);
 void printSymbols(std::fstream&);
 void printInstruction(std::fstream&);
 
@@ -809,6 +812,7 @@ int Parameter(std::fstream& dst) {
 
 int Qualifier(std::fstream& dst) {        
     if(current_word == "integer") {
+        current_type = "Integer";
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -817,6 +821,7 @@ int Qualifier(std::fstream& dst) {
         }
         return 1;
     } else if(current_word == "boolean") {
+        current_type = "boolean";
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -948,9 +953,8 @@ int Declaration(std::fstream& dst){
 // Backtracking
 // <ID> → <I><ID’>
 int IDs(std::fstream& dst) {
-    
-
     if (token == "ID") { // <I>
+        addSymbol(current_word, current_type);
         printToken(token, current_word, dst);
         moveFile();
         if(IDsPrime(dst)) // <ID'>
@@ -1536,6 +1540,9 @@ int Primary(std::fstream& dst) {
     //}
 
     if(token == "ID" || token == "Integer" || token == "Real" || current_word == "true" || current_word == "false") {
+        if(current_type == "boolean")
+            addSymbol(current_word, current_type);
+
         printToken(token, current_word, dst);
         moveFile();
         std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
@@ -1580,6 +1587,9 @@ int Primary(std::fstream& dst) {
 
 }
 
+
+
+
 void addSymbol(std::string lexeme, std::string type)
 {
     int row{memoryAddress - 9000};
@@ -1602,9 +1612,12 @@ void addInstruction(std::string op, std::string operand)
     int row{instructionAddress - 1};
     std::string address = std::__cxx11::to_string(instructionAddress++);
 
+    if (op == "JUMPZ")
+        ++jumpzCounter;
+
     instructionTable[row][0] = address;
-    instructionTable[row][1] = operand;
-    instructionTable[row][2] = op;
+    instructionTable[row][1] = op;
+    instructionTable[row][2] = operand;
     return;
 }
 
@@ -1617,6 +1630,27 @@ bool checkSymbol(std::string name)
     }
     
     return true;
+}
+
+void backPatch(int jumpAddress)
+{
+    std::string address = std::__cxx11::to_string(jumpAddress);     // address should indicate the end of the loop
+    // counter variable is for instances in which jumpz may be present more than once within the instruction table
+    // statements 'if' and 'while' have JUMPZ in them, it ensures that the jumpAddresses are assigned accordingly
+    int counter{1};     
+    for (size_t i = 0; i < (instructionAddress - 1); i++)
+    {
+        if (instructionTable[i][1] == "JUMPZ")
+        {
+            if (counter == jumpzCounter)
+            {
+                instructionTable[i][2] = address;
+                break;
+            }
+            ++counter;
+        }
+    }
+    return;
 }
 
 void printSymbols(std::fstream& dst)
@@ -1658,3 +1692,4 @@ void printInstruction(std::fstream& dst)
     dst << "\n\n";
     return;
 }
+
