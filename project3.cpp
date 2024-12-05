@@ -1283,6 +1283,8 @@ int Scan(std::fstream& dst) {
                     printToken(token, current_word, dst);
                     moveFile();
                     if(current_word == ";") {
+                        printToken(token, current_word, dst);
+                        moveFile();
                         if(switcher) {
                             std::cout << "<Scan> ::=    get ( <IDs> );\n";
                             dst << "<Scan> ::=    get ( <IDs> );\n";
