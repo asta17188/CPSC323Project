@@ -350,6 +350,9 @@ int main(int argc, char const *argv[])
         std::cout << temp << std::endl;     // prints results of lexical analyzer to terminal
         dstFile << temp << std::endl;       // writes results of lexical analyzer to dstFile (i.e. output1.txt, output2.txt, output3.txt)
     }
+
+    printInstruction(dstFile);
+    printSymbols(dstFile);
     
     // Close Test File (src)
     srcFile.close();
@@ -1699,9 +1702,8 @@ int popStack()
     if(stackCount == 0)
     {
         std::cout << "ERROR: unable to pop on an empty stack\n";
-        return;
+        return 0;   // error value
     }
     return stack[--stackCount];
 }
-
 
