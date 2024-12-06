@@ -1640,7 +1640,7 @@ bool checkSymbol(std::string name)
 void backPatch(int jumpAddress)
 {
     int address = popStack();
-    instructionTable[address][2] = jumpAddress;   
+    instructionTable[address][2] = std::__cxx11::to_string(jumpAddress);   
 
     return;
 }
