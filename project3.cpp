@@ -29,7 +29,6 @@ std::fstream tempFile(tempName, std::ios::in | std::ios::out);
 
 int memoryAddress{9000};
 int instructionAddress{1};
-int jumpzCounter;
 std::string current_type;
 
 const int TABLE_COL = 3;
@@ -40,6 +39,9 @@ const int TABLE_ROW = 1000;
 std::array<std::array<std::string, TABLE_COL>, TABLE_ROW> symbolTable;
 // Instruction Table Fields: Instruction Address/Number (Starts at 1), Op, Operand
 std::array<std::array<std::string, TABLE_COL>, TABLE_ROW> instructionTable;
+
+std::array<int, TABLE_ROW> stack;
+int stackCount{0};
 
 /*
     NOTE: When testing program, make sure to delete the output.txt file
@@ -129,6 +131,10 @@ bool checkSymbol(std::string);
 void backPatch(int);
 void printSymbols(std::fstream&);
 void printInstruction(std::fstream&);
+
+// Stack Functions
+void pushStack(int);
+int popStack();
 
 //std::fstream dstFile;
 std::string add;
@@ -1614,9 +1620,6 @@ void addInstruction(std::string op, std::string operand)
     int row{instructionAddress - 1};
     std::string address = std::__cxx11::to_string(instructionAddress++);
 
-    if (op == "JUMPZ")
-        ++jumpzCounter;
-
     instructionTable[row][0] = address;
     instructionTable[row][1] = op;
     instructionTable[row][2] = operand;
@@ -1636,22 +1639,9 @@ bool checkSymbol(std::string name)
 
 void backPatch(int jumpAddress)
 {
-    std::string address = std::__cxx11::to_string(jumpAddress);     // address should indicate the end of the loop
-    // counter variable is for instances in which jumpz may be present more than once within the instruction table
-    // statements 'if' and 'while' have JUMPZ in them, it ensures that the jumpAddresses are assigned accordingly
-    int counter{1};     
-    for (size_t i = 0; i < (instructionAddress - 1); i++)
-    {
-        if (instructionTable[i][1] == "JUMPZ")
-        {
-            if (counter == jumpzCounter)
-            {
-                instructionTable[i][2] = address;
-                break;
-            }
-            ++counter;
-        }
-    }
+    int address = popStack();
+    instructionTable[address][2] = jumpAddress;   
+
     return;
 }
 
@@ -1694,4 +1684,24 @@ void printInstruction(std::fstream& dst)
     dst << "\n\n";
     return;
 }
+
+void pushStack(int address)
+{
+    if(stackCount == TABLE_ROW)
+        return;
+    
+    stack[stackCount++] = address;
+    return;
+}
+
+int popStack()
+{
+    if(stackCount == 0)
+    {
+        std::cout << "ERROR: unable to pop on an empty stack\n";
+        return;
+    }
+    return stack[--stackCount];
+}
+
 
