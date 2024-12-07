@@ -30,6 +30,7 @@ std::fstream tempFile(tempName, std::ios::in | std::ios::out);
 int memoryAddress{9000};
 int instructionAddress{1};
 std::string current_type;
+std::string relationalOp;
 
 const int TABLE_COL = 3;
 const int TABLE_ROW = 1000;
@@ -1353,6 +1354,8 @@ int Scan(std::fstream& dst) {
 
 int While(std::fstream& dst) {
     if(current_word == "while") {
+        int address{instructionAddress};
+        addInstruction("LABEL", "");
         printToken(token, current_word, dst);
         moveFile();
         if(current_word == "(") {
@@ -1362,6 +1365,11 @@ int While(std::fstream& dst) {
                 if(current_word == ")") {
                     printToken(token, current_word, dst);
                     moveFile();
+
+                    // these two lines were added before statement instead of after (according to partial solutions from prof)
+                    // because when program hits statement, it returns before executing 
+                    addInstruction("JUMP", std::__cxx11::to_string(address));
+                    backPatch(instructionAddress);
                     if(Statement(dst)) {
                         if(switcher) {
                             std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n";
@@ -1398,11 +1406,43 @@ int Condition(std::fstream& dst) {
                     std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
                     dst << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
                 }
+
+                if (relationalOp == "<")
+                {
+                    addInstruction("LES", "");
+                    pushStack(instructionAddress);
+                    addInstruction("JUMPZ", "");
+                } else if (relationalOp == ">")
+                {
+                    addInstruction("GRT", "");
+                    pushStack(instructionAddress);
+                    addInstruction("JUMPZ", "");
+                } else if (relationalOp == "==")
+                {
+                    addInstruction("EQU", "");
+                    pushStack(instructionAddress);
+                    addInstruction("JUMPZ", "");
+                } else if (relationalOp == "!=")
+                {
+                    addInstruction("NEQ", "");
+                    pushStack(instructionAddress);
+                    addInstruction("JUMPZ", "");
+                } else if (relationalOp == "<=")
+                {
+                    addInstruction("LEQ", "");
+                    pushStack(instructionAddress);
+                    addInstruction("JUMPZ", "");
+                } else if (relationalOp == ">=")
+                {
+                    addInstruction("GEQ", "");
+                    pushStack(instructionAddress);
+                    addInstruction("JUMPZ", "");
+                }
                 return 1;
             } else {
                 errors("a valid expression", "Ensure there is a valid expression");
                 return 0;
-            }
+            }     
         } else {
             errors("a valid relational operator", "Ensure there is a valid relational operator (e.g., '==', '!=', '<', '>', '<=', '>=')");
             return 0;
@@ -1421,6 +1461,7 @@ int Relop(std::fstream& dst) {
     }
         
     if (current_word == "==") {
+        relationalOp = current_word;
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -1429,6 +1470,7 @@ int Relop(std::fstream& dst) {
         }
         return 1;
     } else if (current_word == "!=") {
+        relationalOp = current_word;
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -1437,6 +1479,7 @@ int Relop(std::fstream& dst) {
         }
         return 1;
     } else if (current_word == ">") {
+        relationalOp = current_word;
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -1445,6 +1488,7 @@ int Relop(std::fstream& dst) {
         }
         return 1;
     } else if (current_word == "<") {
+        relationalOp = current_word;
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -1453,6 +1497,7 @@ int Relop(std::fstream& dst) {
         }
         return 1;
     } else if (current_word == "<=") {
+        relationalOp = current_word;
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -1461,6 +1506,7 @@ int Relop(std::fstream& dst) {
         }
         return 1;
     } else if (current_word == "=>") {
+        relationalOp = current_word;
         printToken(token, current_word, dst);
         moveFile();
         if(switcher) {
@@ -1673,7 +1719,7 @@ bool checkSymbol(std::string name)
 void backPatch(int jumpAddress)
 {
     int address = popStack();
-    instructionTable[address][2] = std::__cxx11::to_string(jumpAddress);   
+    instructionTable[address - 1][2] = std::__cxx11::to_string(jumpAddress);   
 
     return;
 }
@@ -1681,6 +1727,7 @@ void backPatch(int jumpAddress)
 void printSymbols(std::fstream& dst)
 {
     std::cout << "---SYMBOL TABLE---\n";
+    dst << "\n\n---SYMBOL TABLE---\n";
     std::cout << "LEXEME     " << "DATA TYPE     " << "MEMORY ADDRESS\n";
     dst << "LEXEME     " << "DATA TYPE     " << "MEMORY ADDRESS\n";
     for (size_t i = 0; i < (memoryAddress - 9000); i++)
@@ -1701,6 +1748,7 @@ void printSymbols(std::fstream& dst)
 void printInstruction(std::fstream& dst)
 {
     std::cout << "---INSTRUCTION TABLE---\n";
+    dst << "\n\n---INSTRUCTION TABLE---\n";
     std::cout << "ADDRESS     " << "OP     "  << "OPERAND\n";
     dst << "ADDRESS     " << "OP     " << "OPERAND\n";
     for (size_t i = 0; i < (instructionAddress - 1); i++)
@@ -1736,4 +1784,3 @@ int popStack()
     }
     return stack[--stackCount];
 }
-
