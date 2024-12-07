@@ -1092,10 +1092,12 @@ int Compound(std::fstream& dst) {
     if(current_word == "{") {
         printToken(token, current_word, dst);
         moveFile();
+
         if(StatementList(dst)) {
             if (current_word == "}") {
                 printToken(token, current_word, dst);
                 moveFile();
+
                 if(switcher) {
                     std::cout << "<Compound> ::=   {  <Statement List>  }\n";
                     dst << "<Compound> ::=   {  <Statement List>  }\n";
@@ -1105,15 +1107,23 @@ int Compound(std::fstream& dst) {
                 errors("'}'", "Add a closing brace");
                 return 0;
             }
+        } else if (current_word == "}") {
+            printToken(token, current_word, dst);
+            moveFile();
+
+            if(switcher) { // empty case
+                    std::cout << "<Compound> ::=   {  <Empty>  }\n";
+                    dst << "<Compound> ::=   {  <Empty>  }\n";
+                }
+            return 1;
         } else {
             errors("a valid statements","Ensure the statements are valid in the body");
             return 0;
         }
     } else { 
-        //errors("'{'", "Add an opening brace");
+        errors("'{'", "Add an opening brace");
         return 0;
     }
-    return 0;
 }
 
 int Assign(std::fstream& dst) {
