@@ -143,7 +143,7 @@ std::string current_word;
 std::string token;
 int line_number;
 
-bool switcher{true};
+bool switcher{false};
 
 void errors(const std::string& expected, const std::string suggested) {
     std::cerr << "Error on line " << line_number << ": Unexpected token " << current_word << ".\n";
@@ -1117,24 +1117,44 @@ int Compound(std::fstream& dst) {
 }
 
 int Assign(std::fstream& dst) {
+    std::string saveID;
+    int rowNum = -1; // symbol
+
     if(token == "ID") {
-        printToken(token, current_word, dst);
+        saveID = current_word;
+        printToken(token, current_word, dst); // log token
         moveFile();
+
+        for (size_t i=0; i<(memoryAddress - 9000); i++) { // similar to checkSymbol()
+            if (symbolTable[i][0] == saveID) {
+                rowNum = i;
+                break;
+            }
+        }
+        if (rowNum == -1) {
+            errors("Symbol","Token not found in symbol table");
+        }
+
         if (current_word == "=") {
-            printToken(token, current_word, dst);
+            printToken(token, current_word, dst); // log '='
             moveFile();
+
             if(Expression(dst)) {
+                addInstruction("POPM", symbolTable[rowNum][2]);
+
                 if(current_word == ";") {
-                    printToken(token, current_word, dst);
+                    printToken(token, current_word, dst); // logs ';'
                     moveFile();
+
                     if(switcher) {
                         std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n";
                         dst << "<Assign> ::=     <Identifier> = <Expression> ;\n";
-                    }
+                    } 
                     return 1;
+
                 } else {
                     errors("';'", "Add a semicolon");
-                    // return 0;
+                    return 0;
                 }
             } else {
                 errors("valid expression", "Check the expression for missing parts");
