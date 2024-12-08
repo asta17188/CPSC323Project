@@ -1140,7 +1140,9 @@ std::string getSymbolAddress(std::string saveID) {
 }
 
 int Assign(std::fstream& dst) {
+    std::string saved;
     if(token == "ID") {
+        saved = current_word;
         printToken(token, current_word, dst); // log token
         moveFile();
 
@@ -1150,7 +1152,7 @@ int Assign(std::fstream& dst) {
             // addInstruction("POPM", getSymbolAddress(current_word));
 
             if(Expression(dst)) {
-                addInstruction("POPM", getSymbolAddress(current_word));
+                addInstruction("POPM", getSymbolAddress(saved));
                 if(current_word == ";") {
                     printToken(token, current_word, dst); // logs ';'
                     moveFile();
