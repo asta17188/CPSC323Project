@@ -1127,32 +1127,25 @@ int Compound(std::fstream& dst) {
     }
 }
 
-int Assign(std::fstream& dst) {
-    std::string saveID;
-    int rowNum = -1; // symbol
+std::string getSymbolAddress(std::string saveID) {
+    for (size_t i = 0; i < (memoryAddress - 9000); i++) {
+        if (symbolTable[i][0] == saveID)
+            return symbolTable[i][2];  // Return the memory address
+    }
+    errors("Symbol","Token not found in symbol table");
+}
 
+int Assign(std::fstream& dst) {
     if(token == "ID") {
-        saveID = current_word;
         printToken(token, current_word, dst); // log token
         moveFile();
-
-        for (size_t i=0; i<(memoryAddress - 9000); i++) { // similar to checkSymbol()
-            if (symbolTable[i][0] == saveID) {
-                rowNum = i;
-                break;
-            }
-        }
-        if (rowNum == -1) {
-            errors("Symbol","Token not found in symbol table");
-        }
 
         if (current_word == "=") {
             printToken(token, current_word, dst); // log '='
             moveFile();
+            addInstruction("POPM", getSymbolAddress(current_word));
 
             if(Expression(dst)) {
-                addInstruction("POPM", symbolTable[rowNum][2]);
-
                 if(current_word == ";") {
                     printToken(token, current_word, dst); // logs ';'
                     moveFile();
@@ -1540,6 +1533,7 @@ int ExpressionPrime(std::fstream& dst) {
     if(current_word == "+" || current_word == "-") {
         printToken(token, current_word, dst);
         moveFile();
+        addInstruction("ADD", "");
         if(Term(dst)) {
             if(ExpressionPrime(dst)) {
                 std::cout << "<Expression Prime>  ::=    +<Term> <ExpressionPrime> | -<Term> <ExpressionPrime> \n";
@@ -1578,6 +1572,7 @@ int TermPrime(std::fstream& dst) {
     if(current_word == "*" || current_word == "/") {
         printToken(token, current_word, dst);
         moveFile();
+        addInstruction("MUL", "");
         if(Factor(dst)) {
             if (TermPrime(dst)) {
                 std::cout << "<Term Prime>    ::=      *<Factor> <Term Prime> | /<Factor> <Term Prime>\n";
@@ -1597,6 +1592,8 @@ int Factor(std::fstream& dst) {
     if(current_word == "-") {
         printToken(token, current_word, dst);
         moveFile();
+        addInstruction("PUSHM", getSymbolAddress(current_word));
+
         if(Primary(dst)) {
             if(switcher) {
                 std::cout << "<Factor> ::=      -  <Primary>\n";
