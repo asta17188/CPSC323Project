@@ -1160,7 +1160,7 @@ int Assign(std::fstream& dst) {
                     if(switcher) {
                         std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n";
                         dst << "<Assign> ::=     <Identifier> = <Expression> ;\n";
-                    } 
+                    }
                     return 1;
 
                 } else {
@@ -1623,12 +1623,22 @@ int Factor(std::fstream& dst) {
             errors("a valid primary value", "Ensure there is a valid value following the '-'");
             // return 0;
         }
-    } else if(Primary(dst)) {
+    } else if(token == "ID") {
         addInstruction("PUSHM", getSymbolAddress(current_word));
+        printToken(token, current_word, dst);
+        moveFile();
+
         if(switcher) {
                 std::cout << "<Factor> ::=      <Primary>\n";
                 dst << "<Factor> ::=      <Primary>\n";
-            }
+        }
+        return 1;
+
+    } else if(Primary(dst)) {
+        if(switcher) {
+                std::cout << "<Factor> ::=      <Primary>\n";
+                dst << "<Factor> ::=      <Primary>\n";
+        }
         return 1;
     } else {
         errors("a valid primary value", "Ensure it starts with a valid primary value");
@@ -1643,20 +1653,6 @@ int Primary(std::fstream& dst) {
         //dst << "<Primary> ::=     <Identifier>  |  <Integer>  |   <Identifier>  ( <IDs> )   |   ( <Expression> )   |  <Real>  |   true   |  false\n"; 
     //}
 
-    if(token == "ID" || token == "Integer" || token == "Real" || current_word == "true" || current_word == "false") {
-        if(current_type == "boolean")
-            addSymbol(current_word, current_type);
-
-        printToken(token, current_word, dst);
-        moveFile();
-        std::cout << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
-        dst << "<Primary> ::=     <Identifier>  |  <Integer>  |  <Real>  |   true   |  false\n";
-        return 1;
-    }
-    return 0;
-
-
-    
     if(current_word == "(") {
             printToken(token, current_word, dst);
             moveFile();
@@ -1667,31 +1663,77 @@ int Primary(std::fstream& dst) {
                 std::cout << "<Primary> ::=     ( <Expression> )\n";
                 dst << "<Primary> ::=     ( <Expression> )\n";
                 return 1;
+            } else {
+                errors("')", "Missing closing parenthesis");
+                return 0;
             }
+        } else {
+            errors("expression","Check your expression in the parenthesis");
+            return 0;
         }
     }
 
     if(token == "ID") {
+        std::string funcName = current_word; // following given (similar to other function)
         printToken(token, current_word, dst);
         moveFile();
+
         if(current_word == "(") {
             printToken(token, current_word, dst);
             moveFile(); 
+
             if(IDs(dst)) {
                 if(current_word == ")") {
                     printToken(token, current_word, dst);
                     moveFile();
+
                     std::cout << "<Primary> ::=     <Identifier> (IDs)\n";
                     dst << "<Primary> ::=     <Identifier> (IDs)\n";
                     return 1;  
+                } else {
+                    errors("')", "Missing closing parenthesis");
+                    return 0;
                 }
+            } else {
+                errors("ID", "Invalid argument in function");
+                return 0;
             }
+        } else {
+            addInstruction("PUSHM", getSymbolAddress(funcName));
+            std::cout << "<Primary> ::=     <Identifier> \n";
+            dst << "<Primary> ::=     <Identifier> \n";
+            return 1;
         }
     }
 
+    if(/*token == "ID" ||*/token == "Integer" || token == "Real" || current_word == "true" || current_word == "false") {
+        if (current_word == "true" || current_word == "false") {
+            std::string saveBool;
+            if (current_word == "true") {
+                saveBool = "1";
+            } else {
+                saveBool = "0";
+            }
+            addInstruction("PUSHI", saveBool);
+
+            if(current_type == "boolean") {
+                addSymbol(current_word, current_type);
+            }
+        } else {
+            addInstruction("PUSHI", current_word);
+        }
+
+        printToken(token, current_word, dst);
+        moveFile();
+
+        std::cout << "<Primary> ::=     <Integer>  |  <Real>  |   true   |  false\n";
+        dst << "<Primary> ::=     <Integer>  |  <Real>  |   true   |  false\n";
+        return 1;
+    }
+    errors("primary value", "Expected something");
+    return 0;
+
 }
-
-
 
 
 void addSymbol(std::string lexeme, std::string type)
