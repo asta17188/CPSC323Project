@@ -1368,13 +1368,14 @@ int While(std::fstream& dst) {
 
                     // these two lines were added before statement instead of after (according to partial solutions from prof)
                     // because when program hits statement, it returns before executing 
-                    addInstruction("JUMP", std::__cxx11::to_string(address));
-                    backPatch(instructionAddress);
+                    
                     if(Statement(dst)) {
                         if(switcher) {
                             std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n";
                             dst << "<While> ::=  while ( <Condition>  )  <Statement>\n";
                         }
+                        addInstruction("JUMP", std::__cxx11::to_string(address));
+                        backPatch(instructionAddress);
                         return 1;
                     } else {
                         errors("a valid statement", "Ensure there is a valid statement after 'while'");
