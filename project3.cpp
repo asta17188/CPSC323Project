@@ -1093,11 +1093,13 @@ int Compound(std::fstream& dst) {
     if(current_word == "{") {
         printToken(token, current_word, dst);
         moveFile();
+        addInstruction("LABEL", ""); // start one
 
         if(StatementList(dst)) {
             if (current_word == "}") {
                 printToken(token, current_word, dst);
                 moveFile();
+                addInstruction("LABEL", ""); // end one
 
                 if(switcher) {
                     std::cout << "<Compound> ::=   {  <Statement List>  }\n";
@@ -1111,6 +1113,7 @@ int Compound(std::fstream& dst) {
         } else if (current_word == "}") {
             printToken(token, current_word, dst);
             moveFile();
+            addInstruction("LABEL", ""); // empty one
 
             if(switcher) { // empty case
                     std::cout << "<Compound> ::=   {  <Empty>  }\n";
