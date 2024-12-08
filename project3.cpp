@@ -1538,13 +1538,14 @@ int Expression(std::fstream& dst) {
 
 int ExpressionPrime(std::fstream& dst) {
     if(current_word == "+" || current_word == "-") {
-        printToken(token, current_word, dst);
-        moveFile();
         if (current_word == "+") {
             addInstruction("ADD", "");
         } else if (current_word == "-") {
             addInstruction("SUB", "");
         }
+        printToken(token, current_word, dst);
+        moveFile();
+        
         // addInstruction("ADD", "");
         if(Term(dst)) {
             if(ExpressionPrime(dst)) {
@@ -1582,13 +1583,14 @@ int Term(std::fstream& dst) {
 
 int TermPrime(std::fstream& dst) {
     if(current_word == "*" || current_word == "/") {
-        printToken(token, current_word, dst);
-        moveFile();
         if (current_word == "*") {
             addInstruction("MUL", "");
         } else if (current_word == "/") {
             addInstruction("DIV", "");
         }
+        printToken(token, current_word, dst);
+        moveFile();
+
         // addInstruction("MUL", "");
         if(Factor(dst)) {
             if (TermPrime(dst)) {
