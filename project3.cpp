@@ -31,6 +31,9 @@ int memoryAddress{9000};
 int instructionAddress{1};
 std::string current_type;
 std::string relationalOp;
+//for get()
+bool isSTDIN;
+
 
 const int TABLE_COL = 3;
 const int TABLE_ROW = 1000;
@@ -965,6 +968,11 @@ int Declaration(std::fstream& dst){
 int IDs(std::fstream& dst) {
     if (token == "ID") { // <I>
         addSymbol(current_word, current_type);
+        
+        if(isSTDIN) {
+            //add current ID to stack
+        }
+        
         printToken(token, current_word, dst);
         moveFile();
         if(IDsPrime(dst)) // <ID'>
@@ -1196,6 +1204,7 @@ int If(std::fstream& dst){
                     printToken(token, current_word, dst);
                     moveFile();
                     if(Statement(dst)) {       // <S> 5
+                        backPatch(instructionAddress);
                         if (fiPrime(dst))
                             if(current_word == "fi") {
                                 printToken(token, current_word, dst);
@@ -1279,6 +1288,8 @@ int Print(std::fstream& dst) {
             moveFile();
             if(Expression(dst)) {
                 if(current_word == ")") {
+                    addInstruction("STDOUT", "");
+                    popStack();
                     printToken(token, current_word, dst);
                     moveFile();
                     if(current_word == ";") {
@@ -1313,6 +1324,7 @@ int Print(std::fstream& dst) {
 
 int Scan(std::fstream& dst) {
     if(current_word == "get") {
+        isSTDIN = true;
         printToken(token, current_word, dst);
         moveFile();
         if(current_word == "(") {
@@ -1320,6 +1332,7 @@ int Scan(std::fstream& dst) {
             moveFile();
             if(IDs(dst)) {
                 if(current_word == ")") {
+                    isSTDIN = false;
                     printToken(token, current_word, dst);
                     moveFile();
                     if(current_word == ";") {
