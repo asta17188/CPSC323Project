@@ -1332,6 +1332,7 @@ int Scan(std::fstream& dst) {
             moveFile();
             if(IDs(dst)) {
                 if(current_word == ")") {
+                    addInstruction("STDOUT", "");
                     isSTDIN = false;
                     printToken(token, current_word, dst);
                     moveFile();
