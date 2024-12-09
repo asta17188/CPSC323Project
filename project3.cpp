@@ -33,7 +33,7 @@ std::string current_type;
 std::string relationalOp;
 //for get()
 bool isSTDIN;
-
+bool runElse{true};
 
 const int TABLE_COL = 3;
 const int TABLE_ROW = 1000;
@@ -1203,7 +1203,10 @@ int If(std::fstream& dst){
                 if(current_word == ")") {   // ) 4
                     printToken(token, current_word, dst);
                     moveFile();
+                    // if tos is false run else .. put state in statement
+                    if(stack[stackCount == 0]) runElse = false;
                     if(Statement(dst)) {       // <S> 5
+                        runElse = true; 
                         backPatch(instructionAddress);
                         if (fiPrime(dst))
                             if(current_word == "fi") {
@@ -1332,7 +1335,7 @@ int Scan(std::fstream& dst) {
             moveFile();
             if(IDs(dst)) {
                 if(current_word == ")") {
-                    addInstruction("STDOUT", "");
+                    addInstruction("STDIN", "");
                     isSTDIN = false;
                     printToken(token, current_word, dst);
                     moveFile();
@@ -1753,29 +1756,35 @@ int Primary(std::fstream& dst) {
 
 void addSymbol(std::string lexeme, std::string type)
 {
-    int row{memoryAddress - 9000};
-    if (!checkSymbol(lexeme))
-    {
-        errors("non-duplicate variable", "make sure variables all have distinct names");
-        return;
+    if(runElse){
+        int row{memoryAddress - 9000};
+        if (!checkSymbol(lexeme))
+        {
+            errors("non-duplicate variable", "make sure variables all have distinct names");
+            return;
+        }
+        std::string address = std::__cxx11::to_string(memoryAddress++);
+
+        symbolTable[row][0] = lexeme;
+        symbolTable[row][1] = type;
+        symbolTable[row][2] = address;
+
+        return;  
     }
-    std::string address = std::__cxx11::to_string(memoryAddress++);
-
-    symbolTable[row][0] = lexeme;
-    symbolTable[row][1] = type;
-    symbolTable[row][2] = address;
-
     return;
 }
 
 void addInstruction(std::string op, std::string operand)
 {
-    int row{instructionAddress - 1};
-    std::string address = std::__cxx11::to_string(instructionAddress++);
+    if(runElse){
+        int row{instructionAddress - 1};
+        std::string address = std::__cxx11::to_string(instructionAddress++);
 
-    instructionTable[row][0] = address;
-    instructionTable[row][1] = op;
-    instructionTable[row][2] = operand;
+        instructionTable[row][0] = address;
+        instructionTable[row][1] = op;
+        instructionTable[row][2] = operand;
+        return;
+    }
     return;
 }
 
@@ -1842,19 +1851,25 @@ void printInstruction(std::fstream& dst)
 
 void pushStack(int address)
 {
-    if(stackCount == TABLE_ROW)
+    if(runElse){
+        if(stackCount == TABLE_ROW)
+            return;
+        
+        stack[stackCount++] = address;
         return;
-    
-    stack[stackCount++] = address;
+    }
     return;
 }
 
 int popStack()
 {
-    if(stackCount == 0)
-    {
-        std::cout << "ERROR: unable to pop on an empty stack\n";
-        return 0;   // error value
+    if(runElse){
+        if(stackCount == 0)
+        {
+            std::cout << "ERROR: unable to pop on an empty stack\n";
+            return 0;   // error value
+        }
+        return stack[--stackCount];
     }
-    return stack[--stackCount];
+    return 0;
 }
