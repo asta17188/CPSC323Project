@@ -127,6 +127,7 @@ int Term(std::fstream&);
 int TermPrime(std::fstream&);
 int Factor(std::fstream&);
 int Primary(std::fstream&);
+std::string getSymbolAddress(std::string saveID);
 
 // Table Functions
 void addSymbol(std::string, std::string);
