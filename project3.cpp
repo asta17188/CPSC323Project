@@ -971,6 +971,7 @@ int IDs(std::fstream& dst) {
         
         if(isSTDIN) {
             //add current ID to stack
+            addInstruction("POPM", getSymbolAddress(current_word));
         }
         
         printToken(token, current_word, dst);
