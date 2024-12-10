@@ -1333,11 +1333,11 @@ int Scan(std::fstream& dst) {
         printToken(token, current_word, dst);
         moveFile();
         if(current_word == "(") {
+            addInstruction("STDIN", "");
             printToken(token, current_word, dst);
             moveFile();
             if(IDs(dst)) {
                 if(current_word == ")") {
-                    addInstruction("STDIN", "");
                     isSTDIN = false;
                     printToken(token, current_word, dst);
                     moveFile();
