@@ -161,7 +161,7 @@ void errors(const std::string& expected, const std::string suggested) {
 
 void printToken(std::string tok, std::string lex, std::fstream& dst) {
     std::cout << "Token: " << tok << "     Lexeme: " << lex << "\n";
-    dst << "Token: " << tok << "     Lexeme: " << lex << "\n";
+    // dst << "Token: " << tok << "     Lexeme: " << lex << "\n";
     
 }
 
@@ -341,7 +341,7 @@ int main(int argc, char const *argv[])
     std::cout << "\n\n";  
 
 
-    dstFile << "-----RESULTS OF SYNTAX ANALYZER-----\n";
+    //dstFile << "-----RESULTS OF SYNTAX ANALYZER-----\n";
     std::cout << "-----RESULTS OF SYNTAX ANALYZER-----\n";
     tempFile.seekg(0);                      // sets file pointer to beginning of tempFile
     moveFile();
@@ -349,11 +349,11 @@ int main(int argc, char const *argv[])
     Rat24F(dstFile);                        // starts syntax analyzer
 
     tempFile.seekg(0);                      // sets file pointer to beginning of tempFile
-    dstFile << "\n\n-----RESULTS OF LEXICAL ANALYZER-----\n";
+    //dstFile << "\n\n-----RESULTS OF LEXICAL ANALYZER-----\n";
     std::cout << "\n\n-----RESULTS OF LEXICAL ANALYZER-----\n";
     while (getline(tempFile, temp)) {
         std::cout << temp << std::endl;     // prints results of lexical analyzer to terminal
-        dstFile << temp << std::endl;       // writes results of lexical analyzer to dstFile (i.e. output1.txt, output2.txt, output3.txt)
+        //dstFile << temp << std::endl;       // writes results of lexical analyzer to dstFile (i.e. output1.txt, output2.txt, output3.txt)
     }
 
     printInstruction(dstFile);
@@ -793,7 +793,7 @@ int ParameterListPrime(std::fstream& dst) {
         moveFile();
         if(ParameterList(dst)) {   // <PL>
             std::cout << "<Parameter List Prime>  ::=  ,<Parameter List>\n";
-            dst << "<Parameter List Prime>  ::=  ,<Parameter List>\n";
+            //dst << "<Parameter List Prime>  ::=  ,<Parameter List>\n";
             return 1;
         } else {
             errors("','", "Parameter after comma");
@@ -801,7 +801,7 @@ int ParameterListPrime(std::fstream& dst) {
         }
     } else {    // | ε 
         std::cout << "<Parameter List Prime>  ::=  <Empty>\n";
-        dst << "<Parameter List Prime>  ::=  <Empty>\n";
+        //dst << "<Parameter List Prime>  ::=  <Empty>\n";
         // hit empty
         return 1;
     }
@@ -943,7 +943,7 @@ int DeclarationListPrime(std::fstream& dst) {
         // }
     } 
     std::cout << "<Declaration List Prime>  := <Declaration> ; <Declaration List>\n";  
-    dst << "<Declaration List Prime>  := <Empty>\n"; 
+    //dst << "<Declaration List Prime>  := <Empty>\n"; 
     return 1;
 }
 
@@ -1235,12 +1235,12 @@ int fiPrime(std::fstream& dst) {
         moveFile();
         if(Statement(dst)) {
             std::cout << "<If Prime> ::=    else <Statement>\n";
-            dst << "<If Prime> ::=    else <Statement>\n";
+            //dst << "<If Prime> ::=    else <Statement>\n";
             return 1;
         }
     }
     std::cout << "<If Prime> ::=    <Empty>\n";
-    dst << "<If Prime> ::=    <Empty>\n";
+    //dst << "<If Prime> ::=    <Empty>\n";
     return 1;
 }
 
@@ -1571,13 +1571,13 @@ int ExpressionPrime(std::fstream& dst) {
 
             if(ExpressionPrime(dst)) {
                 std::cout << "<Expression Prime>  ::=    +<Term> <ExpressionPrime> | -<Term> <ExpressionPrime> \n";
-                dst << "<Expression Prime>  ::=    +<Term> <ExpressionPrime> | -<Term> <ExpressionPrime>\n";
+                //dst << "<Expression Prime>  ::=    +<Term> <ExpressionPrime> | -<Term> <ExpressionPrime>\n";
                 return 1;
             } 
         } 
     } else {
         std::cout << "<Expression Prime>  ::=    <Empty>\n";
-        dst << "<Expression Prime>  ::=    <Empty>\n";
+        //dst << "<Expression Prime>  ::=    <Empty>\n";
         return 1;
     }
     return 0;
@@ -1613,13 +1613,13 @@ int TermPrime(std::fstream& dst) {
             }
             if (TermPrime(dst)) {
                 std::cout << "<Term Prime>    ::=      *<Factor> <Term Prime> | /<Factor> <Term Prime>\n";
-                dst << "<Term Prime>    ::=       *<Factor> <Term Prime> | /<Factor> <Term Prime>\n";
+                //dst << "<Term Prime>    ::=       *<Factor> <Term Prime> | /<Factor> <Term Prime>\n";
                 return 1;
             }  
         }
     } else {    // hit empty
         std::cout << "<Term Prime>    ::=      <Empty>\n";
-        dst << "<Term Prime>    ::=      <Empty>\n";
+        //dst << "<Term Prime>    ::=      <Empty>\n";
         return 1;
     }
     return 0;
@@ -1845,7 +1845,7 @@ void printSymbols(std::fstream& dst)
 void printInstruction(std::fstream& dst)
 {
     std::cout << "---INSTRUCTION TABLE---\n";
-    dst << "\n\n---INSTRUCTION TABLE---\n";
+    dst << "---INSTRUCTION TABLE---\n";
     std::cout << "ADDRESS     " << "OP     "  << "OPERAND\n";
     dst << "ADDRESS     " << "OP     " << "OPERAND\n";
     for (size_t i = 0; i < (instructionAddress - 1); i++)
