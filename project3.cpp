@@ -1206,10 +1206,10 @@ int If(std::fstream& dst){
                     moveFile();
                     // if tos is false run else .. put state in statement
                     if(stack[stackCount == 0]) runElse = false;
-                    backPatch(instructionAddress);
+                    //backPatch(instructionAddress);
                     if(Statement(dst)) {       // <S> 5
                         runElse = true; 
-                        //backPatch(instructionAddress);
+                        backPatch(instructionAddress);
                         if (fiPrime(dst))
                             if(current_word == "fi") {
                                 addInstruction("LABEL", "");
@@ -1800,6 +1800,9 @@ void addInstruction(std::string op, std::string operand)
         instructionTable[row][1] = op;
         instructionTable[row][2] = operand;
         return;
+    } else {
+        int row{instructionAddress - 1};
+        std::string address = std::__cxx11::to_string(instructionAddress++);
     }
     return;
 }
