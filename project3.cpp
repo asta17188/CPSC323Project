@@ -1159,7 +1159,7 @@ int Assign(std::fstream& dst) {
         if (current_word == "=") {
             printToken(token, current_word, dst); // log '='
             moveFile();
-            // addInstruction("POPM", getSymbolAddress(current_word));
+            // addInstruction("POPM", getSymbolAddress(saved));
 
             if(Expression(dst)) {
                 addInstruction("POPM", getSymbolAddress(saved));
@@ -1172,7 +1172,6 @@ int Assign(std::fstream& dst) {
                         dst << "<Assign> ::=     <Identifier> = <Expression> ;\n";
                     }
                     return 1;
-
                 } else {
                     errors("';'", "Add a semicolon");
                     return 0;
@@ -1548,7 +1547,7 @@ int Expression(std::fstream& dst) {
             if(switcher) {
                 std::cout << "<Expression>  ::=    <Term> <ExpressionPrime> \n";
                 dst << "<Expression>  ::=    <Term> <ExpressionPrime> \n";
-            } 
+            }
             return 1;
         }
     } 
@@ -1558,16 +1557,17 @@ int Expression(std::fstream& dst) {
 
 int ExpressionPrime(std::fstream& dst) {
     if(current_word == "+" || current_word == "-") {
-        if (current_word == "+") {
-            addInstruction("ADD", "");
-        } else if (current_word == "-") {
-            addInstruction("SUB", "");
-        }
         printToken(token, current_word, dst);
         moveFile();
         
         // addInstruction("ADD", "");
         if(Term(dst)) {
+            if (current_word == "+") {
+                addInstruction("ADD", "");
+            } else if (current_word == "-") {
+                addInstruction("SUB", "");
+            }
+
             if(ExpressionPrime(dst)) {
                 std::cout << "<Expression Prime>  ::=    +<Term> <ExpressionPrime> | -<Term> <ExpressionPrime> \n";
                 dst << "<Expression Prime>  ::=    +<Term> <ExpressionPrime> | -<Term> <ExpressionPrime>\n";
@@ -1578,11 +1578,11 @@ int ExpressionPrime(std::fstream& dst) {
         std::cout << "<Expression Prime>  ::=    <Term>\n";
         dst << "<Expression Prime>  ::=    <Term>\n";
         return 1;
-    }
-    std::cout << "<Expression Prime>  ::=    <Empty>\n";
+    } else {
+        std::cout << "<Expression Prime>  ::=    <Empty>\n";
         dst << "<Expression Prime>  ::=    <Empty>\n";
+    }
     return 1;
-
 }
 
 
@@ -1603,16 +1603,16 @@ int Term(std::fstream& dst) {
 
 int TermPrime(std::fstream& dst) {
     if(current_word == "*" || current_word == "/") {
-        if (current_word == "*") {
-            addInstruction("MUL", "");
-        } else if (current_word == "/") {
-            addInstruction("DIV", "");
-        }
         printToken(token, current_word, dst);
         moveFile();
 
         // addInstruction("MUL", "");
         if(Factor(dst)) {
+            if (current_word == "*") {
+                addInstruction("MUL", "");
+            } else if (current_word == "/") {
+                addInstruction("DIV", "");
+            }
             if (TermPrime(dst)) {
                 std::cout << "<Term Prime>    ::=      *<Factor> <Term Prime> | /<Factor> <Term Prime>\n";
                 dst << "<Term Prime>    ::=       *<Factor> <Term Prime> | /<Factor> <Term Prime>\n";
@@ -1624,7 +1624,7 @@ int TermPrime(std::fstream& dst) {
         dst << "<Term Prime>    ::=      <Empty>\n";
         return 1;
     }
-    return 1;
+    return 0;
 }
 
 int Factor(std::fstream& dst) {   
@@ -1674,14 +1674,17 @@ int Primary(std::fstream& dst) {
     //}
 
     if(current_word == "(") {
-            printToken(token, current_word, dst);
-            moveFile();
+        printToken(token, current_word, dst);
+        moveFile();
+
         if(Expression(dst)) {
             if(current_word == ")") {
                 printToken(token, current_word, dst);
                 moveFile();
-                std::cout << "<Primary> ::=     ( <Expression> )\n";
-                dst << "<Primary> ::=     ( <Expression> )\n";
+                if (switcher) {
+                    std::cout << "<Primary> ::=     ( <Expression> )\n";
+                    dst << "<Primary> ::=     ( <Expression> )\n";
+                }
                 return 1;
             } else {
                 errors("')", "Missing closing parenthesis");
@@ -1694,22 +1697,23 @@ int Primary(std::fstream& dst) {
     }
 
     if(token == "ID") {
-        std::string funcName = current_word; // following given (similar to other function)
+        std::string nam = current_word;
+        // addInstruction("PUSHM", getSymbolAddress(current_word));
         printToken(token, current_word, dst);
         moveFile();
 
-        if(current_word == "(") {
+        if (current_word == "(") {
             printToken(token, current_word, dst);
-            moveFile(); 
-
-            if(IDs(dst)) {
+            moveFile();
+            if (IDs(dst)) {
                 if(current_word == ")") {
                     printToken(token, current_word, dst);
                     moveFile();
-
-                    std::cout << "<Primary> ::=     <Identifier> (IDs)\n";
-                    dst << "<Primary> ::=     <Identifier> (IDs)\n";
-                    return 1;  
+                    if (switcher) {
+                        std::cout << "<Primary> ::=     <Identifier> (IDs)\n";
+                        dst << "<Primary> ::=     <Identifier> (IDs)\n";
+                    }
+                    return 1;
                 } else {
                     errors("')", "Missing closing parenthesis");
                     return 0;
@@ -1719,40 +1723,50 @@ int Primary(std::fstream& dst) {
                 return 0;
             }
         } else {
-            addInstruction("PUSHM", getSymbolAddress(funcName));
-            std::cout << "<Primary> ::=     <Identifier> \n";
-            dst << "<Primary> ::=     <Identifier> \n";
+            addInstruction("PUSHM", getSymbolAddress(nam));
+        }
+
+        if(/*token == "ID" ||*/token == "Integer" || token == "Real" || current_word == "true" || current_word == "false") {
+            std::string saved;
+            if (current_word == "true") {
+                saved = "1";
+            } else if (current_word == "false") {
+                saved = "0";
+            } else {
+                saved = current_word;
+            }
+            addInstruction("PUSHI", saved);
+            if (switcher) {
+                std::cout << "<Primary> ::=     <Identifier> \n";
+                dst << "<Primary> ::=     <Identifier> \n";
+            }
             return 1;
         }
     }
 
     if(/*token == "ID" ||*/token == "Integer" || token == "Real" || current_word == "true" || current_word == "false") {
+        std::string saveBool;
         if (current_word == "true" || current_word == "false") {
-            std::string saveBool;
             if (current_word == "true") {
                 saveBool = "1";
-            } else {
+            } else if (current_word == "false") {
                 saveBool = "0";
             }
-            addInstruction("PUSHI", saveBool);
-
-            if(current_type == "boolean") {
-                addSymbol(current_word, current_type);
-            }
         } else {
-            addInstruction("PUSHI", current_word);
+            saveBool = current_word;
         }
-
+        addInstruction("PUSHI", saveBool);
         printToken(token, current_word, dst);
         moveFile();
 
-        std::cout << "<Primary> ::=     <Integer>  |  <Real>  |   true   |  false\n";
-        dst << "<Primary> ::=     <Integer>  |  <Real>  |   true   |  false\n";
+        if (switcher) {
+            std::cout << "<Primary> ::=     <Integer>  |  <Real>  |   true   |  false\n";
+            dst << "<Primary> ::=     <Integer>  |  <Real>  |   true   |  false\n";
+        }
         return 1;
     }
-    errors("primary value", "Expected something");
+    errors("Primary value", "Expected a primary value");
     return 0;
-
 }
 
 
