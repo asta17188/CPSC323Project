@@ -1557,14 +1557,15 @@ int Expression(std::fstream& dst) {
 
 int ExpressionPrime(std::fstream& dst) {
     if(current_word == "+" || current_word == "-") {
+        std::string saved = current_word;
         printToken(token, current_word, dst);
         moveFile();
         
         // addInstruction("ADD", "");
         if(Term(dst)) {
-            if (current_word == "+") {
+            if (saved == "+") {
                 addInstruction("ADD", "");
-            } else if (current_word == "-") {
+            } else if (saved == "-") {
                 addInstruction("SUB", "");
             }
 
@@ -1574,15 +1575,12 @@ int ExpressionPrime(std::fstream& dst) {
                 return 1;
             } 
         } 
-    } else if(Term(dst)) {
-        std::cout << "<Expression Prime>  ::=    <Term>\n";
-        dst << "<Expression Prime>  ::=    <Term>\n";
-        return 1;
     } else {
         std::cout << "<Expression Prime>  ::=    <Empty>\n";
         dst << "<Expression Prime>  ::=    <Empty>\n";
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
 
