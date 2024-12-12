@@ -1211,6 +1211,7 @@ int If(std::fstream& dst){
                         backPatch(instructionAddress);
                         if (fiPrime(dst))
                             if(current_word == "fi") {
+                                addInstruction("LABEL", "");
                                 printToken(token, current_word, dst);
                                 moveFile();
                                 if(switcher) {
