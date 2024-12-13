@@ -1210,9 +1210,10 @@ int If(std::fstream& dst){
                     if(Statement(dst)) {       // <S> 5
                         runElse = true; 
                         backPatch(instructionAddress);
+                        addInstruction("LABEL", "");
                         if (fiPrime(dst))
                             if(current_word == "fi") {
-                                addInstruction("LABEL", "");
+                                // addInstruction("LABEL", "");
                                 printToken(token, current_word, dst);
                                 moveFile();
                                 if(switcher) {
