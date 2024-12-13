@@ -1800,10 +1800,7 @@ void addInstruction(std::string op, std::string operand)
         instructionTable[row][1] = op;
         instructionTable[row][2] = operand;
         return;
-    } else {
-        int row{instructionAddress - 1};
-        std::string address = std::__cxx11::to_string(instructionAddress++);
-    }
+    } 
     return;
 }
 
