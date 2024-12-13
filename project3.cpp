@@ -1205,7 +1205,7 @@ int If(std::fstream& dst){
                     printToken(token, current_word, dst);
                     moveFile();
                     // if tos is false run else .. put state in statement
-                    if(stack[stackCount == 0]) runElse = false;
+                    //if(stack[stackCount == 0]) runElse = false;
                     //backPatch(instructionAddress);
                     if(Statement(dst)) {       // <S> 5
                         runElse = true; 
